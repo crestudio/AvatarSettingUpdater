@@ -157,8 +157,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		public void UpdateAvatarSetting() {
 			SetStaticVariable();
 			if (VerifyVariable()) {
+				AddRequestSetupVRSuyaProduct();
 				if (VerifyVRCSDK()) {
-					AddRequestSetupVRSuyaProduct();
 					UnitySetup.UpdateAvatarStatus();
 					ProductSetup.GetVRSuyaGameObjects();
 					ProductSetup.RequestSetup();
