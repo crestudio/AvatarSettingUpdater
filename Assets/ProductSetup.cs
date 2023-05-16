@@ -88,7 +88,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>세팅해야 하는 파라메터 큐를 아바타 파라메터에 존재하는지 확인 후 추가합니다.</summary>
 		private static void UpdateAvatarParameters() {
             foreach (var NewParameter in VRSuyaParameters) {
-                if (!Array.Exists(AvatarVRCParameter.parameters, ExistParameter => ExistParameter == NewParameter)) {
+                if (!Array.Exists(AvatarVRCParameter.parameters, ExistParameter => ExistParameter.name == NewParameter.name)) {
 					AvatarVRCParameter.parameters = AvatarVRCParameter.parameters.Concat(new VRCExpressionParameters.Parameter[] { NewParameter }).ToArray();
 				}
             }
@@ -98,7 +98,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>세팅해야 하는 메뉴 큐를 아바타 메뉴에 존재하는지 확인 후 추가합니다.</summary>
 		private static void UpdateAvatarMenus() {
             foreach (VRCExpressionsMenu.Control NewMenu in VRSuyaMenus) {
-                if (!AvatarVRCMenu.controls.Exists(ExistMenu => ExistMenu == NewMenu)) {
+                if (!AvatarVRCMenu.controls.Exists(ExistMenu => ExistMenu.name == NewMenu.name)) {
 					AvatarVRCMenu.controls.Add(NewMenu);
 				}
 			}
