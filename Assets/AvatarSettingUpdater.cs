@@ -33,10 +33,10 @@ namespace VRSuya.AvatarSettingUpdater {
 		public bool InstalledProductWotageiEditor = false;
 		public bool InstalledProductFeetEditor = false;
 
-		public bool InstallProductAFKEditor = true;
-		public bool InstallProductMogumoguEditor = true;
-		public bool InstallProductWotageiEditor = true;
-		public bool InstallProductFeetEditor = true;
+		public bool InstallProductAFKEditor = false;
+		public bool InstallProductMogumoguEditor = false;
+		public bool InstallProductWotageiEditor = false;
+		public bool InstallProductFeetEditor = false;
 
 		// 아바타 관련 변수
 		protected static GameObject AvatarGameObject = null;
@@ -119,6 +119,10 @@ namespace VRSuya.AvatarSettingUpdater {
 			AvatarAnchorOverride = AvatarAnchorOverrideEditor;
 			ChangeTwosidedShadow = ChangeTwosidedShadowEditor;
 			ChangeAnchorOverride = ChangeAnchorOverrideEditor;
+			InstallProductAFK = InstallProductAFKEditor;
+			InstallProductMogumogu = InstallProductMogumoguEditor;
+			InstallProductWotagei = InstallProductWotageiEditor;
+			InstallProductFeet = InstallProductFeetEditor;
 			return;
         }
 
