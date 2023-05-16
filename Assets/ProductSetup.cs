@@ -98,7 +98,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>세팅해야 하는 메뉴 큐를 아바타 메뉴에 존재하는지 확인 후 추가합니다.</summary>
 		private static void UpdateAvatarMenus() {
             foreach (VRCExpressionsMenu.Control NewMenu in VRSuyaMenus) {
-                if (!AvatarVRCMenu.controls.Exists(ExistMenu => ExistMenu.name == NewMenu.name)) {
+                if (!AvatarVRCMenu.controls.Exists(ExistMenu => ExistMenu.subMenu == NewMenu.subMenu)) {
 					AvatarVRCMenu.controls.Add(NewMenu);
 				}
 			}

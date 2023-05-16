@@ -32,6 +32,13 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ ProductName.Feet, "Assets/VRSuya/HopeskyD/Feet" }
 		};
 
+		private static readonly Dictionary<ProductName, string> dictPresentMenuFileName = new Dictionary<ProductName, string>() {
+			{ ProductName.AFK, "VRSuya_AFK_Menu.asset" },
+			{ ProductName.Mogumogu, "VRSuya_Mogumogu_Menu.asset" },
+			{ ProductName.Wotagei, "VRSuya_Wotagei_Menu.asset" },
+			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu.asset" }
+		};
+
 		private static readonly string[] dictIgnoreName = new string[] { "Cyalume", "LightStick" };
 
 		/// <summary>요청한 타입의 VRSuya 제품의 상세 내용을 업데이트하여 반환합니다.</summary>
@@ -50,7 +57,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			RequestedVRSuyaProduct.ParameterGUID = AssetDatabase.FindAssets("Parameter", new[] { SearchPath });
 			RequestedVRSuyaProduct.PrefabGUID = AssetDatabase.FindAssets("t:Prefab", new[] { SearchPath });
 
-			RequestedVRSuyaProduct.RequiredVRCMenus = ResolveMenu(RequestedVRSuyaProduct.MenuGUID);
+			RequestedVRSuyaProduct.RequiredVRCMenus = ResolveMenu(RequestedVRSuyaProduct.MenuGUID, TypeProduct);
 			RequestedVRSuyaProduct.RequiredVRCParameters = ResolveParameter(RequestedVRSuyaProduct.ParameterGUID);
 			RequestedVRSuyaProduct.RequiredVRCMemoryCount = ResolveParameterCost(RequestedVRSuyaProduct.ParameterGUID);
 			RequestedVRSuyaProduct.SupportAvatarList = FindAllAvatarNames(TypeProduct, RequestedVRSuyaProduct.PrefabGUID);
@@ -60,11 +67,13 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 파일 목록에서 메뉴 목록을 반환합니다.</summary>
 		/// <returns>VRC 메뉴 리스트</returns>
-		private static List<VRCExpressionsMenu.Control> ResolveMenu(string[] AssetsGUID) {
+		private static List<VRCExpressionsMenu.Control> ResolveMenu(string[] AssetsGUID, ProductName TypeProduct) {
 			List<VRCExpressionsMenu.Control> MenusInAssets = new List<VRCExpressionsMenu.Control>();
 			foreach (string AssetGUID in AssetsGUID) {
-				VRCExpressionsMenu MenuFile = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
-				if (MenuFile) MenusInAssets.AddRange(MenuFile.controls);
+				if (AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/')[AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/').Length - 1].Contains(dictPresentMenuFileName[TypeProduct])) {
+					VRCExpressionsMenu MenuFile = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+					if (MenuFile) MenusInAssets.AddRange(MenuFile.controls);
+				}
 			}
 			return MenusInAssets;
 		}
