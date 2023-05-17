@@ -89,6 +89,10 @@ namespace VRSuya.AvatarSettingUpdater {
 			Yoll, Yuuko, NULL
 		}
 
+		public enum VRCAssetType {
+			Template, Export, Locomotion, Gesture, Action, FX, Menu, Parameter
+		}
+
 		// 제품 설치 상태
 		protected static bool InstalledProductAFK = false;
 		protected static bool InstalledProductMogumogu = false;
@@ -159,6 +163,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		public void UpdateAvatarSetting() {
 			SetStaticVariable();
 			if (VerifyVariable()) {
+				ProductSetup.RequestProductRegister();
 				AddRequestSetupVRSuyaProduct();
 				if (VerifyVRCSDK()) {
 					ProductSetup.GetVRSuyaGameObjects();
@@ -263,22 +268,16 @@ namespace VRSuya.AvatarSettingUpdater {
 							switch (RequestParameter.valueType) {
 								case VRCExpressionParameters.ValueType.Bool:
 									RequiredParametersCost = RequiredParametersCost + 1;
-									Debug.Log("RequestParameter.name : " + RequestParameter.name);
 									break;
 								case VRCExpressionParameters.ValueType.Int:
 								case VRCExpressionParameters.ValueType.Float:
 									RequiredParametersCost = RequiredParametersCost + 8;
-									Debug.Log("RequestParameter.name : " + RequestParameter.name);
 									break;
 							}
 						}
 					}
 				}
 			}
-			Debug.Log("CurrentAvatarVRCMenuCount : " + CurrentAvatarVRCMenuCount);
-			Debug.Log("RequiredMenuCount : " + RequiredMenuCount);
-			Debug.Log("CurrentAvatarVRCParameterCosts : " + CurrentAvatarVRCParameterCosts);
-			Debug.Log("RequiredParametersCost : " + RequiredParametersCost);
 			if (CurrentAvatarVRCMenuCount + RequiredMenuCount > VRCExpressionsMenu.MAX_CONTROLS) {
 				StatusCode = "NO_MORE_MENU";
 				return false;
