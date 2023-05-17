@@ -36,14 +36,14 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>아바타의 SkinnedMeshRenderer 목록을 작성합니다.</summary>
 		/// <returns>아바타의 모든 SkinnedMeshRenderer 배열</returns>
-		private static SkinnedMeshRenderer[] GetAvatarSkinnedMeshRenderers() {
+		internal static SkinnedMeshRenderer[] GetAvatarSkinnedMeshRenderers() {
             AvatarSkinnedMeshRenderers = AvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             return AvatarSkinnedMeshRenderers;
         }
 
 		/// <summary>아바타의 MeshRenderer 목록을 작성합니다.</summary>
 		/// <returns>아바타의 모든 MeshRenderer 배열</returns>
-		private static MeshRenderer[] GetAvatarMeshRenderers() {
+		internal static MeshRenderer[] GetAvatarMeshRenderers() {
             AvatarMeshRenderers = AvatarGameObject.GetComponentsInChildren<MeshRenderer>(true);
             return AvatarMeshRenderers;
         }

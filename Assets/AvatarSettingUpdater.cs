@@ -161,9 +161,10 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (VerifyVariable()) {
 				AddRequestSetupVRSuyaProduct();
 				if (VerifyVRCSDK()) {
-					UnitySetup.UpdateAvatarStatus();
 					ProductSetup.GetVRSuyaGameObjects();
 					ProductSetup.RequestSetup();
+					UnitySetup.GetAvatarSkinnedMeshRenderers();
+					UnitySetup.GetAvatarMeshRenderers();
 					UnitySetup.UpdateAvatarData();
 
 					Debug.Log("[VRSuya AvatarSettingUpdater] Update Completed");
@@ -253,9 +254,31 @@ namespace VRSuya.AvatarSettingUpdater {
 			int RequiredMenuCount = 0;
 			int RequiredParametersCost = 0;
 			if (RequestSetupVRSuyaProductList.Length > 0) {
-				RequiredMenuCount = RequestSetupVRSuyaProductList.Select(Product => Product.RequiredVRCMenus.Count).ToArray().Sum();
-				RequiredParametersCost = RequestSetupVRSuyaProductList.Select(Product => Product.RequiredVRCMemoryCount).ToArray().Sum();
+				foreach (VRSuyaProduct RequestProduct in RequestSetupVRSuyaProductList) {
+					foreach (VRCExpressionsMenu.Control RequestMenu in RequestProduct.RequiredVRCMenus) {
+						if (!AvatarVRCAvatarDescriptor.expressionsMenu.controls.Exists(ExistMenu => ExistMenu.subMenu == RequestMenu.subMenu)) RequiredMenuCount++;
+					}
+					foreach (VRCExpressionParameters.Parameter RequestParameter in RequestProduct.RequiredVRCParameters) {
+						if (!Array.Exists(AvatarVRCParameter.parameters, ExistParameter => ExistParameter.name == RequestParameter.name)) {
+							switch (RequestParameter.valueType) {
+								case VRCExpressionParameters.ValueType.Bool:
+									RequiredParametersCost = RequiredParametersCost + 1;
+									Debug.Log("RequestParameter.name : " + RequestParameter.name);
+									break;
+								case VRCExpressionParameters.ValueType.Int:
+								case VRCExpressionParameters.ValueType.Float:
+									RequiredParametersCost = RequiredParametersCost + 8;
+									Debug.Log("RequestParameter.name : " + RequestParameter.name);
+									break;
+							}
+						}
+					}
+				}
 			}
+			Debug.Log("CurrentAvatarVRCMenuCount : " + CurrentAvatarVRCMenuCount);
+			Debug.Log("RequiredMenuCount : " + RequiredMenuCount);
+			Debug.Log("CurrentAvatarVRCParameterCosts : " + CurrentAvatarVRCParameterCosts);
+			Debug.Log("RequiredParametersCost : " + RequiredParametersCost);
 			if (CurrentAvatarVRCMenuCount + RequiredMenuCount > VRCExpressionsMenu.MAX_CONTROLS) {
 				StatusCode = "NO_MORE_MENU";
 				return false;
