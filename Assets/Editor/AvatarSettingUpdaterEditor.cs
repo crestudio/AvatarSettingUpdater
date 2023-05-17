@@ -63,6 +63,7 @@ namespace VRSuya.AvatarSettingUpdater {
             EditorGUILayout.PropertyField(SerializedAvatarGameObject, new GUIContent(LanguageHelper.GetContextString("String_TargetAvatar")));
 			AvatarType = EditorGUILayout.Popup(LanguageHelper.GetContextString("String_Avatar"), AvatarType, AvatarNames);
 			SelectedAvatarName = SerializedInstalledVRSuyaProductAvatarsEditor.enumNames[AvatarType];
+			(target as AvatarSettingUpdater).AvatarTypeNameEditor = SelectedAvatarName;
 			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			EditorGUILayout.PropertyField(SerializedChangeTwosidedShadow, new GUIContent(LanguageHelper.GetContextString("String_TwoSidedShadow")));
 			EditorGUILayout.PropertyField(SerializedChangeAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ChangeAnchorOverride")));

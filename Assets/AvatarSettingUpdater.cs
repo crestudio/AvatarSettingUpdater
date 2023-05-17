@@ -22,6 +22,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
         // 아바타 에디터용 변수
         public GameObject AvatarGameObjectEditor = null;
+		public string AvatarTypeNameEditor = null;
 		public Transform AvatarAnchorOverrideEditor = null;
 		public bool ChangeTwosidedShadowEditor = false;
 		public bool ChangeAnchorOverrideEditor = true;
@@ -116,6 +117,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>에디터 변수 -> 정적 변수 동기화합니다.</summary>
 		private void SetStaticVariable() {
             AvatarGameObject = AvatarGameObjectEditor;
+			if (AvatarTypeNameEditor != null) AvatarType = (Avatar)Enum.Parse(typeof(Avatar), AvatarTypeNameEditor);
 			AvatarAnchorOverride = AvatarAnchorOverrideEditor;
 			ChangeTwosidedShadow = ChangeTwosidedShadowEditor;
 			ChangeAnchorOverride = ChangeAnchorOverrideEditor;
