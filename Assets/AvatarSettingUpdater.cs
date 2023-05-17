@@ -215,6 +215,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>설치된 제품과 세팅 요청한 제품을 검사하여, 세팅 요청 목록에 넣습니다.</summary>
 		private void AddRequestSetupVRSuyaProduct() {
+			RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
 			if (InstalledProductAFK && InstallProductAFK) {
 				VRSuyaProduct RequestProduct = Array.Find(InstalledVRSuyaProducts, Product => Product.ProductName == ProductName.AFK);
 				RequestSetupVRSuyaProductList = RequestSetupVRSuyaProductList.Concat(new VRSuyaProduct[] { RequestProduct }).ToArray();
