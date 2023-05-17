@@ -79,7 +79,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 			// 제품 데이터 등록
 			RequestedVRSuyaProduct.ProductName = TypeProduct;
-			RequestedVRSuyaProduct.AnimationControllerGUID = AssetDatabase.FindAssets("t:AnimationController", new[] { SearchPath });
+			RequestedVRSuyaProduct.AnimationControllerGUID = AssetDatabase.FindAssets("t:AnimatorController", new[] { SearchPath });
 			RequestedVRSuyaProduct.MenuGUID = AssetDatabase.FindAssets("Menu", new[] { SearchPath });
 			RequestedVRSuyaProduct.ParameterGUID = AssetDatabase.FindAssets("Parameter", new[] { SearchPath });
 			RequestedVRSuyaProduct.PrefabGUID = AssetDatabase.FindAssets("t:Prefab", new[] { SearchPath });
