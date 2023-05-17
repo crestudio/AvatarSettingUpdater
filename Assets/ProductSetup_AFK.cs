@@ -32,7 +32,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
 		internal static void RequestSetting() {
 			if (InstallProductAFK) {
-				SetupPrefab();
+				if (!VRSuyaAFKGameObject) SetupPrefab();
 				if (VRSuyaAFKGameObject) {
 					UpdateParentConstraints();
 					UpdatePrefabName();
@@ -46,18 +46,19 @@ namespace VRSuya.AvatarSettingUpdater {
 			string[] ChildAvatarGameObjectNames = new string[0];
 			foreach (Transform ChildTransform in AvatarGameObject.transform) {
 				ChildAvatarGameObjectNames = ChildAvatarGameObjectNames.Concat(new string[] { ChildTransform.name }).ToArray();
-				Debug.Log("[VRSuya] ChildTransform.name : " + ChildTransform.name);
 			}
 			if (!Array.Exists(ChildAvatarGameObjectNames, GameObjectName => GameObjectName.Contains("VRSuya_AFK_Prefab"))) {
 				string[] PrefabFilePaths = new string[0];
 				PrefabFilePaths = AFK.PrefabGUID.Select(AssetGUID => AssetDatabase.GUIDToAssetPath(AssetGUID)).ToArray();
-				string TargetPrefabPath = Array.Find(PrefabFilePaths, FileName => FileName.Contains("VRSuya_AFK_Prefab") && FileName.Contains(AvatarType.ToString()));
+				string TargetPrefabPath = Array.Find(PrefabFilePaths, FilePath => FilePath.Split('/')[FilePath.Split('/').Length - 1].Contains("VRSuya_AFK_Prefab_" + AvatarType.ToString()));
 				if (TargetPrefabPath != null) {
 					GameObject TargetPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(TargetPrefabPath, typeof(GameObject));
-					GameObject TargetInstance = Instantiate(TargetPrefab);
+					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
 					TargetInstance.transform.parent = AvatarGameObject.transform;
 				}
 			}
+			GetVRSuyaGameObjects();
+			VRSuyaAFKGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_AFK_Prefab"));
 			return;
 		}
 

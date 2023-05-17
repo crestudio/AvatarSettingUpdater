@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 
+using UnityEditor;
 using UnityEngine;
 
 using VRC.SDK3.Dynamics.PhysBone.Components;
@@ -32,10 +33,48 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
 		internal static void RequestSetting() {
-			if (VRSuyaMogumoguGameObject) {
-				UpdatePhysBoneSetting();
-				DisableExistPhysBone();
+			if (InstallProductMogumogu) {
+				if (!VRSuyaMogumoguGameObject) SetupPrefab();
+				if (VRSuyaMogumoguGameObject) {
+					UpdatePhysBoneSetting();
+					DisableExistPhysBone();
+				}
 			}
+			return;
+		}
+
+		/// <summary>아바타에 Prefab이 있는지 검사하고 없으면 설치하는 메소드 입니다.</summary>
+		private static void SetupPrefab() {
+			string[] ChildAvatarGameObjectNames = new string[0];
+			string[] HeadChildAvatarGameObjectNames = new string[0];
+			foreach (Transform ChildTransform in AvatarGameObject.transform) {
+				ChildAvatarGameObjectNames = ChildAvatarGameObjectNames.Concat(new string[] { ChildTransform.name }).ToArray();
+			}
+			foreach (Transform ChildTransform in AvatarAnimator.GetBoneTransform(HumanBodyBones.Head)) {
+				HeadChildAvatarGameObjectNames = HeadChildAvatarGameObjectNames.Concat(new string[] { ChildTransform.name }).ToArray();
+			}
+			if (!Array.Exists(ChildAvatarGameObjectNames, GameObjectName => GameObjectName.Contains("VRSuya_Mogumogu_PhysBone"))) {
+				string[] PrefabFilePaths = new string[0];
+				PrefabFilePaths = Mogumogu.PrefabGUID.Select(AssetGUID => AssetDatabase.GUIDToAssetPath(AssetGUID)).ToArray();
+				string TargetPrefabPath = Array.Find(PrefabFilePaths, FilePath => FilePath.Split('/')[FilePath.Split('/').Length - 1].Contains("VRSuya_Mogumogu_PhysBone_" + AvatarType.ToString()));
+				if (TargetPrefabPath != null) {
+					GameObject TargetPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(TargetPrefabPath, typeof(GameObject));
+					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
+					TargetInstance.transform.parent = AvatarGameObject.transform;
+				}
+			}
+			if (!Array.Exists(HeadChildAvatarGameObjectNames, GameObjectName => GameObjectName.Contains("VRSuya_Mogumogu_Particle"))) {
+				string[] PrefabFilePaths = new string[0];
+				PrefabFilePaths = Mogumogu.PrefabGUID.Select(AssetGUID => AssetDatabase.GUIDToAssetPath(AssetGUID)).ToArray();
+				string TargetPrefabPath = Array.Find(PrefabFilePaths, FilePath => FilePath.Split('/')[FilePath.Split('/').Length - 1].Contains("VRSuya_Mogumogu_Particle_" + AvatarType.ToString()));
+				if (TargetPrefabPath != null) {
+					GameObject TargetPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(TargetPrefabPath, typeof(GameObject));
+					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
+					TargetInstance.transform.parent = AvatarAnimator.GetBoneTransform(HumanBodyBones.Head);
+				}
+			}
+			GetVRSuyaGameObjects();
+			VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
 			return;
 		}
 
