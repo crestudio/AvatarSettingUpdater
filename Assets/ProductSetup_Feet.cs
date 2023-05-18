@@ -72,10 +72,23 @@ namespace VRSuya.AvatarSettingUpdater {
 					GameObject TargetPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(TargetPrefabPath, typeof(GameObject));
 					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
 					TargetInstance.transform.parent = AvatarGameObject.transform;
+					TransformPrefab(TargetInstance, AvatarGameObject, false);
 				}
 			}
 			GetVRSuyaGameObjects();
 			VRSuyaHopedskyDFeetGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_HopeskyD_Feet"));
+			return;
+		}
+
+		/// <summary>요청한 GameObject의 Transform을 Origin에 맞춰주는 메소드</summary>
+		private static void TransformPrefab(GameObject TargetGameObject, GameObject BaseGameObject, bool KeepScale) {
+			TargetGameObject.transform.localPosition = new Vector3(0, 0, 0);
+			TargetGameObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+			if (!KeepScale) {
+				TargetGameObject.transform.localScale = BaseGameObject.transform.localScale;
+			} else {
+				TargetGameObject.transform.localScale = new Vector3(1, 1, 1);
+			}
 			return;
 		}
 
