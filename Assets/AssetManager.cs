@@ -84,8 +84,10 @@ namespace VRSuya.AvatarSettingUpdater {
 			RequestedVRSuyaProduct.ParameterGUID = AssetDatabase.FindAssets("Parameter", new[] { SearchPath });
 			RequestedVRSuyaProduct.PrefabGUID = AssetDatabase.FindAssets("t:Prefab", new[] { SearchPath });
 
-			RequestedVRSuyaProduct.RequiredAnimatorLayers = ResolveAnimationControllerLayer(RequestedVRSuyaProduct.AnimationControllerGUID, TypeProduct, AvatarType);
-			RequestedVRSuyaProduct.RequiredAnimatorParameters = ResolveAnimationControllerParameter(RequestedVRSuyaProduct.AnimationControllerGUID, TypeProduct, AvatarType);
+			Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AvatarAnimatorControllerGUID = GetRequestAvatarTypeAnimatorControllerGUID(SearchPath, AvatarType);
+
+			RequestedVRSuyaProduct.RequiredAnimatorLayers = ResolveAnimationControllerLayer(AvatarAnimatorControllerGUID);
+			RequestedVRSuyaProduct.RequiredAnimatorParameters = ResolveAnimationControllerParameter(AvatarAnimatorControllerGUID);
 			RequestedVRSuyaProduct.RequiredVRCMenus = ResolveMenu(RequestedVRSuyaProduct.MenuGUID, TypeProduct);
 			RequestedVRSuyaProduct.RequiredVRCParameters = ResolveParameter(RequestedVRSuyaProduct.ParameterGUID);
 			RequestedVRSuyaProduct.RequiredVRCMemoryCount = ResolveParameterCost(RequestedVRSuyaProduct.ParameterGUID);
@@ -94,44 +96,54 @@ namespace VRSuya.AvatarSettingUpdater {
 			return RequestedVRSuyaProduct;
 		}
 
+		/// <summary>파일 목록에서 요청한 아바타 타입의 애니메이터 레이어 GUID 목록을 반환합니다.</summary>
+		/// <returns>해당 아바타의 애니메이터 컨트롤러 배열</returns>
+		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, string> GetRequestAvatarTypeAnimatorControllerGUID(string SearchPath, Avatar AvatarType) {
+			Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID = new Dictionary<VRCAvatarDescriptor.AnimLayerType, string>();
+			VRCAvatarDescriptor.AnimLayerType TargetControllerType;
+			foreach (string TargetVRCAnimatorType in dictAnimatorControllerName) {
+				string TargetAvatarType = "";
+				if (AvatarType != Avatar.NULL) TargetAvatarType = AvatarType.ToString();
+				string[] TargetVRCAnimatorGUID = AssetDatabase.FindAssets(TargetVRCAnimatorType + " t:AnimatorController " + TargetAvatarType, new[] { SearchPath });
+				if (TargetVRCAnimatorGUID.Length == 0) TargetVRCAnimatorGUID = AssetDatabase.FindAssets(TargetVRCAnimatorType + " t:AnimatorController", new[] { SearchPath });
+				if (TargetVRCAnimatorGUID.Length > 0) {
+					switch (TargetVRCAnimatorType) {
+						case "LocomotionLayer":
+							TargetControllerType = VRCAvatarDescriptor.AnimLayerType.Base;
+							break;
+						case "GestureLayer":
+							TargetControllerType = VRCAvatarDescriptor.AnimLayerType.Gesture;
+							break;
+						case "ActionLayer":
+							TargetControllerType = VRCAvatarDescriptor.AnimLayerType.Action;
+							break;
+						case "FXLayer":
+							TargetControllerType = VRCAvatarDescriptor.AnimLayerType.FX;
+							break;
+					}
+					AnimatorGUID.Add(TargetControllerType, TargetVRCAnimatorGUID[0]);
+				}
+			}
+			return AnimatorGUID;
+		}
+
 		/// <summary>파일 목록에서 요청한 아바타 타입의 애니메이터 레이어 목록을 반환합니다.</summary>
 		/// <returns>Unity 애니메이터 레이어 배열</returns>
-		internal static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> ResolveAnimationControllerLayer(string[] AssetsGUID, ProductName TypeProduct, Avatar AvatarType) {
+		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> ResolveAnimationControllerLayer(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> AnimatorLayerInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]>();
-			foreach (string AssetGUID in AssetsGUID) {
-				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/')[AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/').Length - 1];
+			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
+				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AnimatorLayer.value).Split('/')[AssetDatabase.GUIDToAssetPath(AnimatorLayer.value).Split('/').Length - 1];
 				Debug.Log("TargetAssetFileName : " + TargetAssetFileName);
-				if (Array.Exists(dictAnimatorControllerName, ControllerName => TargetAssetFileName.Contains(ControllerName))) {
-					Debug.Log("Processing " + TargetAssetFileName);
-					AnimatorController TargetController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
-					if (TargetController) {
-						VRCAvatarDescriptor.AnimLayerType TargetControllerType;
-						switch (Array.Find(dictAnimatorControllerName, ControllerType => TargetAssetFileName.Contains(ControllerType))) {
-							case "LocomotionLayer":
-								TargetControllerType = VRCAvatarDescriptor.AnimLayerType.Base;
-								break;
-							case "GestureLayer":
-								TargetControllerType = VRCAvatarDescriptor.AnimLayerType.Gesture;
-								break;
-							case "ActionLayer":
-								TargetControllerType = VRCAvatarDescriptor.AnimLayerType.Action;
-								break;
-							case "FXLayer":
-								TargetControllerType = VRCAvatarDescriptor.AnimLayerType.FX;
-								break;
-							default:
-								TargetControllerType = VRCAvatarDescriptor.AnimLayerType.FX;
-								break;
+				AnimatorController TargetController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AnimatorLayer.value));
+				if (TargetController) {
+					AnimatorControllerLayer[] TargetControllerLayers = new AnimatorControllerLayer[0];
+					foreach (var Layer in TargetController.layers) {
+						if (Layer.name != "Base Layer") {
+							Debug.Log("Processing " + Layer.name);
+							TargetControllerLayers = TargetControllerLayers.Concat(new AnimatorControllerLayer[] { Layer }).ToArray();
 						}
-						AnimatorControllerLayer[] TargetControllerLayers = new AnimatorControllerLayer[0];
-						foreach (var Layer in TargetController.layers) {
-							if (Layer.name != "Base Layer") {
-								Debug.Log("Processing " + Layer.name);
-								TargetControllerLayers = TargetControllerLayers.Concat(new AnimatorControllerLayer[] { Layer }).ToArray();
-							}
-						}
-						AnimatorLayerInAssets.Add(TargetControllerType, TargetControllerLayers);
 					}
+					AnimatorLayerInAssets.Add(AnimatorLayer.key, TargetControllerLayers);
 				}
 			}
 			foreach (var Layer in AnimatorLayerInAssets) {
@@ -142,10 +154,10 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>파일 목록에서 요청한 아바타 타입의 애니메이터 파라메터 목록을 반환합니다.</summary>
 		/// <returns>Unity 애니메이터 레이어 배열</returns>
-		internal static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> ResolveAnimationControllerParameter(string[] AssetsGUID, ProductName TypeProduct, Avatar AvatarType) {
+		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> ResolveAnimationControllerParameter(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> AnimatorParameterInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]>();
-			foreach (string AssetGUID in AssetsGUID) {
-				Debug.Log(AssetGUID);
+			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
+				Debug.Log(AnimatorLayer.value);
 			}
 			return AnimatorParameterInAssets;
 		}
