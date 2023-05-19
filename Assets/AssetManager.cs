@@ -66,7 +66,9 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		private static readonly string[] dictAnimatorControllerName = new string[] { "LocomotionLayer", "GestureLayer", "ActionLayer", "FXLayer" };
 
-		private static readonly string[] dictIgnoreName = new string[] { "Cyalume", "LightStick" };
+		private static readonly string[] dictIgnoreLayerName = new string[] { "Base Layer", "AllParts", "Left Hand", "Right Hand" };
+
+		private static readonly string[] dictIgnorePrefabName = new string[] { "Cyalume", "LightStick" };
 
 		/// <summary>요청한 타입의 VRSuya 제품의 상세 내용을 업데이트하여 반환합니다.</summary>
 		/// <returns>내용이 업데이트 된 VRSuyaProduct 오브젝트</returns>
@@ -100,13 +102,13 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <returns>해당 아바타의 애니메이터 컨트롤러 배열</returns>
 		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, string> GetRequestAvatarTypeAnimatorControllerGUID(string SearchPath, Avatar AvatarType) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID = new Dictionary<VRCAvatarDescriptor.AnimLayerType, string>();
-			VRCAvatarDescriptor.AnimLayerType TargetControllerType;
 			foreach (string TargetVRCAnimatorType in dictAnimatorControllerName) {
 				string TargetAvatarType = "";
 				if (AvatarType != Avatar.NULL) TargetAvatarType = AvatarType.ToString();
 				string[] TargetVRCAnimatorGUID = AssetDatabase.FindAssets(TargetVRCAnimatorType + " t:AnimatorController " + TargetAvatarType, new[] { SearchPath });
 				if (TargetVRCAnimatorGUID.Length == 0) TargetVRCAnimatorGUID = AssetDatabase.FindAssets(TargetVRCAnimatorType + " t:AnimatorController", new[] { SearchPath });
 				if (TargetVRCAnimatorGUID.Length > 0) {
+					VRCAvatarDescriptor.AnimLayerType TargetControllerType = VRCAvatarDescriptor.AnimLayerType.FX;
 					switch (TargetVRCAnimatorType) {
 						case "LocomotionLayer":
 							TargetControllerType = VRCAvatarDescriptor.AnimLayerType.Base;
@@ -132,22 +134,18 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> ResolveAnimationControllerLayer(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> AnimatorLayerInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]>();
 			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
-				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AnimatorLayer.value).Split('/')[AssetDatabase.GUIDToAssetPath(AnimatorLayer.value).Split('/').Length - 1];
-				Debug.Log("TargetAssetFileName : " + TargetAssetFileName);
-				AnimatorController TargetController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AnimatorLayer.value));
+				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/')[AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/').Length - 1];
+				AnimatorController TargetController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value));
 				if (TargetController) {
 					AnimatorControllerLayer[] TargetControllerLayers = new AnimatorControllerLayer[0];
 					foreach (var Layer in TargetController.layers) {
-						if (Layer.name != "Base Layer") {
-							Debug.Log("Processing " + Layer.name);
+						if (!Array.Exists(dictIgnoreLayerName, LayerName => LayerName == Layer.name)) {
+							Debug.Log("[VRSuya] Processing " + Layer.name + " Layer");
 							TargetControllerLayers = TargetControllerLayers.Concat(new AnimatorControllerLayer[] { Layer }).ToArray();
 						}
 					}
-					AnimatorLayerInAssets.Add(AnimatorLayer.key, TargetControllerLayers);
+					AnimatorLayerInAssets.Add(AnimatorLayer.Key, TargetControllerLayers);
 				}
-			}
-			foreach (var Layer in AnimatorLayerInAssets) {
-				Debug.Log("Key : " + Layer.Key.ToString() + " / Value : " + Layer.Value.ToString());
 			}
 			return AnimatorLayerInAssets;
 		}
@@ -157,7 +155,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> ResolveAnimationControllerParameter(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> AnimatorParameterInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]>();
 			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
-				Debug.Log(AnimatorLayer.value);
+				Debug.Log(AnimatorLayer.Value);
 			}
 			return AnimatorParameterInAssets;
 		}
@@ -220,7 +218,7 @@ namespace VRSuya.AvatarSettingUpdater {
 				string AssetName = AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/')[AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/').Length - 1].Split('.')[0];
 				if (AssetName.Contains(SearchWord)) {
 					string AvatarName = AssetName.Substring(AssetName.IndexOf(SearchWord) + SearchWord.Length);
-					if (Array.Exists(dictIgnoreName, Name => AvatarName == Name)) continue;
+					if (Array.Exists(dictIgnorePrefabName, Name => AvatarName == Name)) continue;
 					Avatar AvatarType;
 					if (Enum.TryParse<Avatar>(AvatarName, out AvatarType)) AvatarNames = AvatarNames.Concat(new Avatar[] { AvatarType }).ToArray();
 					// if (!Enum.TryParse<Avatar>(AvatarName, out AvatarType)) Debug.LogError("[VRSuya AvatarSettingUpdater] Prefab 아바타 이름 오류 : " + AssetDatabase.GUIDToAssetPath(AssetGUID));
