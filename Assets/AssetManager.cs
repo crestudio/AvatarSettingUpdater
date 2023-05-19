@@ -138,9 +138,9 @@ namespace VRSuya.AvatarSettingUpdater {
 				AnimatorController TargetController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value));
 				if (TargetController) {
 					AnimatorControllerLayer[] TargetControllerLayers = new AnimatorControllerLayer[0];
-					foreach (var Layer in TargetController.layers) {
+					foreach (AnimatorControllerLayer Layer in TargetController.layers) {
 						if (!Array.Exists(dictIgnoreLayerName, LayerName => LayerName == Layer.name)) {
-							Debug.Log("[VRSuya] Processing " + Layer.name + " Layer");
+							Debug.Log("[VRSuya] Processing " + Layer.name + " Layer in " + TargetAssetFileName);
 							TargetControllerLayers = TargetControllerLayers.Concat(new AnimatorControllerLayer[] { Layer }).ToArray();
 						}
 					}
@@ -151,11 +151,20 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>파일 목록에서 요청한 아바타 타입의 애니메이터 파라메터 목록을 반환합니다.</summary>
-		/// <returns>Unity 애니메이터 레이어 배열</returns>
+		/// <returns>Unity 애니메이터 파라메터 배열</returns>
 		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> ResolveAnimationControllerParameter(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> AnimatorParameterInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]>();
 			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
-				Debug.Log(AnimatorLayer.Value);
+				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/')[AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/').Length - 1];
+				AnimatorController TargetController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value));
+				if (TargetController) {
+					AnimatorControllerParameter[] TargetControllerParameters = new AnimatorControllerParameter[0];
+					foreach (AnimatorControllerParameter Parameter in TargetController.parameters) {
+						Debug.Log("[VRSuya] Processing " + Parameter.name + " Parameter in " + TargetAssetFileName);
+						TargetControllerParameters = TargetControllerParameters.Concat(new AnimatorControllerParameter[] { Parameter }).ToArray();
+					}
+					AnimatorParameterInAssets.Add(AnimatorLayer.Key, TargetControllerParameters);
+				}
 			}
 			return AnimatorParameterInAssets;
 		}
