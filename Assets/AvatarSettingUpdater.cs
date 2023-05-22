@@ -215,6 +215,7 @@ namespace VRSuya.AvatarSettingUpdater {
 				return false;
 			} else {
 				AvatarVRCAvatarDescriptor = AvatarGameObject.GetComponent<VRCAvatarDescriptor>();
+				AvatarVRCAvatarLayers = AvatarVRCAvatarDescriptor.baseAnimationLayers;
 			}
 			return true;
         }
@@ -308,7 +309,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>디버그용 메소드</summary>
 		public void DebugAvatarSetting() {
 			SetStaticVariable();
-			ProductSetup.RequestProductRegister();
+			return;
 		}
 	}
 }
