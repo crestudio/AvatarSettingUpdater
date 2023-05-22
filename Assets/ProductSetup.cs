@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using UnityEditor.Animations;
 using UnityEngine;
 
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -50,6 +50,7 @@ namespace VRSuya.AvatarSettingUpdater {
 					VRSuyaParameters = VRSuyaParameters.Concat(RequestedParameters).ToArray();
 				}
 			}
+			UpdateUnityAnimator();
 			if (VRSuyaParameters.Length > 0) UpdateAvatarParameters();
 			if (VRSuyaMenus.Count > 0) UpdateAvatarMenus();
 			return;
@@ -80,14 +81,32 @@ namespace VRSuya.AvatarSettingUpdater {
 			return;
 		}
 
-		/// <summary>아바타의 VRC 애니메이터에 세팅해야 하는 값을 보냅니다.</summary>
+		/// <summary>아바타의 각 VRC 애니메이터에 세팅해야 하는 값을 보냅니다.</summary>
 		private static void UpdateUnityAnimator() {
+			AnimatorController VRCLocomotionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.Base).animatorController;
+			AnimatorController VRCGestureLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.Gesture).animatorController;
+			AnimatorController VRCActionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.Action).animatorController;
+			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
+			if (VRCLocomotionLayer) UpdateTargetAnimatorController(VRCLocomotionLayer, VRSuyaLocomotionParameters);
+			if (VRCGestureLayer) UpdateTargetAnimatorController(VRCGestureLayer, VRSuyaGestureParameters);
+			if (VRCActionLayer) UpdateTargetAnimatorController(VRCActionLayer, VRSuyaActionParameters);
+			if (VRCFXLayer) UpdateTargetAnimatorController(VRCFXLayer, VRSuyaFXParameters);
+			return;
+		}
+
+		/// <summary>세팅해야 하는 애니메이터 컨트롤러에 파라메터와 레이어가 존재하는지 확인 후 추가합니다.</summary>
+		private static void UpdateTargetAnimatorController(AnimatorController TargetController, AnimatorControllerParameter[] TargetParameters) {
+			foreach (AnimatorControllerParameter NewParameter in TargetParameters) {
+				if (!Array.Exists(TargetController.parameters, ExistParameter => NewParameter.name == ExistParameter.name)) {
+					TargetController.parameters = TargetController.parameters.Concat(new AnimatorControllerParameter[] { NewParameter }).ToArray();
+				}
+			}
 			return;
 		}
 
 		/// <summary>세팅해야 하는 파라메터 큐를 아바타 파라메터에 존재하는지 확인 후 추가합니다.</summary>
 		private static void UpdateAvatarParameters() {
-            foreach (var NewParameter in VRSuyaParameters) {
+            foreach (VRCExpressionParameters.Parameter NewParameter in VRSuyaParameters) {
                 if (!Array.Exists(AvatarVRCParameter.parameters, ExistParameter => ExistParameter.name == NewParameter.name)) {
 					AvatarVRCParameter.parameters = AvatarVRCParameter.parameters.Concat(new VRCExpressionParameters.Parameter[] { NewParameter }).ToArray();
 				}
