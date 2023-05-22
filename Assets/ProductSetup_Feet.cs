@@ -46,7 +46,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
 		internal static void RequestSetting() {
-			if (InstallProductAFK) {
+			if (InstallProductFeet) {
 				if (!VRSuyaHopedskyDFeetGameObject) SetupPrefab();
 				if (VRSuyaHopedskyDFeetGameObject) {
 					GetFeetTransforms();
