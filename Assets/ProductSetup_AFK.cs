@@ -84,6 +84,7 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (AnchorParentConstraint) {
 					AnchorParentConstraint.SetSource(0, new ConstraintSource() { sourceTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.RightHand), weight = 1 });
 					AnchorParentConstraint.constraintActive = true;
+					EditorUtility.SetDirty(AnchorParentConstraint);
 				}
 			}
 			return;
@@ -93,6 +94,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static void UpdatePrefabName() {
 			if (VRSuyaAFKGameObject.name != "VRSuya_AFK_Prefab") {
 				VRSuyaAFKGameObject.name = "VRSuya_AFK_Prefab";
+				EditorUtility.SetDirty(VRSuyaAFKGameObject);
 			}
 		}
 	}

@@ -123,8 +123,14 @@ namespace VRSuya.AvatarSettingUpdater {
 						}
 					}
 				}
-				if (Cheek_L && PhysBone_Cheek_L) PhysBone_Cheek_L.rootTransform = Cheek_L;
-				if (Cheek_R && PhysBone_Cheek_R) PhysBone_Cheek_R.rootTransform = Cheek_R;
+				if (Cheek_L && PhysBone_Cheek_L) {
+					PhysBone_Cheek_L.rootTransform = Cheek_L;
+					EditorUtility.SetDirty(PhysBone_Cheek_L);
+				}
+				if (Cheek_R && PhysBone_Cheek_R) {
+					PhysBone_Cheek_R.rootTransform = Cheek_R;
+					EditorUtility.SetDirty(PhysBone_Cheek_R);
+				}
 			}
 			return;
 		}
@@ -135,6 +141,7 @@ namespace VRSuya.AvatarSettingUpdater {
 				foreach (Transform TargetTransform in AvatarCheekBoneTransforms) {
 					if (TargetTransform.GetComponent<VRCPhysBone>()) {
 						TargetTransform.GetComponent<VRCPhysBone>().enabled = false;
+						EditorUtility.SetDirty(TargetTransform.GetComponent<VRCPhysBone>());
 					}
 				}
 			}
@@ -151,6 +158,7 @@ namespace VRSuya.AvatarSettingUpdater {
 						TargetLayer.defaultWeight = 0;
 					}
 				}
+				EditorUtility.SetDirty(VRCFXLayer);
 			}
 			return;
 		}

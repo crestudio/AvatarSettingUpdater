@@ -85,6 +85,7 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (AnchorParentConstraint) {
 					AnchorParentConstraint.SetSource(0, new ConstraintSource() { sourceTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.LeftHand), weight = 1 });
 					AnchorParentConstraint.constraintActive = true;
+					EditorUtility.SetDirty(AnchorParentConstraint);
 				}
 			}
 			if (RightHandGameObject) {
@@ -92,6 +93,7 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (AnchorParentConstraint) {
 					AnchorParentConstraint.SetSource(0, new ConstraintSource() { sourceTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.RightHand), weight = 1 });
 					AnchorParentConstraint.constraintActive = true;
+					EditorUtility.SetDirty(AnchorParentConstraint);
 				}
 			}
 			return;
@@ -101,6 +103,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static void UpdatePrefabName() {
 			if (VRSuyaWotageiGameObject.name != "VRSuya_Wotagei") {
 				VRSuyaWotageiGameObject.name = "VRSuya_Wotagei";
+				EditorUtility.SetDirty(VRSuyaWotageiGameObject);
 			}
 		}
 	}

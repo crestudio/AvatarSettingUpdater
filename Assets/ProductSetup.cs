@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -145,11 +146,13 @@ namespace VRSuya.AvatarSettingUpdater {
 			foreach (AnimatorControllerParameter NewParameter in TargetParameters) {
 				if (!Array.Exists(TargetController.parameters, ExistParameter => NewParameter.name == ExistParameter.name)) {
 					TargetController.parameters = TargetController.parameters.Concat(new AnimatorControllerParameter[] { NewParameter }).ToArray();
+					EditorUtility.SetDirty(TargetController);
 				}
 			}
 			foreach (AnimatorControllerLayer NewLayer in TargetLayers) {
 				if (!Array.Exists(TargetController.layers, ExistLayer => NewLayer.name == ExistLayer.name)) {
 					TargetController.layers = TargetController.layers.Concat(new AnimatorControllerLayer[] { NewLayer }).ToArray();
+					EditorUtility.SetDirty(TargetController);
 				}
 			}
 			return;
@@ -162,6 +165,7 @@ namespace VRSuya.AvatarSettingUpdater {
 					AvatarVRCParameter.parameters = AvatarVRCParameter.parameters.Concat(new VRCExpressionParameters.Parameter[] { NewParameter }).ToArray();
 				}
             }
+			EditorUtility.SetDirty(AvatarVRCParameter);
 			return;
         }
 
@@ -172,6 +176,8 @@ namespace VRSuya.AvatarSettingUpdater {
 					AvatarVRCMenu.controls.Add(NewMenu);
 				}
 			}
+			EditorUtility.SetDirty(AvatarVRCMenu);
+			return;
 		}
 	}
 }

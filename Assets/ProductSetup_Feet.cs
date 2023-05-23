@@ -126,6 +126,7 @@ namespace VRSuya.AvatarSettingUpdater {
 						if (TargetTransform) {
 							TargetParentConstraint.SetSource(0, new ConstraintSource() { sourceTransform = TargetTransform, weight = 1 });
 							TargetParentConstraint.constraintActive = true;
+							EditorUtility.SetDirty(TargetParentConstraint);
 						}
 					}
 				}
@@ -143,6 +144,7 @@ namespace VRSuya.AvatarSettingUpdater {
 						Transform TargetToeTransform = Array.Find(FeetTransforms, FeetTransform => TargetTransform.name == FeetTransform.name);
 						if (TargetTransform) {
 							ToePhysBone.rootTransform = TargetToeTransform;
+							EditorUtility.SetDirty(ToePhysBone);
 						}
 					}
 				}
@@ -154,6 +156,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static void UpdatePrefabName() {
 			if (VRSuyaHopedskyDFeetGameObject.name != "VRSuya_HopeskyD_Feet") {
 				VRSuyaHopedskyDFeetGameObject.name = "VRSuya_HopeskyD_Feet";
+				EditorUtility.SetDirty(VRSuyaHopedskyDFeetGameObject);
 			}
 		}
 	}
