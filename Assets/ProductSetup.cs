@@ -132,18 +132,23 @@ namespace VRSuya.AvatarSettingUpdater {
 			AnimatorController VRCGestureLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.Gesture).animatorController;
 			AnimatorController VRCActionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.Action).animatorController;
 			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
-			if (VRCLocomotionLayer) UpdateTargetAnimatorController(VRCLocomotionLayer, VRSuyaLocomotionParameters);
-			if (VRCGestureLayer) UpdateTargetAnimatorController(VRCGestureLayer, VRSuyaGestureParameters);
-			if (VRCActionLayer) UpdateTargetAnimatorController(VRCActionLayer, VRSuyaActionParameters);
-			if (VRCFXLayer) UpdateTargetAnimatorController(VRCFXLayer, VRSuyaFXParameters);
+			if (VRCLocomotionLayer) UpdateTargetAnimatorController(VRCLocomotionLayer, VRSuyaLocomotionLayers, VRSuyaLocomotionParameters);
+			if (VRCGestureLayer) UpdateTargetAnimatorController(VRCGestureLayer, VRSuyaGestureLayers, VRSuyaGestureParameters);
+			if (VRCActionLayer) UpdateTargetAnimatorController(VRCActionLayer, VRSuyaActionLayers, VRSuyaActionParameters);
+			if (VRCFXLayer) UpdateTargetAnimatorController(VRCFXLayer, VRSuyaFXLayers, VRSuyaFXParameters);
 			return;
 		}
 
 		/// <summary>세팅해야 하는 애니메이터 컨트롤러에 파라메터와 레이어가 존재하는지 확인 후 추가합니다.</summary>
-		private static void UpdateTargetAnimatorController(AnimatorController TargetController, AnimatorControllerParameter[] TargetParameters) {
+		private static void UpdateTargetAnimatorController(AnimatorController TargetController, AnimatorControllerLayer[] TargetLayers, AnimatorControllerParameter[] TargetParameters) {
 			foreach (AnimatorControllerParameter NewParameter in TargetParameters) {
 				if (!Array.Exists(TargetController.parameters, ExistParameter => NewParameter.name == ExistParameter.name)) {
 					TargetController.parameters = TargetController.parameters.Concat(new AnimatorControllerParameter[] { NewParameter }).ToArray();
+				}
+			}
+			foreach (AnimatorControllerLayer NewLayer in TargetLayers) {
+				if (!Array.Exists(TargetController.layers, ExistLayer => NewLayer.name == ExistLayer.name)) {
+					TargetController.layers = TargetController.layers.Concat(new AnimatorControllerLayer[] { NewLayer }).ToArray();
 				}
 			}
 			return;
