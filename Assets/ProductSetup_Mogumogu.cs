@@ -3,8 +3,10 @@ using System;
 using System.Linq;
 
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
+using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Dynamics.PhysBone.Components;
 
 /*
@@ -23,6 +25,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static GameObject VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
 		private static Transform[] AvatarCheekBoneTransforms = Array.FindAll(AvatarAnimator.GetBoneTransform(HumanBodyBones.Head).GetComponentsInChildren<Transform>(true), transform => transform.name.Contains("Cheek"));
 
+		private static readonly string[] dictSELESTIAMogumoguLayerName = new string[] { "Cheek_L_Stretch", "Cheek_R_Stretch" };
+
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
 		internal static void RegisterProduct() {
 			Mogumogu = new VRSuyaProduct();
@@ -39,6 +43,7 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (VRSuyaMogumoguGameObject) {
 					UpdatePhysBoneSetting();
 					DisableExistPhysBone();
+					if (AvatarType == Avatar.SELESTIA) DisableExistMoumoguAnimatorLayer();
 				}
 			}
 			return;
@@ -129,6 +134,20 @@ namespace VRSuya.AvatarSettingUpdater {
 				foreach (Transform TargetTransform in AvatarCheekBoneTransforms) {
 					if (TargetTransform.GetComponent<VRCPhysBone>()) {
 						TargetTransform.GetComponent<VRCPhysBone>().enabled = false;
+					}
+				}
+			}
+			return;
+		}
+
+		/// <summary>셀레스티아의 피직스본 애니메이터 레이어를 비활성화 합니다.</summary>
+		private static void DisableExistMoumoguAnimatorLayer() {
+			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
+			if (VRCFXLayer) {
+				AnimatorControllerLayer[] SELESTIA_MogumoguLayer = Array.FindAll(VRCFXLayer.layers, Layer => dictSELESTIAMogumoguLayerName.Any(LayerName => LayerName == Layer.name)).ToArray();
+				if (SELESTIA_MogumoguLayer != null) {
+					foreach (AnimatorControllerLayer TargetLayer in SELESTIA_MogumoguLayer) {
+						TargetLayer.defaultWeight = 0;
 					}
 				}
 			}
