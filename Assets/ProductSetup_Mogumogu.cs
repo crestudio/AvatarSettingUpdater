@@ -20,10 +20,9 @@ namespace VRSuya.AvatarSettingUpdater {
 	[AddComponentMenu("")]
 	public class ProductSetup_Mogumogu : ProductSetup {
 
-		private static VRSuyaProduct Mogumogu = new VRSuyaProduct();
-
-		private static GameObject VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
-		private static Transform[] AvatarCheekBoneTransforms = Array.FindAll(AvatarAnimator.GetBoneTransform(HumanBodyBones.Head).GetComponentsInChildren<Transform>(true), transform => transform.name.Contains("Cheek"));
+		private static VRSuyaProduct Mogumogu;
+		private static GameObject VRSuyaMogumoguGameObject;
+		private static Transform[] AvatarCheekBoneTransforms;
 
 		private static readonly string[] dictSELESTIAMogumoguLayerName = new string[] { "Cheek_L_Stretch", "Cheek_R_Stretch" };
 
@@ -39,6 +38,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
 		internal static void RequestSetting() {
 			if (InstallProductMogumogu) {
+				VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
+				AvatarCheekBoneTransforms = Array.FindAll(AvatarAnimator.GetBoneTransform(HumanBodyBones.Head).GetComponentsInChildren<Transform>(true), transform => transform.name.Contains("Cheek"));
 				if (!VRSuyaMogumoguGameObject) SetupPrefab();
 				if (VRSuyaMogumoguGameObject) {
 					UpdatePhysBoneSetting();

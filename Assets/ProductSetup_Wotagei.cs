@@ -17,9 +17,8 @@ namespace VRSuya.AvatarSettingUpdater {
 	[AddComponentMenu("")]
 	public class ProductSetup_Wotagei : ProductSetup {
 
-		private static VRSuyaProduct Wotagei = new VRSuyaProduct();
-
-		private static GameObject VRSuyaWotageiGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Wotagei"));
+		private static VRSuyaProduct Wotagei;
+		private static GameObject VRSuyaWotageiGameObject;
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
 		internal static void RegisterProduct() {
@@ -33,6 +32,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
 		internal static void RequestSetting() {
 			if (InstallProductWotagei) {
+				VRSuyaWotageiGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Wotagei"));
 				if (!VRSuyaWotageiGameObject) SetupPrefab();
 				if (VRSuyaWotageiGameObject) {
 					UpdateParentConstraints();

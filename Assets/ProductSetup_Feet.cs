@@ -19,10 +19,9 @@ namespace VRSuya.AvatarSettingUpdater {
 	[AddComponentMenu("")]
 	public class ProductSetup_Feet : ProductSetup {
 
-		private static VRSuyaProduct Feet = new VRSuyaProduct();
-
-		private static GameObject VRSuyaHopedskyDFeetGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_HopeskyD_Feet"));
-		private static Transform[] FeetTransforms = new Transform[0];
+		private static VRSuyaProduct Feet;
+		private static GameObject VRSuyaHopedskyDFeetGameObject;
+		private static Transform[] FeetTransforms;
 		private static readonly string[] dictToeName = {
 			"ThumbToe1_L", "ThumbToe2_L", "ThumbToe3_L",
 			"ThumbToe1_R", "ThumbToe2_R", "ThumbToe3_R",
@@ -48,6 +47,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
 		internal static void RequestSetting() {
 			if (InstallProductFeet) {
+				VRSuyaHopedskyDFeetGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_HopeskyD_Feet"));
 				if (!VRSuyaHopedskyDFeetGameObject) SetupPrefab();
 				if (VRSuyaHopedskyDFeetGameObject) {
 					GetFeetTransforms();
