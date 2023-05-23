@@ -140,7 +140,6 @@ namespace VRSuya.AvatarSettingUpdater {
 					AnimatorControllerLayer[] TargetControllerLayers = new AnimatorControllerLayer[0];
 					foreach (AnimatorControllerLayer Layer in TargetController.layers) {
 						if (!Array.Exists(dictIgnoreLayerName, LayerName => LayerName == Layer.name)) {
-							Debug.Log("[VRSuya] Processing " + Layer.name + " Layer in " + TargetAssetFileName);
 							TargetControllerLayers = TargetControllerLayers.Concat(new AnimatorControllerLayer[] { Layer }).ToArray();
 						}
 					}
@@ -160,7 +159,6 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (TargetController) {
 					AnimatorControllerParameter[] TargetControllerParameters = new AnimatorControllerParameter[0];
 					foreach (AnimatorControllerParameter Parameter in TargetController.parameters) {
-						Debug.Log("[VRSuya] Processing " + Parameter.name + " Parameter in " + TargetAssetFileName);
 						TargetControllerParameters = TargetControllerParameters.Concat(new AnimatorControllerParameter[] { Parameter }).ToArray();
 					}
 					AnimatorParameterInAssets.Add(AnimatorLayer.Key, TargetControllerParameters);
