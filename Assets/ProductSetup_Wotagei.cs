@@ -23,6 +23,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
 		internal static void RegisterProduct() {
+			Wotagei = new VRSuyaProduct();
 			Wotagei = AssetManager.UpdateProductInformation(ProductName.Wotagei);
 			InstalledVRSuyaProducts = InstalledVRSuyaProducts.Concat(new VRSuyaProduct[] { Wotagei }).ToArray();
 			InstalledProductWotagei = true;

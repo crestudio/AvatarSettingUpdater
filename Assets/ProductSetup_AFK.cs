@@ -23,6 +23,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
 		internal static void RegisterProduct() {
+			AFK = new VRSuyaProduct();
 			AFK = AssetManager.UpdateProductInformation(ProductName.AFK);
 			InstalledVRSuyaProducts = InstalledVRSuyaProducts.Concat(new VRSuyaProduct[] { AFK }).ToArray();
 			InstalledProductAFK = true;
