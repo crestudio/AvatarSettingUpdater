@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using UnityEditor.Animations;
 using UnityEngine;
 
+using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 /*
@@ -19,6 +21,11 @@ namespace VRSuya.AvatarSettingUpdater {
 	public class ProductSetup : AvatarSettingUpdater {
 
 		// 추가될 Unity 데이터
+		protected static AnimatorControllerLayer[] VRSuyaLocomotionLayers = new AnimatorControllerLayer[0];
+		protected static AnimatorControllerLayer[] VRSuyaGestureLayers = new AnimatorControllerLayer[0];
+		protected static AnimatorControllerLayer[] VRSuyaActionLayers = new AnimatorControllerLayer[0];
+		protected static AnimatorControllerLayer[] VRSuyaFXLayers = new AnimatorControllerLayer[0];
+
 		protected static AnimatorControllerParameter[] VRSuyaLocomotionParameters = new AnimatorControllerParameter[0];
 		protected static AnimatorControllerParameter[] VRSuyaGestureParameters = new AnimatorControllerParameter[0];
 		protected static AnimatorControllerParameter[] VRSuyaActionParameters = new AnimatorControllerParameter[0];
@@ -43,6 +50,42 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Feet)) ProductSetup_Feet.RequestSetting();
 			}
 			if (RequestSetupVRSuyaProductList.Length > 0) {
+				foreach (var RequestedAllLayers in RequestSetupVRSuyaProductList.Select(Product => Product.RequiredAnimatorLayers)) {
+					foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> RequestedLayers in RequestedAllLayers) {
+						switch (RequestedLayers.Key) {
+							case VRCAvatarDescriptor.AnimLayerType.Base:
+								VRSuyaLocomotionLayers = VRSuyaLocomotionLayers.Concat(RequestedLayers.Value).ToArray();
+								break;
+							case VRCAvatarDescriptor.AnimLayerType.Gesture:
+								VRSuyaGestureLayers = VRSuyaGestureLayers.Concat(RequestedLayers.Value).ToArray();
+								break;
+							case VRCAvatarDescriptor.AnimLayerType.Action:
+								VRSuyaActionLayers = VRSuyaActionLayers.Concat(RequestedLayers.Value).ToArray();
+								break;
+							case VRCAvatarDescriptor.AnimLayerType.FX:
+								VRSuyaFXLayers = VRSuyaFXLayers.Concat(RequestedLayers.Value).ToArray();
+								break;
+						}
+					}
+				}
+				foreach (var RequestedAllParameters in RequestSetupVRSuyaProductList.Select(Product => Product.RequiredAnimatorParameters)) {
+					foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> RequestedParamter in RequestedAllParameters) {
+						switch (RequestedParamter.Key) {
+							case VRCAvatarDescriptor.AnimLayerType.Base:
+								VRSuyaLocomotionParameters = VRSuyaLocomotionParameters.Concat(RequestedParamter.Value).ToArray();
+								break;
+							case VRCAvatarDescriptor.AnimLayerType.Gesture:
+								VRSuyaGestureParameters = VRSuyaGestureParameters.Concat(RequestedParamter.Value).ToArray();
+								break;
+							case VRCAvatarDescriptor.AnimLayerType.Action:
+								VRSuyaActionParameters = VRSuyaActionParameters.Concat(RequestedParamter.Value).ToArray();
+								break;
+							case VRCAvatarDescriptor.AnimLayerType.FX:
+								VRSuyaFXParameters = VRSuyaFXParameters.Concat(RequestedParamter.Value).ToArray();
+								break;
+						}
+					}
+				}
 				foreach (var RequestedMenus in RequestSetupVRSuyaProductList.Select(Product => Product.RequiredVRCMenus)) {
 					VRSuyaMenus.AddRange(RequestedMenus);
 				}
@@ -50,7 +93,9 @@ namespace VRSuya.AvatarSettingUpdater {
 					VRSuyaParameters = VRSuyaParameters.Concat(RequestedParameters).ToArray();
 				}
 			}
-			UpdateUnityAnimator();
+			bool[] RequestUnityAnimator = new bool[] { VRSuyaLocomotionLayers.Any(), VRSuyaGestureLayers.Any(), VRSuyaActionLayers.Any(), VRSuyaFXLayers.Any(),
+				VRSuyaLocomotionParameters.Any(), VRSuyaGestureParameters.Any(), VRSuyaActionParameters.Any(), VRSuyaFXParameters.Any() };
+			if (RequestUnityAnimator.Any(Result => Result == true)) UpdateUnityAnimator();
 			if (VRSuyaParameters.Length > 0) UpdateAvatarParameters();
 			if (VRSuyaMenus.Count > 0) UpdateAvatarMenus();
 			return;
@@ -83,10 +128,10 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>아바타의 각 VRC 애니메이터에 세팅해야 하는 값을 보냅니다.</summary>
 		private static void UpdateUnityAnimator() {
-			AnimatorController VRCLocomotionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.Base).animatorController;
-			AnimatorController VRCGestureLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.Gesture).animatorController;
-			AnimatorController VRCActionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.Action).animatorController;
-			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
+			AnimatorController VRCLocomotionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.Base).animatorController;
+			AnimatorController VRCGestureLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.Gesture).animatorController;
+			AnimatorController VRCActionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.Action).animatorController;
+			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
 			if (VRCLocomotionLayer) UpdateTargetAnimatorController(VRCLocomotionLayer, VRSuyaLocomotionParameters);
 			if (VRCGestureLayer) UpdateTargetAnimatorController(VRCGestureLayer, VRSuyaGestureParameters);
 			if (VRCActionLayer) UpdateTargetAnimatorController(VRCActionLayer, VRSuyaActionParameters);
