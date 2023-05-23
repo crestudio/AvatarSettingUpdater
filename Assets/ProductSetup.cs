@@ -103,6 +103,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>상속 클래스가 존재하는지 확인 한 후 해당 제품의 업데이트 및 등록 요청을 합니다.</summary>
 		internal static void RequestProductRegister() {
+			InstalledVRSuyaProducts = new VRSuyaProduct[0];
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_AFK))) ProductSetup_AFK.RegisterProduct();
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Mogumogu))) ProductSetup_Mogumogu.RegisterProduct();
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Wotagei))) ProductSetup_Wotagei.RegisterProduct();
