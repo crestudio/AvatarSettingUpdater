@@ -21,13 +21,13 @@ namespace VRSuya.AvatarSettingUpdater {
 	public class AvatarSettingUpdater : MonoBehaviour {
 
         // 아바타 에디터용 변수
-        public GameObject AvatarGameObjectEditor = null;
-		public string AvatarTypeNameEditor = null;
-		public Transform AvatarAnchorOverrideEditor = null;
+        public GameObject AvatarGameObjectEditor;
+		public string AvatarTypeNameEditor;
+		public Transform AvatarAnchorOverrideEditor;
 		public bool ChangeTwosidedShadowEditor = false;
 		public bool ChangeAnchorOverrideEditor = true;
 
-		public Avatar[] InstalledVRSuyaProductAvatarsEditor = new Avatar[0];
+		public Avatar[] InstalledVRSuyaProductAvatarsEditor;
 
 		public bool InstalledProductAFKEditor = false;
 		public bool InstalledProductMogumoguEditor = false;
@@ -40,19 +40,19 @@ namespace VRSuya.AvatarSettingUpdater {
 		public bool InstallProductFeetEditor = false;
 
 		// 아바타 관련 변수
-		protected static GameObject AvatarGameObject = null;
+		protected static GameObject AvatarGameObject;
 		protected static Avatar AvatarType = Avatar.NULL;
-		protected static Animator AvatarAnimator = null;
-		protected static SkinnedMeshRenderer[] AvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
-		protected static MeshRenderer[] AvatarMeshRenderers = new MeshRenderer[0];
-		protected static Transform AvatarAnchorOverride = null;
+		protected static Animator AvatarAnimator;
+		protected static SkinnedMeshRenderer[] AvatarSkinnedMeshRenderers;
+		protected static MeshRenderer[] AvatarMeshRenderers;
+		protected static Transform AvatarAnchorOverride;
 
-		protected static VRCAvatarDescriptor AvatarVRCAvatarDescriptor = null;
-        protected static VRCAvatarDescriptor.CustomAnimLayer[] AvatarVRCAvatarLayers = new VRCAvatarDescriptor.CustomAnimLayer[0];
-		protected static VRCExpressionsMenu AvatarVRCMenu = null;
-		protected static VRCExpressionParameters AvatarVRCParameter = null;
+		protected static VRCAvatarDescriptor AvatarVRCAvatarDescriptor;
+        protected static VRCAvatarDescriptor.CustomAnimLayer[] AvatarVRCAvatarLayers;
+		protected static VRCExpressionsMenu AvatarVRCMenu;
+		protected static VRCExpressionParameters AvatarVRCParameter;
 
-		protected static GameObject[] VRSuyaGameObjects = new GameObject[0];
+		protected static GameObject[] VRSuyaGameObjects;
 
 		// 아바타 세팅 선택 옵션
 		protected static bool ChangeTwosidedShadow = false;
@@ -105,9 +105,9 @@ namespace VRSuya.AvatarSettingUpdater {
 		protected static bool InstallProductFeet = false;
 
 		// 추가될 VRSuya 데이터
-		protected static VRSuyaProduct[] InstalledVRSuyaProducts = new VRSuyaProduct[0];
-		protected static Avatar[] InstalledVRSuyaProductAvatars = new Avatar[0];
-		protected static VRSuyaProduct[] RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
+		protected static VRSuyaProduct[] InstalledVRSuyaProducts;
+		protected static Avatar[] InstalledVRSuyaProductAvatars;
+		protected static VRSuyaProduct[] RequestSetupVRSuyaProductList;
 
 		// 상태 반환
 		public string StatusCode = "";
@@ -181,16 +181,23 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>정적 변수를 초기화 합니다.</summary>
 		private void ClearVariable() {
-            AvatarAnimator = null;
+			AvatarType = Avatar.NULL;
+			AvatarAnimator = null;
             AvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
             AvatarMeshRenderers = new MeshRenderer[0];
-            VRSuyaGameObjects = new GameObject[0];
+			AvatarAnchorOverride = null;
+			AvatarVRCAvatarDescriptor = null;
+			AvatarVRCAvatarLayers = null;
+			AvatarVRCMenu = null;
+			AvatarVRCParameter = null;
+			VRSuyaGameObjects = new GameObject[0];
 			InstalledProductAFK = false;
 			InstalledProductMogumogu = false;
 			InstalledProductWotagei = false;
 			InstalledProductFeet = false;
 			InstalledVRSuyaProducts = new VRSuyaProduct[0];
 			InstalledVRSuyaProductAvatars = new Avatar[0];
+			RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
 			StatusCode = "";
             return;
         }

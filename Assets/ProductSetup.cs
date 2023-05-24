@@ -22,22 +22,23 @@ namespace VRSuya.AvatarSettingUpdater {
 	public class ProductSetup : AvatarSettingUpdater {
 
 		// 추가될 Unity 데이터
-		protected static AnimatorControllerLayer[] VRSuyaLocomotionLayers = new AnimatorControllerLayer[0];
-		protected static AnimatorControllerLayer[] VRSuyaGestureLayers = new AnimatorControllerLayer[0];
-		protected static AnimatorControllerLayer[] VRSuyaActionLayers = new AnimatorControllerLayer[0];
-		protected static AnimatorControllerLayer[] VRSuyaFXLayers = new AnimatorControllerLayer[0];
+		protected static AnimatorControllerLayer[] VRSuyaLocomotionLayers;
+		protected static AnimatorControllerLayer[] VRSuyaGestureLayers;
+		protected static AnimatorControllerLayer[] VRSuyaActionLayers;
+		protected static AnimatorControllerLayer[] VRSuyaFXLayers;
 
-		protected static AnimatorControllerParameter[] VRSuyaLocomotionParameters = new AnimatorControllerParameter[0];
-		protected static AnimatorControllerParameter[] VRSuyaGestureParameters = new AnimatorControllerParameter[0];
-		protected static AnimatorControllerParameter[] VRSuyaActionParameters = new AnimatorControllerParameter[0];
-		protected static AnimatorControllerParameter[] VRSuyaFXParameters = new AnimatorControllerParameter[0];
+		protected static AnimatorControllerParameter[] VRSuyaLocomotionParameters;
+		protected static AnimatorControllerParameter[] VRSuyaGestureParameters;
+		protected static AnimatorControllerParameter[] VRSuyaActionParameters;
+		protected static AnimatorControllerParameter[] VRSuyaFXParameters;
 
 		// 추가될 VRCSDK 데이터
-		protected static List<VRCExpressionsMenu.Control> VRSuyaMenus = new List<VRCExpressionsMenu.Control>();
-		protected static VRCExpressionParameters.Parameter[] VRSuyaParameters = new VRCExpressionParameters.Parameter[0];
+		protected static List<VRCExpressionsMenu.Control> VRSuyaMenus;
+		protected static VRCExpressionParameters.Parameter[] VRSuyaParameters;
 
 		/// <summary>상속 클래스가 존재하는지 확인 한 후 해당 제품의 최종 세팅 요청을 합니다.</summary>
 		internal static void RequestSetup() {
+			ClearVariable();
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_AFK))) {
 				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.AFK)) ProductSetup_AFK.RequestSetting();
 			}
@@ -119,6 +120,22 @@ namespace VRSuya.AvatarSettingUpdater {
 			VRSuyaGameObjects = Array.FindAll(AvatarGameObject.GetComponentsInChildren<Transform>(true), transform => transform.gameObject.name.Contains("VRSuya")).Select(transform => transform.gameObject).ToArray();
 			VRSuyaGameObjects = VRSuyaGameObjects.Where(gameObject => gameObject != AvatarGameObject).ToArray();
 			return VRSuyaGameObjects;
+		}
+
+		private static void ClearVariable() {
+			VRSuyaLocomotionLayers = new AnimatorControllerLayer[0];
+			VRSuyaGestureLayers = new AnimatorControllerLayer[0];
+			VRSuyaActionLayers = new AnimatorControllerLayer[0];
+			VRSuyaFXLayers = new AnimatorControllerLayer[0];
+
+			VRSuyaLocomotionParameters = new AnimatorControllerParameter[0];
+			VRSuyaGestureParameters = new AnimatorControllerParameter[0];
+			VRSuyaActionParameters = new AnimatorControllerParameter[0];
+			VRSuyaFXParameters = new AnimatorControllerParameter[0];
+
+			VRSuyaMenus = new List<VRCExpressionsMenu.Control>();
+			VRSuyaParameters = new VRCExpressionParameters.Parameter[0];
+			return;
 		}
 
 		/// <summary>설치된 VRSuya 제품에서 지원하는 아바타 목록을 추려 사용 가능한 아바타 목록을 만듭니다.</summary>
