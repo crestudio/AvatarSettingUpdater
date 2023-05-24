@@ -14,7 +14,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 값을 설정된 언어에 맞춰 값을 반환합니다.</summary>
 		/// <returns>요청한 String의 현재 설정된 언어 버전</returns>
-		internal static string GetContextString(string RequestContext) {
+		internal string GetContextString(string RequestContext) {
 			string ReturnContext = RequestContext;
 			switch (LanguageIndex) {
 				case 0:
@@ -38,7 +38,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 아바타 이름을 설정된 언어에 맞춰 리스트를 재작성합니다.</summary>
 		/// <returns>아바타 이름의 현재 설정된 언어 버전</returns>
-		internal static string[] ReturnAvatarName(SerializedProperty AvatarNameListProperty) {
+		internal string[] ReturnAvatarName(SerializedProperty AvatarNameListProperty) {
 			string[] ReturnAvatarList = new string[0];
 			string[] AvatarNameList = AvatarNameListProperty.enumNames;
 			AvatarSettingUpdater.Avatar[] InstalledVRSuyaProductAvatars = new AvatarSettingUpdater.Avatar[AvatarNameList.Length];
@@ -54,7 +54,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		// 영어 사전 데이터
-		private static readonly Dictionary<string, string> String_English = new Dictionary<string, string>() {
+		private readonly Dictionary<string, string> String_English = new Dictionary<string, string>() {
 			{ "String_Language", "Language" },
 			{ "String_Debug", "Debug" },
 			{ "String_Avatar", "Avatar Type" },
@@ -81,7 +81,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		};
 
 		// 한국어 사전 데이터
-		private static readonly Dictionary<string, string> String_Korean = new Dictionary<string, string>() {
+		private readonly Dictionary<string, string> String_Korean = new Dictionary<string, string>() {
 			{ "String_Language", "언어" },
 			{ "String_Debug", "디버그" },
 			{ "String_Avatar", "아바타 종류" },
@@ -108,7 +108,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		};
 
 		// 일본어 사전 데이터
-		private static readonly Dictionary<string, string> String_Japanese = new Dictionary<string, string>() {
+		private readonly Dictionary<string, string> String_Japanese = new Dictionary<string, string>() {
 			{ "String_Language", "言語" },
 			{ "String_Debug", "デバッグ" },
 			{ "String_Avatar", "アバタータイプ" },
@@ -136,7 +136,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 아바타 이름들을 설정된 언어에 맞춰 변환합니다.</summary>
 		/// <returns>요청한 아바타 이름들의 현재 설정된 언어 버전</returns>
-		private static readonly Dictionary<AvatarSettingUpdater.Avatar, string[]> dictAvatarNames = new Dictionary<AvatarSettingUpdater.Avatar, string[]>() {
+		private readonly Dictionary<AvatarSettingUpdater.Avatar, string[]> dictAvatarNames = new Dictionary<AvatarSettingUpdater.Avatar, string[]>() {
 			{ AvatarSettingUpdater.Avatar.Aldina, new string[] { "Aldina", "알디나", "アルディナ" } },
 			{ AvatarSettingUpdater.Avatar.Angura, new string[] { "Angura", "앙그라", "アングラ" } },
 			{ AvatarSettingUpdater.Avatar.Anon, new string[] { "Anon", "아논", "あのん" } },

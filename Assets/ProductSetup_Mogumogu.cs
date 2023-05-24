@@ -20,23 +20,24 @@ namespace VRSuya.AvatarSettingUpdater {
 	[AddComponentMenu("")]
 	public class ProductSetup_Mogumogu : ProductSetup {
 
-		private static VRSuyaProduct Mogumogu;
-		private static GameObject VRSuyaMogumoguGameObject;
-		private static Transform[] AvatarCheekBoneTransforms;
+		private VRSuyaProduct Mogumogu;
+		private GameObject VRSuyaMogumoguGameObject;
+		private Transform[] AvatarCheekBoneTransforms;
 
-		private static readonly string[] dictSELESTIAMogumoguLayerName = new string[] { "Cheek_L_Stretch", "Cheek_R_Stretch" };
+		private readonly string[] dictSELESTIAMogumoguLayerName = new string[] { "Cheek_L_Stretch", "Cheek_R_Stretch" };
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
-		internal static void RegisterProduct() {
+		internal void RegisterProduct() {
+			AssetManager AssetProcess = new AssetManager();
 			Mogumogu = new VRSuyaProduct();
-			Mogumogu = AssetManager.UpdateProductInformation(ProductName.Mogumogu);
+			Mogumogu = AssetProcess.UpdateProductInformation(ProductName.Mogumogu);
 			InstalledVRSuyaProducts = InstalledVRSuyaProducts.Concat(new VRSuyaProduct[] { Mogumogu }).ToArray();
 			InstalledProductMogumogu = true;
 			return;
 		}
 
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
-		internal static void RequestSetting() {
+		internal void RequestSetting() {
 			if (InstallProductMogumogu) {
 				VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
 				AvatarCheekBoneTransforms = Array.FindAll(AvatarAnimator.GetBoneTransform(HumanBodyBones.Head).GetComponentsInChildren<Transform>(true), transform => transform.name.Contains("Cheek"));
@@ -51,7 +52,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>아바타에 Prefab이 있는지 검사하고 없으면 설치하는 메소드 입니다.</summary>
-		private static void SetupPrefab() {
+		private void SetupPrefab() {
 			string[] ChildAvatarGameObjectNames = new string[0];
 			string[] HeadChildAvatarGameObjectNames = new string[0];
 			foreach (Transform ChildTransform in AvatarGameObject.transform) {
@@ -88,7 +89,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>요청한 GameObject의 Transform을 Origin에 맞춰주는 메소드</summary>
-		private static void TransformPrefab(GameObject TargetGameObject, GameObject BaseGameObject, bool KeepScale) {
+		private void TransformPrefab(GameObject TargetGameObject, GameObject BaseGameObject, bool KeepScale) {
 			TargetGameObject.transform.localPosition = new Vector3(0, 0, 0);
 			TargetGameObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
 			if (!KeepScale) {
@@ -100,7 +101,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>볼 PhysBone 컴포넌트와 아바타의 볼 본과 연결합니다.</summary>
-		private static void UpdatePhysBoneSetting() {
+		private void UpdatePhysBoneSetting() {
 			VRCPhysBone[] VRSuyaMogumoguPhysBones = VRSuyaMogumoguGameObject.GetComponentsInChildren<VRCPhysBone>();
 			if (VRSuyaMogumoguPhysBones != null) {
 				Transform Cheek_L = null;
@@ -136,7 +137,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>기존 아바타에 존재하는 PhysBone 컴포넌트를 비활성화 합니다.</summary>
-		private static void DisableExistPhysBone() {
+		private void DisableExistPhysBone() {
 			if (AvatarCheekBoneTransforms.Length > 0) {
 				foreach (Transform TargetTransform in AvatarCheekBoneTransforms) {
 					if (TargetTransform.GetComponent<VRCPhysBone>()) {
@@ -149,7 +150,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>셀레스티아의 피직스본 애니메이터 레이어를 비활성화 합니다.</summary>
-		private static void DisableExistMoumoguAnimatorLayer() {
+		private void DisableExistMoumoguAnimatorLayer() {
 			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
 			if (VRCFXLayer) {
 				AnimatorControllerLayer[] SELESTIA_MogumoguLayer = Array.FindAll(VRCFXLayer.layers, Layer => dictSELESTIAMogumoguLayerName.Any(LayerName => LayerName == Layer.name)).ToArray();

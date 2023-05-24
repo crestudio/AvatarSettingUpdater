@@ -21,28 +21,28 @@ namespace VRSuya.AvatarSettingUpdater {
 	[AddComponentMenu("")]
 	public class AssetManager : ProductSetup {
 
-		private static readonly Dictionary<ProductName, string> dictProductGUID = new Dictionary<ProductName, string>() {
+		private readonly Dictionary<ProductName, string> dictProductGUID = new Dictionary<ProductName, string>() {
 			{ ProductName.AFK, "cddaae54ebed24fd4ba3b6ed60c355ea" },
 			{ ProductName.Mogumogu, "29f78992daf6d7548bec811c4ff3cfd6" },
 			{ ProductName.Wotagei, "201253d8e16814cbfa1ddbdea4d2f030" },
 			{ ProductName.Feet, "b3267c74ea5c8274d88f728b4c84d10d" }
 		};
 
-		private static readonly Dictionary<ProductName, string> dictProductPath = new Dictionary<ProductName, string>() {
+		private readonly Dictionary<ProductName, string> dictProductPath = new Dictionary<ProductName, string>() {
 			{ ProductName.AFK, "Assets/VRSuya/AFK" },
 			{ ProductName.Mogumogu, "Assets/VRSuya/Mogumogu" },
 			{ ProductName.Wotagei, "Assets/VRSuya/Wotagei" },
 			{ ProductName.Feet, "Assets/VRSuya/HopeskyD/Feet" }
 		};
 
-		private static readonly Dictionary<ProductName, string> dictPresentMenuFileName = new Dictionary<ProductName, string>() {
+		private readonly Dictionary<ProductName, string> dictPresentMenuFileName = new Dictionary<ProductName, string>() {
 			{ ProductName.AFK, "VRSuya_AFK_Menu.asset" },
 			{ ProductName.Mogumogu, "VRSuya_Mogumogu_Menu.asset" },
 			{ ProductName.Wotagei, "VRSuya_Wotagei_Menu.asset" },
 			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu.asset" }
 		};
 
-		private static readonly Dictionary<VRCAssetType, string> dictVRCSDKAssetGUID = new Dictionary<VRCAssetType, string>() {
+		private readonly Dictionary<VRCAssetType, string> dictVRCSDKAssetGUID = new Dictionary<VRCAssetType, string>() {
 			{ VRCAssetType.Template, "00679ffab5ad14d42afccca44034c525" },
 			{ VRCAssetType.Export, "13684ec2ba89160419ef0d32a11968cd" },
 			{ VRCAssetType.Locomotion, "4239c7ee49e2a664bbbf793ea643905b" },
@@ -53,7 +53,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ VRCAssetType.Parameter, "dd63989bd535d7842bf14e5edda08e6f" }
 		};
 
-		private static readonly Dictionary<VRCAssetType, string> dictVRCSDKAssetFilePath = new Dictionary<VRCAssetType, string>() {
+		private readonly Dictionary<VRCAssetType, string> dictVRCSDKAssetFilePath = new Dictionary<VRCAssetType, string>() {
 			{ VRCAssetType.Template, "Assets/VRSuya/Library/Script/AvatarSettingUpdater/Controller" },
 			{ VRCAssetType.Export, "Assets/VRSuya/Library/Script/AvatarSettingUpdater/Controller/Export" },
 			{ VRCAssetType.Locomotion, "VRSuya_Default_LocomotionLayer.controller" },
@@ -64,15 +64,15 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ VRCAssetType.Parameter, "VRSuya_Default_Parameter.asset" }
 		};
 
-		private static readonly string[] dictAnimatorControllerName = new string[] { "LocomotionLayer", "GestureLayer", "ActionLayer", "FXLayer" };
+		private readonly string[] dictAnimatorControllerName = new string[] { "LocomotionLayer", "GestureLayer", "ActionLayer", "FXLayer" };
 
-		private static readonly string[] dictIgnoreLayerName = new string[] { "Base Layer", "AllParts", "Left Hand", "Right Hand" };
+		private readonly string[] dictIgnoreLayerName = new string[] { "Base Layer", "AllParts", "Left Hand", "Right Hand" };
 
-		private static readonly string[] dictIgnorePrefabName = new string[] { "Cyalume", "LightStick" };
+		private readonly string[] dictIgnorePrefabName = new string[] { "Cyalume", "LightStick" };
 
 		/// <summary>요청한 타입의 VRSuya 제품의 상세 내용을 업데이트하여 반환합니다.</summary>
 		/// <returns>내용이 업데이트 된 VRSuyaProduct 오브젝트</returns>
-		internal static VRSuyaProduct UpdateProductInformation(ProductName TypeProduct) {
+		internal VRSuyaProduct UpdateProductInformation(ProductName TypeProduct) {
 			VRSuyaProduct RequestedVRSuyaProduct = new VRSuyaProduct();
 
 			// 검색 경로 지정
@@ -100,7 +100,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>파일 목록에서 요청한 아바타 타입의 애니메이터 레이어 GUID 목록을 반환합니다.</summary>
 		/// <returns>해당 아바타의 애니메이터 컨트롤러 배열</returns>
-		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, string> GetRequestAvatarTypeAnimatorControllerGUID(string SearchPath, Avatar AvatarType) {
+		private Dictionary<VRCAvatarDescriptor.AnimLayerType, string> GetRequestAvatarTypeAnimatorControllerGUID(string SearchPath, Avatar AvatarType) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID = new Dictionary<VRCAvatarDescriptor.AnimLayerType, string>();
 			foreach (string TargetVRCAnimatorType in dictAnimatorControllerName) {
 				string TargetAvatarType = "";
@@ -131,7 +131,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>파일 목록에서 요청한 아바타 타입의 애니메이터 레이어 목록을 반환합니다.</summary>
 		/// <returns>Unity 애니메이터 레이어 배열</returns>
-		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> ResolveAnimationControllerLayer(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
+		private Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> ResolveAnimationControllerLayer(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> AnimatorLayerInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]>();
 			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
 				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/')[AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/').Length - 1];
@@ -151,7 +151,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>파일 목록에서 요청한 아바타 타입의 애니메이터 파라메터 목록을 반환합니다.</summary>
 		/// <returns>Unity 애니메이터 파라메터 배열</returns>
-		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> ResolveAnimationControllerParameter(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
+		private Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> ResolveAnimationControllerParameter(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> AnimatorParameterInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]>();
 			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
 				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/')[AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/').Length - 1];
@@ -169,7 +169,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 파일 목록에서 메뉴 목록을 반환합니다.</summary>
 		/// <returns>VRC 메뉴 리스트</returns>
-		private static List<VRCExpressionsMenu.Control> ResolveMenu(string[] AssetsGUID, ProductName TypeProduct) {
+		private List<VRCExpressionsMenu.Control> ResolveMenu(string[] AssetsGUID, ProductName TypeProduct) {
 			List<VRCExpressionsMenu.Control> MenusInAssets = new List<VRCExpressionsMenu.Control>();
 			foreach (string AssetGUID in AssetsGUID) {
 				if (AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/')[AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/').Length - 1].Contains(dictPresentMenuFileName[TypeProduct])) {
@@ -182,7 +182,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 파일 목록에서 파라메터 목록을 반환합니다.</summary>
 		/// <returns>VRC 파라메터 배열</returns>
-		private static VRCExpressionParameters.Parameter[] ResolveParameter(string[] AssetsGUID) {
+		private VRCExpressionParameters.Parameter[] ResolveParameter(string[] AssetsGUID) {
 			VRCExpressionParameters.Parameter[] ParametersInAssets = new VRCExpressionParameters.Parameter[0];
 			foreach (string AssetGUID in AssetsGUID) {
 				VRCExpressionParameters ParameterFile = AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(AssetDatabase.GUIDToAssetPath(AssetGUID));
@@ -193,7 +193,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 파일 목록에서 등록하는데 필요한 파라메터 총 메모리를 반환합니다.</summary>
 		/// <returns>필요한 총 파라메터 메모리 정수형</returns>
-		private static int ResolveParameterCost(string[] AssetsGUID) {
+		private int ResolveParameterCost(string[] AssetsGUID) {
 			int RequiredParameterCost = 0;
 			foreach (string AssetGUID in AssetsGUID) {
 				VRCExpressionParameters ParameterFile = AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(AssetDatabase.GUIDToAssetPath(AssetGUID));
@@ -204,7 +204,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 파일 목록에서 지정된 이름 뒤에 위치한 아바타 이름을 분석하여 Avatar 형태로 반환합니다.</summary>
 		/// <returns>Avatar Enum 배열</returns>
-		private static Avatar[] FindAllAvatarNames(ProductName TypeProduct, string[] AssetsGUID) {
+		private Avatar[] FindAllAvatarNames(ProductName TypeProduct, string[] AssetsGUID) {
 			Avatar[] AvatarNames = new Avatar[0];
 			string SearchWord = "Prefab_";
 			switch (TypeProduct) {

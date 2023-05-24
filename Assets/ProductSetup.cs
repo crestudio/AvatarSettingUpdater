@@ -22,33 +22,45 @@ namespace VRSuya.AvatarSettingUpdater {
 	public class ProductSetup : AvatarSettingUpdater {
 
 		// 추가될 Unity 데이터
-		protected static AnimatorControllerLayer[] VRSuyaLocomotionLayers = new AnimatorControllerLayer[0];
-		protected static AnimatorControllerLayer[] VRSuyaGestureLayers = new AnimatorControllerLayer[0];
-		protected static AnimatorControllerLayer[] VRSuyaActionLayers = new AnimatorControllerLayer[0];
-		protected static AnimatorControllerLayer[] VRSuyaFXLayers = new AnimatorControllerLayer[0];
+		protected AnimatorControllerLayer[] VRSuyaLocomotionLayers = new AnimatorControllerLayer[0];
+		protected AnimatorControllerLayer[] VRSuyaGestureLayers = new AnimatorControllerLayer[0];
+		protected AnimatorControllerLayer[] VRSuyaActionLayers = new AnimatorControllerLayer[0];
+		protected AnimatorControllerLayer[] VRSuyaFXLayers = new AnimatorControllerLayer[0];
 
-		protected static AnimatorControllerParameter[] VRSuyaLocomotionParameters = new AnimatorControllerParameter[0];
-		protected static AnimatorControllerParameter[] VRSuyaGestureParameters = new AnimatorControllerParameter[0];
-		protected static AnimatorControllerParameter[] VRSuyaActionParameters = new AnimatorControllerParameter[0];
-		protected static AnimatorControllerParameter[] VRSuyaFXParameters = new AnimatorControllerParameter[0];
+		protected AnimatorControllerParameter[] VRSuyaLocomotionParameters = new AnimatorControllerParameter[0];
+		protected AnimatorControllerParameter[] VRSuyaGestureParameters = new AnimatorControllerParameter[0];
+		protected AnimatorControllerParameter[] VRSuyaActionParameters = new AnimatorControllerParameter[0];
+		protected AnimatorControllerParameter[] VRSuyaFXParameters = new AnimatorControllerParameter[0];
 
 		// 추가될 VRCSDK 데이터
-		protected static List<VRCExpressionsMenu.Control> VRSuyaMenus = new List<VRCExpressionsMenu.Control>();
-		protected static VRCExpressionParameters.Parameter[] VRSuyaParameters = new VRCExpressionParameters.Parameter[0];
+		protected List<VRCExpressionsMenu.Control> VRSuyaMenus = new List<VRCExpressionsMenu.Control>();
+		protected VRCExpressionParameters.Parameter[] VRSuyaParameters = new VRCExpressionParameters.Parameter[0];
 
 		/// <summary>상속 클래스가 존재하는지 확인 한 후 해당 제품의 최종 세팅 요청을 합니다.</summary>
-		internal static void RequestSetup() {
+		internal void RequestSetup() {
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_AFK))) {
-				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.AFK)) ProductSetup_AFK.RequestSetting();
+				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.AFK)) {
+					ProductSetup_AFK AFKProcess = new ProductSetup_AFK();
+					AFKProcess.RequestSetting();
+				}
 			}
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Mogumogu))) {
-				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Mogumogu)) ProductSetup_Mogumogu.RequestSetting();
+				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Mogumogu)) {
+					ProductSetup_Mogumogu MogumoguProcess = new ProductSetup_Mogumogu();
+					MogumoguProcess.RequestSetting();
+				}
 			}
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Wotagei))) {
-				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Wotagei)) ProductSetup_Wotagei.RequestSetting();
+				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Wotagei)) {
+					ProductSetup_Wotagei WotageiProcess = new ProductSetup_Wotagei();
+					WotageiProcess.RequestSetting();
+				}
 			}
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Feet))) {
-				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Feet)) ProductSetup_Feet.RequestSetting();
+				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Feet)) {
+					ProductSetup_Feet FeetProcess = new ProductSetup_Feet();
+					FeetProcess.RequestSetting();
+				}
 			}
 			if (RequestSetupVRSuyaProductList.Length > 0) {
 				foreach (var RequestedAllLayers in RequestSetupVRSuyaProductList.Select(Product => Product.RequiredAnimatorLayers)) {
@@ -103,33 +115,45 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>상속 클래스가 존재하는지 확인 한 후 해당 제품의 업데이트 및 등록 요청을 합니다.</summary>
-		internal static void RequestProductRegister() {
+		internal void RequestProductRegister() {
 			InstalledVRSuyaProducts = new VRSuyaProduct[0];
-			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_AFK))) ProductSetup_AFK.RegisterProduct();
-			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Mogumogu))) ProductSetup_Mogumogu.RegisterProduct();
-			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Wotagei))) ProductSetup_Wotagei.RegisterProduct();
-			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Feet))) ProductSetup_Feet.RegisterProduct();
+			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_AFK))) {
+				ProductSetup_AFK AFKProcess = new ProductSetup_AFK();
+				AFKProcess.RegisterProduct();
+			}
+			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Mogumogu))) {
+				ProductSetup_Mogumogu MogumoguProcess = new ProductSetup_Mogumogu();
+				MogumoguProcess.RegisterProduct();
+			}
+			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Wotagei))) {
+				ProductSetup_Wotagei WotageiProcess = new ProductSetup_Wotagei();
+				WotageiProcess.RegisterProduct();
+			}
+			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Feet))) {
+				ProductSetup_Feet FeetProcess = new ProductSetup_Feet();
+				FeetProcess.RegisterProduct();
+			}
 			UpdateInstalledAvatarList();
 			return;
 		}
 
 		/// <summary>아바타 하위의 GameObject들을 검사하여 VRSuya GameObject 목록을 작성합니다.</summary>
 		/// <returns>VRSuya 이름이 들어간 GameObject 배열</returns>
-		internal static GameObject[] GetVRSuyaGameObjects() {
+		internal GameObject[] GetVRSuyaGameObjects() {
 			VRSuyaGameObjects = Array.FindAll(AvatarGameObject.GetComponentsInChildren<Transform>(true), transform => transform.gameObject.name.Contains("VRSuya")).Select(transform => transform.gameObject).ToArray();
 			VRSuyaGameObjects = VRSuyaGameObjects.Where(gameObject => gameObject != AvatarGameObject).ToArray();
 			return VRSuyaGameObjects;
 		}
 
 		/// <summary>설치된 VRSuya 제품에서 지원하는 아바타 목록을 추려 사용 가능한 아바타 목록을 만듭니다.</summary>
-		private static void UpdateInstalledAvatarList() {
+		private void UpdateInstalledAvatarList() {
 			Avatar[] AllInstalledAvatars = InstalledVRSuyaProducts.SelectMany(Product => Product.SupportAvatarList).ToArray();
 			InstalledVRSuyaProductAvatars = AllInstalledAvatars.Distinct().ToArray();
 			return;
 		}
 
 		/// <summary>아바타의 각 VRC 애니메이터에 세팅해야 하는 값을 보냅니다.</summary>
-		private static void UpdateUnityAnimator() {
+		private void UpdateUnityAnimator() {
 			AnimatorController VRCLocomotionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.Base).animatorController;
 			AnimatorController VRCGestureLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.Gesture).animatorController;
 			AnimatorController VRCActionLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.Action).animatorController;
@@ -142,7 +166,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>세팅해야 하는 애니메이터 컨트롤러에 파라메터와 레이어가 존재하는지 확인 후 추가합니다.</summary>
-		private static void UpdateTargetAnimatorController(AnimatorController TargetController, AnimatorControllerLayer[] TargetLayers, AnimatorControllerParameter[] TargetParameters) {
+		private void UpdateTargetAnimatorController(AnimatorController TargetController, AnimatorControllerLayer[] TargetLayers, AnimatorControllerParameter[] TargetParameters) {
 			foreach (AnimatorControllerParameter NewParameter in TargetParameters) {
 				if (!Array.Exists(TargetController.parameters, ExistParameter => NewParameter.name == ExistParameter.name)) {
 					TargetController.parameters = TargetController.parameters.Concat(new AnimatorControllerParameter[] { NewParameter }).ToArray();
@@ -159,7 +183,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>세팅해야 하는 파라메터 큐를 아바타 파라메터에 존재하는지 확인 후 추가합니다.</summary>
-		private static void UpdateAvatarParameters() {
+		private void UpdateAvatarParameters() {
             foreach (VRCExpressionParameters.Parameter NewParameter in VRSuyaParameters) {
                 if (!Array.Exists(AvatarVRCParameter.parameters, ExistParameter => ExistParameter.name == NewParameter.name)) {
 					AvatarVRCParameter.parameters = AvatarVRCParameter.parameters.Concat(new VRCExpressionParameters.Parameter[] { NewParameter }).ToArray();
@@ -170,7 +194,7 @@ namespace VRSuya.AvatarSettingUpdater {
         }
 
 		/// <summary>세팅해야 하는 메뉴 큐를 아바타 메뉴에 존재하는지 확인 후 추가합니다.</summary>
-		private static void UpdateAvatarMenus() {
+		private void UpdateAvatarMenus() {
             foreach (VRCExpressionsMenu.Control NewMenu in VRSuyaMenus) {
                 if (!AvatarVRCMenu.controls.Exists(ExistMenu => ExistMenu.subMenu == NewMenu.subMenu)) {
 					AvatarVRCMenu.controls.Add(NewMenu);

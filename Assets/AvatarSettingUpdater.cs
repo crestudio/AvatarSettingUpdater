@@ -40,23 +40,23 @@ namespace VRSuya.AvatarSettingUpdater {
 		public bool InstallProductFeetEditor = false;
 
 		// 아바타 관련 변수
-		protected static GameObject AvatarGameObject = null;
-		protected static Avatar AvatarType = Avatar.NULL;
-		protected static Animator AvatarAnimator = null;
-		protected static SkinnedMeshRenderer[] AvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
-		protected static MeshRenderer[] AvatarMeshRenderers = new MeshRenderer[0];
-		protected static Transform AvatarAnchorOverride = null;
+		protected GameObject AvatarGameObject = null;
+		protected Avatar AvatarType = Avatar.NULL;
+		protected Animator AvatarAnimator = null;
+		protected SkinnedMeshRenderer[] AvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
+		protected MeshRenderer[] AvatarMeshRenderers = new MeshRenderer[0];
+		protected Transform AvatarAnchorOverride = null;
 
-		protected static VRCAvatarDescriptor AvatarVRCAvatarDescriptor = null;
-        protected static VRCAvatarDescriptor.CustomAnimLayer[] AvatarVRCAvatarLayers = new VRCAvatarDescriptor.CustomAnimLayer[0];
-		protected static VRCExpressionsMenu AvatarVRCMenu = null;
-		protected static VRCExpressionParameters AvatarVRCParameter = null;
+		protected VRCAvatarDescriptor AvatarVRCAvatarDescriptor = null;
+        protected VRCAvatarDescriptor.CustomAnimLayer[] AvatarVRCAvatarLayers = new VRCAvatarDescriptor.CustomAnimLayer[0];
+		protected VRCExpressionsMenu AvatarVRCMenu = null;
+		protected VRCExpressionParameters AvatarVRCParameter = null;
 
-		protected static GameObject[] VRSuyaGameObjects = new GameObject[0];
+		protected GameObject[] VRSuyaGameObjects = new GameObject[0];
 
 		// 아바타 세팅 선택 옵션
-		protected static bool ChangeTwosidedShadow = false;
-		protected static bool ChangeAnchorOverride = true;
+		protected bool ChangeTwosidedShadow = false;
+		protected bool ChangeAnchorOverride = true;
 
         // 제품 구조체
 		public struct VRSuyaProduct {
@@ -94,20 +94,20 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		// 제품 설치 상태
-		protected static bool InstalledProductAFK = false;
-		protected static bool InstalledProductMogumogu = false;
-		protected static bool InstalledProductWotagei = false;
-		protected static bool InstalledProductFeet = false;
+		protected bool InstalledProductAFK = false;
+		protected bool InstalledProductMogumogu = false;
+		protected bool InstalledProductWotagei = false;
+		protected bool InstalledProductFeet = false;
 
-		protected static bool InstallProductAFK = false;
-		protected static bool InstallProductMogumogu = false;
-		protected static bool InstallProductWotagei = false;
-		protected static bool InstallProductFeet = false;
+		protected bool InstallProductAFK = false;
+		protected bool InstallProductMogumogu = false;
+		protected bool InstallProductWotagei = false;
+		protected bool InstallProductFeet = false;
 
 		// 추가될 VRSuya 데이터
-		protected static VRSuyaProduct[] InstalledVRSuyaProducts = new VRSuyaProduct[0];
-		protected static Avatar[] InstalledVRSuyaProductAvatars = new Avatar[0];
-		protected static VRSuyaProduct[] RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
+		protected VRSuyaProduct[] InstalledVRSuyaProducts = new VRSuyaProduct[0];
+		protected Avatar[] InstalledVRSuyaProductAvatars = new Avatar[0];
+		protected VRSuyaProduct[] RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
 
 		// 상태 반환
 		public string StatusCode = "";
@@ -149,9 +149,11 @@ namespace VRSuya.AvatarSettingUpdater {
             SetStaticVariable();
 			ClearVariable();
             if (VerifyVariable()) {
-				ProductSetup.RequestProductRegister();
-				UnitySetup.UpdateAvatarStatus();
-				ProductSetup.GetVRSuyaGameObjects();
+				ProductSetup ProductSetupProcess = new ProductSetup();
+				UnitySetup UnitySetupProcess = new UnitySetup();
+				ProductSetupProcess.RequestProductRegister();
+				UnitySetupProcess.UpdateAvatarStatus();
+				ProductSetupProcess.GetVRSuyaGameObjects();
             }
 			SetEditorVariable();
 			return;
@@ -163,14 +165,16 @@ namespace VRSuya.AvatarSettingUpdater {
 		public void UpdateAvatarSetting() {
 			SetStaticVariable();
 			if (VerifyVariable()) {
-				ProductSetup.RequestProductRegister();
+				ProductSetup ProductSetupProcess = new ProductSetup();
+				ProductSetupProcess.RequestProductRegister();
 				AddRequestSetupVRSuyaProduct();
 				if (VerifyVRCSDK()) {
-					ProductSetup.GetVRSuyaGameObjects();
-					ProductSetup.RequestSetup();
-					UnitySetup.GetAvatarSkinnedMeshRenderers();
-					UnitySetup.GetAvatarMeshRenderers();
-					UnitySetup.UpdateAvatarData();
+					UnitySetup UnitySetupProcess = new UnitySetup();
+					ProductSetupProcess.GetVRSuyaGameObjects();
+					ProductSetupProcess.RequestSetup();
+					UnitySetupProcess.GetAvatarSkinnedMeshRenderers();
+					UnitySetupProcess.GetAvatarMeshRenderers();
+					UnitySetupProcess.UpdateAvatarData();
 
 					Debug.Log("[VRSuya AvatarSettingUpdater] Update Completed");
 					DestroyImmediate(this);
@@ -292,7 +296,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		/// <summary>요청한 제품에서 아바타를 검색하여 세팅이 가능한지 확인합니다.</summary>
 		/// <returns>아바타 파일 존재 여부</returns>
-		public static bool ReturnAvatarInstalled(ProductName Product, string AvatarName) {
+		public bool ReturnAvatarInstalled(ProductName Product, string AvatarName) {
 			bool ReturnResult = false;
 			if (!string.IsNullOrEmpty(AvatarName)) {
 				Avatar RequestAvatarType;

@@ -17,20 +17,21 @@ namespace VRSuya.AvatarSettingUpdater {
 	[AddComponentMenu("")]
 	public class ProductSetup_AFK : ProductSetup {
 
-		private static VRSuyaProduct AFK;
-		private static GameObject VRSuyaAFKGameObject;
+		private VRSuyaProduct AFK;
+		private GameObject VRSuyaAFKGameObject;
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
-		internal static void RegisterProduct() {
+		internal void RegisterProduct() {
+			AssetManager AssetProcess = new AssetManager();
 			AFK = new VRSuyaProduct();
-			AFK = AssetManager.UpdateProductInformation(ProductName.AFK);
+			AFK = AssetProcess.UpdateProductInformation(ProductName.AFK);
 			InstalledVRSuyaProducts = InstalledVRSuyaProducts.Concat(new VRSuyaProduct[] { AFK }).ToArray();
 			InstalledProductAFK = true;
 			return;
 		}
 
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
-		internal static void RequestSetting() {
+		internal void RequestSetting() {
 			if (InstallProductAFK) {
 				VRSuyaAFKGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_AFK_Prefab"));
 				if (!VRSuyaAFKGameObject) SetupPrefab();
@@ -43,7 +44,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>아바타에 Prefab이 있는지 검사하고 없으면 설치하는 메소드 입니다.</summary>
-		private static void SetupPrefab() {
+		private void SetupPrefab() {
 			string[] ChildAvatarGameObjectNames = new string[0];
 			foreach (Transform ChildTransform in AvatarGameObject.transform) {
 				ChildAvatarGameObjectNames = ChildAvatarGameObjectNames.Concat(new string[] { ChildTransform.name }).ToArray();
@@ -65,7 +66,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>요청한 GameObject의 Transform을 Origin에 맞춰주는 메소드</summary>
-		private static void TransformPrefab(GameObject TargetGameObject, GameObject BaseGameObject, bool KeepScale) {
+		private void TransformPrefab(GameObject TargetGameObject, GameObject BaseGameObject, bool KeepScale) {
 			TargetGameObject.transform.localPosition = new Vector3(0, 0, 0);
 			TargetGameObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
 			if (!KeepScale) {
@@ -77,7 +78,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>Parent Constraint 컴포넌트와 아바타의 손을 연결합니다.</summary>
-		private static void UpdateParentConstraints() {
+		private void UpdateParentConstraints() {
 			GameObject VRSuyaAFKAnchorGameObject = Array.Find(VRSuyaAFKGameObject.GetComponentsInChildren<Transform>(true), transform => transform.gameObject.name == "Anchor").gameObject;
 			if (VRSuyaAFKAnchorGameObject) {
 				ParentConstraint AnchorParentConstraint = VRSuyaAFKAnchorGameObject.GetComponent<ParentConstraint>();
@@ -91,7 +92,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>Prefab의 이름을 애니메이션 Path 규격에 맞춰 변경합니다.</summary>
-		private static void UpdatePrefabName() {
+		private void UpdatePrefabName() {
 			if (VRSuyaAFKGameObject.name != "VRSuya_AFK_Prefab") {
 				VRSuyaAFKGameObject.name = "VRSuya_AFK_Prefab";
 				EditorUtility.SetDirty(VRSuyaAFKGameObject);
