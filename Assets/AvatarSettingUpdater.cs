@@ -230,6 +230,8 @@ namespace VRSuya.AvatarSettingUpdater {
 			} else {
 				AvatarVRCAvatarDescriptor = AvatarGameObject.GetComponent<VRCAvatarDescriptor>();
 				AvatarVRCAvatarLayers = AvatarVRCAvatarDescriptor.baseAnimationLayers;
+				AvatarVRCMenu = AvatarVRCAvatarDescriptor.expressionsMenu;
+				AvatarVRCParameter = AvatarVRCAvatarDescriptor.expressionParameters;
 			}
 			return true;
         }
@@ -259,8 +261,6 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>세팅해야 할 메뉴와 파라메터를 검사하여 세팅 가능한지 확인합니다.</summary>
 		/// <returns>설치 가능 여부</returns>
 		private bool VerifyVRCSDK() {
-			AvatarVRCMenu = AvatarVRCAvatarDescriptor.expressionsMenu;
-			AvatarVRCParameter = AvatarVRCAvatarDescriptor.expressionParameters;
 			if (!AvatarVRCMenu) {
 				StatusCode = "NO_VRCSDK_MENU";
 				return false;
