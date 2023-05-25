@@ -340,7 +340,14 @@ namespace VRSuya.AvatarSettingUpdater {
 			}
 			if (!string.IsNullOrEmpty(AssetGUID)) {
 				int Index = Array.IndexOf(AvatarVRCAvatarLayers, TargetType);
-				AvatarVRCAvatarLayers[Index].animatorController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+				AnimatorController TargetAnimationController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+				if (AvatarVRCAvatarLayers[Index].animatorController != null) {
+					if (AvatarVRCAvatarLayers[Index].animatorController.name != TargetAnimationController.name) {
+						AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
+					}
+				} else {
+					AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
+				}
 			}
 			return;
 		}
