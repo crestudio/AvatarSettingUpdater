@@ -289,12 +289,14 @@ namespace VRSuya.AvatarSettingUpdater {
 			switch (TargetType) {
 				case VRCAvatarDescriptor.AnimLayerType.Base:
 					TargetAssetType = VRCAssetType.Locomotion;
+					PreallocateAnimatorController(TargetType);
 					break;
 				case VRCAvatarDescriptor.AnimLayerType.Gesture:
 					TargetAssetType = VRCAssetType.Gesture;
 					break;
 				case VRCAvatarDescriptor.AnimLayerType.Action:
 					TargetAssetType = VRCAssetType.Action;
+					PreallocateAnimatorController(TargetType);
 					break;
 				case VRCAvatarDescriptor.AnimLayerType.FX:
 					TargetAssetType = VRCAssetType.FX;
@@ -314,6 +316,33 @@ namespace VRSuya.AvatarSettingUpdater {
 				}
 			}
 			return Result;
+		}
+
+		/// <summary>요청한 타입의 애니메이터 컨트롤러를 아바타에 사전 할당을 합니다.</summary>
+		private static void PreallocateAnimatorController(VRCAvatarDescriptor.AnimLayerType TargetType) {
+			string AssetGUID = "";
+			switch (TargetType) {
+				case VRCAvatarDescriptor.AnimLayerType.Base:
+					if (InstalledProductWotagei && InstallProductWotagei) {
+						AssetGUID = Array.Find(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Wotagei).LocomotionAnimatorGUID;
+					}
+					break;
+				case VRCAvatarDescriptor.AnimLayerType.Action:
+					if (InstalledProductAFK && InstallProductAFK && InstalledProductWotagei && InstallProductWotagei) {
+						AssetGUID = GetMasterActionAnimatorController();
+						break;
+					} else if (InstalledProductAFK && InstallProductAFK) {
+						AssetGUID = Array.Find(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.AFK).ActionAnimatorGUID;
+					} else if (InstalledProductWotagei && InstallProductWotagei) {
+						AssetGUID = Array.Find(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Wotagei).ActionAnimatorGUID;
+					}
+					break;
+			}
+			if (!string.IsNullOrEmpty(AssetGUID)) {
+				int Index = Array.IndexOf(AvatarVRCAvatarLayers, TargetType);
+				AvatarVRCAvatarLayers[Index].animatorController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+			}
+			return;
 		}
 
 		/// <summary>요청한 에셋을 Export 폴더에 아바타 이름으로 복사합니다.</summary>
