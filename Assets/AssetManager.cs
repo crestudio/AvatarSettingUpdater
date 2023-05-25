@@ -318,8 +318,27 @@ namespace VRSuya.AvatarSettingUpdater {
 					Result = false;
 				} else {
 					int Index = Array.FindIndex(AvatarVRCAvatarLayers, Layer => TargetType == Layer.type);
-					AvatarVRCAvatarLayers[Index].animatorController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
-					EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
+					AnimatorController TargetAnimationController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+					if (AvatarVRCAvatarLayers[Index].isDefault == true) {
+						VRCAvatarDescriptor.CustomAnimLayer newCustomAnimLayer;
+						newCustomAnimLayer.isEnabled = false;
+						newCustomAnimLayer.type = TargetType;
+						newCustomAnimLayer.animatorController = TargetAnimationController;
+						newCustomAnimLayer.mask = TargetAnimationController.layers[0].avatarMask;
+						newCustomAnimLayer.isDefault = false;
+						AvatarVRCAvatarLayers[Index] = newCustomAnimLayer;
+						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
+					} else {
+						if (AvatarVRCAvatarLayers[Index].animatorController != null) {
+							if (AvatarVRCAvatarLayers[Index].animatorController.name != TargetAnimationController.name) {
+								AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
+								EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
+							}
+						} else {
+							AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
+							EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
+						}
+					}
 				}
 			}
 			return Result;
@@ -348,14 +367,25 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (!string.IsNullOrEmpty(AssetGUID)) {
 				int Index = Array.FindIndex(AvatarVRCAvatarLayers, Layer => TargetType == Layer.type);
 				AnimatorController TargetAnimationController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
-				if (AvatarVRCAvatarLayers[Index].animatorController != null) {
-					if (AvatarVRCAvatarLayers[Index].animatorController.name != TargetAnimationController.name) {
+				if (AvatarVRCAvatarLayers[Index].isDefault == true) {
+					VRCAvatarDescriptor.CustomAnimLayer newCustomAnimLayer;
+					newCustomAnimLayer.isEnabled = false;
+					newCustomAnimLayer.type = TargetType;
+					newCustomAnimLayer.animatorController = TargetAnimationController;
+					newCustomAnimLayer.mask = TargetAnimationController.layers[0].avatarMask;
+					newCustomAnimLayer.isDefault = false;
+					AvatarVRCAvatarLayers[Index] = newCustomAnimLayer;
+					EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
+				} else {
+					if (AvatarVRCAvatarLayers[Index].animatorController != null) {
+						if (AvatarVRCAvatarLayers[Index].animatorController.name != TargetAnimationController.name) {
+							AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
+							EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
+						}
+					} else {
 						AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
 						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 					}
-				} else {
-					AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
-					EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 				}
 			}
 			return;
