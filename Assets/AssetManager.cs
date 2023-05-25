@@ -64,6 +64,11 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ VRCAssetType.Parameter, "VRSuya_Default_Parameter.asset" }
 		};
 
+		private static readonly Dictionary<string, string> dictMasterActionLayer = new Dictionary<string, string>() {
+			{ "GUID", "0cea068b6a31b5c4f98bfeba0f8bc11d" },
+			{ "AssetFileName", "VRSuya_Wotagei_ActionLayer_AFK.controller" }
+		};
+
 		private static readonly string[] dictAnimatorControllerName = new string[] { "LocomotionLayer", "GestureLayer", "ActionLayer", "FXLayer" };
 
 		private static readonly string[] dictIgnoreLayerName = new string[] { "Base Layer", "AllParts", "Left Hand", "Right Hand" };
@@ -330,6 +335,24 @@ namespace VRSuya.AvatarSettingUpdater {
 				StatusCode = "NO_SOURCE_FILE";
 			}
 			return CopiedAssetGUID;
+		}
+
+		/// <summary>AFK + Wotagei ActionLayer 파일이 존재하는지 확인 후 올바른 GUID를 반환합니다.</summary>
+		/// <returns>AFK + Wotagei ActionLayer 파일의 GUID</returns>
+		private static string GetMasterActionAnimatorController() {
+			string AssetGUID = dictMasterActionLayer["GUID"];
+			string AssetPath = AssetDatabase.GUIDToAssetPath(AssetGUID);
+			if (string.IsNullOrEmpty(AssetPath)) {
+				string SearchPath = AssetDatabase.GUIDToAssetPath(dictProductGUID[ProductName.Wotagei]);
+				if (string.IsNullOrEmpty(SearchPath)) SearchPath = dictProductPath[ProductName.Wotagei];
+				string[] ResultGUID = AssetDatabase.FindAssets(dictMasterActionLayer["AssetFileName"] + " t:AnimatorController", new[] { SearchPath });
+				if (ResultGUID != null) {
+					AssetGUID = ResultGUID[0];
+				} else {
+					AssetGUID = "";
+				}
+			}
+			return AssetGUID;
 		}
 
 		/// <summary>Export 폴더를 검사하여 존재하는지 확인 후, 없는 경우 생성 및 사전 데이터 업데이트</summary>
