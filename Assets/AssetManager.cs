@@ -263,6 +263,7 @@ namespace VRSuya.AvatarSettingUpdater {
 					string AssetGUID = CreateVRCAsset(VRCAssetType.Menu);
 					if (!string.IsNullOrEmpty(AssetGUID)) {
 						AvatarVRCMenu = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 					} else {
 						Result = false;
 					}
@@ -273,6 +274,7 @@ namespace VRSuya.AvatarSettingUpdater {
 					string AssetGUID = CreateVRCAsset(VRCAssetType.Parameter);
 					if (!string.IsNullOrEmpty(AssetGUID)) {
 						AvatarVRCParameter = AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 					} else {
 						Result = false;
 					}
@@ -313,6 +315,7 @@ namespace VRSuya.AvatarSettingUpdater {
 				} else {
 					int Index = Array.IndexOf(AvatarVRCAvatarLayers, TargetType);
 					AvatarVRCAvatarLayers[Index].animatorController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+					EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 				}
 			}
 			return Result;
@@ -344,9 +347,11 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (AvatarVRCAvatarLayers[Index].animatorController != null) {
 					if (AvatarVRCAvatarLayers[Index].animatorController.name != TargetAnimationController.name) {
 						AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
+						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 					}
 				} else {
 					AvatarVRCAvatarLayers[Index].animatorController = TargetAnimationController;
+					EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 				}
 			}
 			return;
