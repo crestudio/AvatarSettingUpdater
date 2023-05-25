@@ -63,7 +63,9 @@ namespace VRSuya.AvatarSettingUpdater {
         // 제품 구조체
 		public struct VRSuyaProduct {
 			public ProductName ProductName;
-            public Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> RequiredAnimatorLayers;
+			public string LocomotionAnimatorGUID;
+			public string ActionAnimatorGUID;
+			public Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> RequiredAnimatorLayers;
             public Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> RequiredAnimatorParameters;
             public List<VRCExpressionsMenu.Control> RequiredVRCMenus;
 			public int RequiredVRCMemoryCount;
