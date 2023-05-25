@@ -168,15 +168,17 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (VerifyVariable()) {
 				ProductSetup.RequestProductRegister();
 				AddRequestSetupVRSuyaProduct();
-				if (VerifyVRCSDK()) {
-					ProductSetup.GetVRSuyaGameObjects();
-					ProductSetup.RequestSetup();
-					UnitySetup.GetAvatarSkinnedMeshRenderers();
-					UnitySetup.GetAvatarMeshRenderers();
-					UnitySetup.UpdateAvatarData();
+				if (AssetManager.CheckVRCAssets()) {
+					if (VerifyVRCSDK()) {
+						ProductSetup.GetVRSuyaGameObjects();
+						ProductSetup.RequestSetup();
+						UnitySetup.GetAvatarSkinnedMeshRenderers();
+						UnitySetup.GetAvatarMeshRenderers();
+						UnitySetup.UpdateAvatarData();
 
-					Debug.Log("[VRSuya AvatarSettingUpdater] Update Completed");
-					DestroyImmediate(this);
+						Debug.Log("[VRSuya AvatarSettingUpdater] Update Completed");
+						DestroyImmediate(this);
+					}
 				}
             }
             return;
