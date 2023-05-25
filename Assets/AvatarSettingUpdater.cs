@@ -39,6 +39,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		public bool InstallProductWotageiEditor = false;
 		public bool InstallProductFeetEditor = false;
 
+		public string StatusCodeEditor = "";
+
 		// 아바타 관련 변수
 		protected static GameObject AvatarGameObject;
 		protected static Avatar AvatarType = Avatar.NULL;
@@ -110,7 +112,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		protected static VRSuyaProduct[] RequestSetupVRSuyaProductList;
 
 		// 상태 반환
-		public string StatusCode = "";
+		protected static string StatusCode = "";
 
         // 컴포넌트 최초 로드시 동작
         void OnEnable() {
@@ -141,6 +143,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			InstalledProductWotageiEditor = InstalledProductWotagei;
 			InstalledProductFeetEditor = InstalledProductFeet;
 			InstalledVRSuyaProductAvatarsEditor = InstalledVRSuyaProductAvatars;
+			StatusCodeEditor = StatusCode;
 			return;
 		}
 
