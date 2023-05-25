@@ -374,7 +374,10 @@ namespace VRSuya.AvatarSettingUpdater {
 				string OriginalFileName = SourceAssetPath.Split('/')[SourceAssetPath.Split('/').Length - 1];
 				string ExportFileName = OriginalFileName.Replace(dictDefaultFilename, AvatarGameObject.name);
 				string FinalDestinationAssetPath = DestinationAssetPath + "/" + ExportFileName;
-				FileUtil.CopyFileOrDirectory(SourceAssetPath, FinalDestinationAssetPath);
+				if (string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID(FinalDestinationAssetPath))) {
+					FileUtil.CopyFileOrDirectory(SourceAssetPath, FinalDestinationAssetPath);
+					AssetDatabase.Refresh();
+				}
 				CopiedAssetGUID = AssetDatabase.AssetPathToGUID(FinalDestinationAssetPath);
 			} else {
 				StatusCode = "NO_SOURCE_FILE";
