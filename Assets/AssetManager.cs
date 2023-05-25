@@ -95,8 +95,12 @@ namespace VRSuya.AvatarSettingUpdater {
 
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AvatarAnimatorControllerGUID = GetRequestAvatarTypeAnimatorControllerGUID(SearchPath, AvatarType);
 
-			RequestedVRSuyaProduct.LocomotionAnimatorGUID = AvatarAnimatorControllerGUID[VRCAvatarDescriptor.AnimLayerType.Base];
-			RequestedVRSuyaProduct.ActionAnimatorGUID = AvatarAnimatorControllerGUID[VRCAvatarDescriptor.AnimLayerType.Action];
+			if (AvatarAnimatorControllerGUID.ContainsKey(VRCAvatarDescriptor.AnimLayerType.Base)) {
+				RequestedVRSuyaProduct.LocomotionAnimatorGUID = AvatarAnimatorControllerGUID[VRCAvatarDescriptor.AnimLayerType.Base];
+			}
+			if (AvatarAnimatorControllerGUID.ContainsKey(VRCAvatarDescriptor.AnimLayerType.Action)) {
+				RequestedVRSuyaProduct.ActionAnimatorGUID = AvatarAnimatorControllerGUID[VRCAvatarDescriptor.AnimLayerType.Action];
+			}
 
 			RequestedVRSuyaProduct.RequiredAnimatorLayers = ResolveAnimationControllerLayer(AvatarAnimatorControllerGUID);
 			RequestedVRSuyaProduct.RequiredAnimatorParameters = ResolveAnimationControllerParameter(AvatarAnimatorControllerGUID);
