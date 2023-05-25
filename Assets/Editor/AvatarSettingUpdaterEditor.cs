@@ -40,7 +40,7 @@ namespace VRSuya.AvatarSettingUpdater {
             SerializedChangeTwosidedShadow = serializedObject.FindProperty("ChangeTwosidedShadowEditor");
             SerializedChangeAnchorOverride = serializedObject.FindProperty("ChangeAnchorOverrideEditor");
             SerializedAvatarAnchorOverride = serializedObject.FindProperty("AvatarAnchorOverrideEditor");
-			SerializedStatusCode = serializedObject.FindProperty("StatusCode");
+			SerializedStatusCode = serializedObject.FindProperty("StatusCodeEditor");
 			SerializedInstalledVRSuyaProductAvatarsEditor = serializedObject.FindProperty("InstalledVRSuyaProductAvatarsEditor");
 
 			// 제품 추가시 추가해야 될 변수
