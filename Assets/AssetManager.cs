@@ -243,6 +243,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			bool Result = true;
 			VRCAvatarDescriptor.AnimLayerType[] RequestAnimatorType = RequestSetupVRSuyaProductList.SelectMany(RequestProduct => RequestProduct.RequiredAnimatorLayers.Select(RequiredAnimator => RequiredAnimator.Key)).ToArray();
 			int RequestMenuLength = RequestSetupVRSuyaProductList.Select(RequestProduct => RequestProduct.RequiredVRCMenus).Count();
+			int RequestParameterLength = RequestSetupVRSuyaProductList.Select(RequestProduct => RequestProduct.RequiredVRCParameters).Count();
 			if (RequestAnimatorType != null) {
 				RequestAnimatorType = RequestAnimatorType.Distinct().ToArray();
 				foreach (VRCAvatarDescriptor.AnimLayerType AnimatorType in RequestAnimatorType) {
@@ -252,7 +253,21 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (RequestMenuLength > 0) {
 				if (AvatarVRCMenu == null) {
 					string AssetGUID = CreateVRCAsset(VRCAssetType.Menu);
-					if (string.IsNullOrEmpty(AssetGUID)) Result = false;
+					if (!string.IsNullOrEmpty(AssetGUID)) {
+						AvatarVRCMenu = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+					} else {
+						Result = false;
+					}
+				}
+			}
+			if (RequestParameterLength > 0) {
+				if (AvatarVRCParameter == null) {
+					string AssetGUID = CreateVRCAsset(VRCAssetType.Parameter);
+					if (!string.IsNullOrEmpty(AssetGUID)) {
+						AvatarVRCParameter = AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+					} else {
+						Result = false;
+					}
 				}
 			}
 			return Result;
