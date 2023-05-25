@@ -152,9 +152,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static void DisableExistMoumoguAnimatorLayer() {
 			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
 			if (VRCFXLayer) {
-				AnimatorControllerLayer[] SELESTIA_MogumoguLayer = Array.FindAll(VRCFXLayer.layers, Layer => dictSELESTIAMogumoguLayerName.Any(LayerName => LayerName == Layer.name)).ToArray();
-				if (SELESTIA_MogumoguLayer != null) {
-					foreach (AnimatorControllerLayer TargetLayer in SELESTIA_MogumoguLayer) {
+				foreach (AnimatorControllerLayer TargetLayer in VRCFXLayer.layers) {
+					if (Array.Exists(dictSELESTIAMogumoguLayerName, LayerName => TargetLayer.name == LayerName)) {
 						TargetLayer.defaultWeight = 0;
 					}
 				}
