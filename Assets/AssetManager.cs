@@ -42,7 +42,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu.asset" }
 		};
 
-		private static readonly Dictionary<VRCAssetType, string> dictVRCSDKAssetGUID = new Dictionary<VRCAssetType, string>() {
+		private static Dictionary<VRCAssetType, string> dictVRCSDKAssetGUID = new Dictionary<VRCAssetType, string>() {
 			{ VRCAssetType.Template, "00679ffab5ad14d42afccca44034c525" },
 			{ VRCAssetType.Export, "13684ec2ba89160419ef0d32a11968cd" },
 			{ VRCAssetType.Locomotion, "4239c7ee49e2a664bbbf793ea643905b" },
@@ -53,7 +53,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ VRCAssetType.Parameter, "dd63989bd535d7842bf14e5edda08e6f" }
 		};
 
-		private static readonly Dictionary<VRCAssetType, string> dictVRCSDKAssetFilePath = new Dictionary<VRCAssetType, string>() {
+		private static Dictionary<VRCAssetType, string> dictVRCSDKAssetFilePath = new Dictionary<VRCAssetType, string>() {
 			{ VRCAssetType.Template, "Assets/VRSuya/Library/Script/AvatarSettingUpdater/Controller" },
 			{ VRCAssetType.Export, "Assets/VRSuya/Library/Script/AvatarSettingUpdater/Controller/Export" },
 			{ VRCAssetType.Locomotion, "VRSuya_Default_LocomotionLayer.controller" },
@@ -69,6 +69,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static readonly string[] dictIgnoreLayerName = new string[] { "Base Layer", "AllParts", "Left Hand", "Right Hand" };
 
 		private static readonly string[] dictIgnorePrefabName = new string[] { "Cyalume", "LightStick" };
+
+		private static readonly string dictDefaultFilename = "Default";
 
 		/// <summary>요청한 타입의 VRSuya 제품의 상세 내용을 업데이트하여 반환합니다.</summary>
 		/// <returns>내용이 업데이트 된 VRSuyaProduct 오브젝트</returns>
@@ -233,6 +235,96 @@ namespace VRSuya.AvatarSettingUpdater {
 			}
 			AvatarNames = AvatarNames.Distinct().ToArray();
 			return AvatarNames;
+		}
+
+		/// <summary>VRC용 에셋 목록을 점검하여 설치 제품에서 요구하는 경우 설치 시도 및 아바타에 설정합니다.</summary>
+		/// <returns>VRC용 에셋 설치 성공 여부</returns>
+		internal static bool CheckVRCAssets() {
+			bool Result = true;
+			VRCAvatarDescriptor.AnimLayerType[] RequestAnimatorType = RequestSetupVRSuyaProductList.SelectMany(RequestProduct => RequestProduct.RequiredAnimatorLayers.Select(RequiredAnimator => RequiredAnimator.Key)).ToArray();
+			int RequestMenuLength = RequestSetupVRSuyaProductList.Select(RequestProduct => RequestProduct.RequiredVRCMenus).Count();
+			if (RequestAnimatorType != null) {
+				RequestAnimatorType = RequestAnimatorType.Distinct().ToArray();
+				foreach (VRCAvatarDescriptor.AnimLayerType AnimatorType in RequestAnimatorType) {
+					Result = CheckTargetAnimatorControllerAsset(AnimatorType);
+				}
+			}
+			if (RequestMenuLength > 0) {
+				if (AvatarVRCMenu == null) {
+					string AssetGUID = CreateVRCAsset(VRCAssetType.Menu);
+					if (string.IsNullOrEmpty(AssetGUID)) Result = false;
+				}
+			}
+			return Result;
+		}
+
+		/// <summary>요청한 애니메이터 컨트롤러 파트를 점검하고 에셋을 생성 시도 및 아바타에 설정합니다.</summary>
+		/// <returns>요청한 애니메이터 컨트롤러 에셋 생성 성공 여부</returns>
+		private static bool CheckTargetAnimatorControllerAsset(VRCAvatarDescriptor.AnimLayerType TargetType) {
+			VRCAssetType TargetAssetType;
+			bool Result = true;
+			switch (TargetType) {
+				case VRCAvatarDescriptor.AnimLayerType.Base:
+					TargetAssetType = VRCAssetType.Locomotion;
+					break;
+				case VRCAvatarDescriptor.AnimLayerType.Gesture:
+					TargetAssetType = VRCAssetType.Gesture;
+					break;
+				case VRCAvatarDescriptor.AnimLayerType.Action:
+					TargetAssetType = VRCAssetType.Action;
+					break;
+				case VRCAvatarDescriptor.AnimLayerType.FX:
+					TargetAssetType = VRCAssetType.FX;
+					break;
+				default:
+					TargetAssetType = VRCAssetType.NULL;
+					break;
+			}
+			if (Array.Find(AvatarVRCAvatarLayers, VRCLayer => TargetType == VRCLayer.type).animatorController == null) {
+				CheckDestinationFolder();
+				string AssetGUID = CreateVRCAsset(TargetAssetType);
+				if (string.IsNullOrEmpty(AssetGUID)) {
+					Result = false;
+				} else {
+					int Index = Array.IndexOf(AvatarVRCAvatarLayers, TargetType);
+					AvatarVRCAvatarLayers[Index].animatorController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+				}
+			}
+			return Result;
+		}
+
+		/// <summary>요청한 에셋을 Export 폴더에 아바타 이름으로 복사합니다.</summary>
+		/// <returns>복사된 에셋의 GUID</returns>
+		private static string CreateVRCAsset(VRCAssetType TargetType) {
+			string SourceAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[TargetType]);
+			if (string.IsNullOrEmpty(SourceAssetPath)) SourceAssetPath = dictVRCSDKAssetFilePath[TargetType];
+			string DestinationAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[VRCAssetType.Export]);
+			if (string.IsNullOrEmpty(DestinationAssetPath)) DestinationAssetPath = dictVRCSDKAssetFilePath[VRCAssetType.Export];
+			string CopiedAssetGUID = "";
+
+			if (!string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID(SourceAssetPath))) {
+				string OriginalFileName = SourceAssetPath.Split('/')[SourceAssetPath.Split('/').Length - 1];
+				string ExportFileName = OriginalFileName.Replace(dictDefaultFilename, AvatarGameObject.name);
+				string FinalDestinationAssetPath = DestinationAssetPath + "/" + ExportFileName;
+				FileUtil.CopyFileOrDirectory(SourceAssetPath, FinalDestinationAssetPath);
+				CopiedAssetGUID = AssetDatabase.AssetPathToGUID(FinalDestinationAssetPath);
+			} else {
+				StatusCode = "NO_SOURCE_FILE";
+			}
+			return CopiedAssetGUID;
+		}
+
+		/// <summary>Export 폴더를 검사하여 존재하는지 확인 후, 없는 경우 생성 및 사전 데이터 업데이트</summary>
+		private static void CheckDestinationFolder() {
+			string DestinationAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[VRCAssetType.Export]);
+			if (string.IsNullOrEmpty(DestinationAssetPath)) DestinationAssetPath = dictVRCSDKAssetFilePath[VRCAssetType.Export];
+			if (string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID(DestinationAssetPath))) {
+				string SourceAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[VRCAssetType.Template]);
+				if (string.IsNullOrEmpty(SourceAssetPath)) SourceAssetPath = dictVRCSDKAssetFilePath[VRCAssetType.Template];
+				string DestinationGUID = AssetDatabase.CreateFolder(SourceAssetPath, "Export");
+				dictVRCSDKAssetGUID[VRCAssetType.Export] = DestinationGUID;
+				dictVRCSDKAssetFilePath[VRCAssetType.Export] = AssetDatabase.GUIDToAssetPath(DestinationGUID);
+			}
 		}
 	}
 }

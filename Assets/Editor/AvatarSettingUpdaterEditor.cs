@@ -92,7 +92,8 @@ namespace VRSuya.AvatarSettingUpdater {
             }
             if (GUILayout.Button(LanguageHelper.GetContextString("String_UpdateAvatarData") + " (" + SelectedAvatarName + ")")) {
                 (target as AvatarSettingUpdater).UpdateAvatarSetting();
-            }
+				Repaint();
+			}
 			if (GUILayout.Button(LanguageHelper.GetContextString("String_Debug"))) {
 				(target as AvatarSettingUpdater).DebugAvatarSetting();
 			}

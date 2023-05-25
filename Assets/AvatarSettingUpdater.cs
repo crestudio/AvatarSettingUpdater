@@ -92,7 +92,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		public enum VRCAssetType {
-			Template, Export, Locomotion, Gesture, Action, FX, Menu, Parameter
+			NULL, Template, Export, Locomotion, Gesture, Action, FX, Menu, Parameter
 		}
 
 		// 제품 설치 상태
