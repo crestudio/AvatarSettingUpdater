@@ -152,12 +152,13 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static void DisableExistMoumoguAnimatorLayer() {
 			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
 			if (VRCFXLayer) {
-				foreach (AnimatorControllerLayer TargetLayer in VRCFXLayer.layers) {
-					if (Array.Exists(dictSELESTIAMogumoguLayerName, LayerName => TargetLayer.name == LayerName)) {
-						TargetLayer.defaultWeight = 0;
+				foreach (string TargetLayerName in dictSELESTIAMogumoguLayerName) {
+					int Index = Array.FindIndex(VRCFXLayer.layers, Layer => TargetLayerName == Layer.name);
+					if (Index != -1) {
+						VRCFXLayer.layers[Index].defaultWeight = 0;
+						EditorUtility.SetDirty(VRCFXLayer);
 					}
 				}
-				EditorUtility.SetDirty(VRCFXLayer);
 			}
 			return;
 		}
