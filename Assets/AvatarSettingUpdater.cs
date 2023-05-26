@@ -26,6 +26,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		public Transform AvatarAnchorOverrideEditor;
 		public bool ChangeTwosidedShadowEditor = false;
 		public bool ChangeAnchorOverrideEditor = true;
+		public bool KeepAnimatorControllerEditor = false;
 
 		public Avatar[] InstalledVRSuyaProductAvatarsEditor;
 
@@ -59,6 +60,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		// 아바타 세팅 선택 옵션
 		protected static bool ChangeTwosidedShadow = false;
 		protected static bool ChangeAnchorOverride = true;
+		protected static bool KeepAnimatorController = false;
 
         // 제품 구조체
 		public struct VRSuyaProduct {
@@ -129,6 +131,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			AvatarAnchorOverride = AvatarAnchorOverrideEditor;
 			ChangeTwosidedShadow = ChangeTwosidedShadowEditor;
 			ChangeAnchorOverride = ChangeAnchorOverrideEditor;
+			KeepAnimatorController = KeepAnimatorControllerEditor;
 			InstallProductAFK = InstallProductAFKEditor;
 			InstallProductMogumogu = InstallProductMogumoguEditor;
 			InstallProductWotagei = InstallProductWotageiEditor;

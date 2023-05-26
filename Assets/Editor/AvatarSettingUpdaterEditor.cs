@@ -15,6 +15,7 @@ namespace VRSuya.AvatarSettingUpdater {
         SerializedProperty SerializedChangeTwosidedShadow;
         SerializedProperty SerializedChangeAnchorOverride;
         SerializedProperty SerializedAvatarAnchorOverride;
+		SerializedProperty SerializedKeepAnimatorController;
 		SerializedProperty SerializedStatusCode;
 		SerializedProperty SerializedInstalledVRSuyaProductAvatarsEditor;
 
@@ -39,7 +40,8 @@ namespace VRSuya.AvatarSettingUpdater {
             SerializedAvatarGameObject = serializedObject.FindProperty("AvatarGameObjectEditor");
             SerializedChangeTwosidedShadow = serializedObject.FindProperty("ChangeTwosidedShadowEditor");
             SerializedChangeAnchorOverride = serializedObject.FindProperty("ChangeAnchorOverrideEditor");
-            SerializedAvatarAnchorOverride = serializedObject.FindProperty("AvatarAnchorOverrideEditor");
+			SerializedKeepAnimatorController = serializedObject.FindProperty("KeepAnimatorControllerEditor");
+			SerializedAvatarAnchorOverride = serializedObject.FindProperty("AvatarAnchorOverrideEditor");
 			SerializedStatusCode = serializedObject.FindProperty("StatusCodeEditor");
 			SerializedInstalledVRSuyaProductAvatarsEditor = serializedObject.FindProperty("InstalledVRSuyaProductAvatarsEditor");
 
@@ -67,6 +69,10 @@ namespace VRSuya.AvatarSettingUpdater {
 			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			EditorGUILayout.PropertyField(SerializedChangeTwosidedShadow, new GUIContent(LanguageHelper.GetContextString("String_TwoSidedShadow")));
 			EditorGUILayout.PropertyField(SerializedChangeAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ChangeAnchorOverride")));
+			EditorGUILayout.PropertyField(SerializedKeepAnimatorController, new GUIContent(LanguageHelper.GetContextString("String_KeepAnimatorController")));
+			if (SerializedKeepAnimatorController.boolValue == true) {
+				EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_KeepAnimatorController_Info"), MessageType.Info);
+			}
 			EditorGUILayout.PropertyField(SerializedAvatarAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ObjectAnchorOverride")));
             EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			EditorGUILayout.LabelField(LanguageHelper.GetContextString("String_SetupProduct"), EditorStyles.boldLabel);

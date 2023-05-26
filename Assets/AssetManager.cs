@@ -295,14 +295,14 @@ namespace VRSuya.AvatarSettingUpdater {
 			switch (TargetType) {
 				case VRCAvatarDescriptor.AnimLayerType.Base:
 					TargetAssetType = VRCAssetType.Locomotion;
-					PreallocateAnimatorController(TargetType);
+					if (!KeepAnimatorController) PreallocateAnimatorController(TargetType);
 					break;
 				case VRCAvatarDescriptor.AnimLayerType.Gesture:
 					TargetAssetType = VRCAssetType.Gesture;
 					break;
 				case VRCAvatarDescriptor.AnimLayerType.Action:
 					TargetAssetType = VRCAssetType.Action;
-					PreallocateAnimatorController(TargetType);
+					if (!KeepAnimatorController) PreallocateAnimatorController(TargetType);
 					break;
 				case VRCAvatarDescriptor.AnimLayerType.FX:
 					TargetAssetType = VRCAssetType.FX;
