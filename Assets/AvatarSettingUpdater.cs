@@ -183,7 +183,8 @@ namespace VRSuya.AvatarSettingUpdater {
 					}
 				}
             }
-            return;
+			SetEditorVariable();
+			return;
         }
 
 		/// <summary>정적 변수를 초기화 합니다.</summary>
