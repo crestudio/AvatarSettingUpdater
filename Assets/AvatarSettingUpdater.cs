@@ -161,6 +161,7 @@ namespace VRSuya.AvatarSettingUpdater {
             SetStaticVariable();
 			ClearVariable();
             if (VerifyVariable()) {
+				AssetDatabase.Refresh();
 				ProductSetup.RequestProductRegister();
 				UnitySetup.UpdateAvatarStatus();
 				ProductSetup.GetVRSuyaGameObjects();
@@ -178,6 +179,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			UndoGroupIndex = Undo.GetCurrentGroup();
 			SetStaticVariable();
 			if (VerifyVariable()) {
+				AssetDatabase.Refresh();
 				ProductSetup.RequestProductRegister();
 				AddRequestSetupVRSuyaProduct();
 				AssetManager.CheckDestinationFolder();
