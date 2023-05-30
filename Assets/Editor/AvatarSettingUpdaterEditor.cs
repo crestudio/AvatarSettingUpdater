@@ -108,6 +108,7 @@ namespace VRSuya.AvatarSettingUpdater {
                 (target as AvatarSettingUpdater).UpdateAvatarSetting();
 				Repaint();
 			}
+			EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_Undo"), MessageType.Info);
 			if (GUILayout.Button(LanguageHelper.GetContextString("String_Debug"))) {
 				(target as AvatarSettingUpdater).DebugAvatarSetting();
 			}

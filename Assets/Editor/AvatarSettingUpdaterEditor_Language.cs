@@ -67,6 +67,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ "String_SetupProduct", "VRSuya products to setup" },
 			{ "String_GetAvatarData", "Get Avatar Data" },
 			{ "String_UpdateAvatarData", "Update Avatar" },
+			{ "String_Undo", "If updated incorrectly, can be undone" },
 
 			// 제품명
 			{ "String_ProductAFK", "AFK Package" },
@@ -97,6 +98,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ "String_SetupProduct", "세팅하려는 VRSuya 제품" },
 			{ "String_GetAvatarData", "아바타 데이터 가져오기" },
 			{ "String_UpdateAvatarData", "아바타 업데이트" },
+			{ "String_Undo", "잘못 업데이트한 경우에는 실행 취소가 가능합니다" },
 
 			// 제품명
 			{ "String_ProductAFK", "AFK 3종 세트" },
@@ -127,6 +129,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			{ "String_SetupProduct", "セットしようとするVRSuya製品" },
 			{ "String_GetAvatarData", "アバターデータの取得" },
 			{ "String_UpdateAvatarData", "アバターアップデート" },
+			{ "String_Undo", "誤って更新した場合は、実行のキャンセルが可能です" },
 
 			// 제품명
 			{ "String_ProductAFK", "AFK 3種セット" },
