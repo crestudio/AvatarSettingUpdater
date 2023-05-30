@@ -180,6 +180,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (VerifyVariable()) {
 				ProductSetup.RequestProductRegister();
 				AddRequestSetupVRSuyaProduct();
+				AssetManager.CheckDestinationFolder();
 				if (AssetManager.CheckVRCAssets()) {
 					if (VerifyVRCSDK()) {
 						ProductSetup.GetVRSuyaGameObjects();

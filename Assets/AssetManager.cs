@@ -316,7 +316,6 @@ namespace VRSuya.AvatarSettingUpdater {
 					break;
 			}
 			if (Array.Find(AvatarVRCAvatarLayers, VRCLayer => TargetType == VRCLayer.type).animatorController == null) {
-				CheckDestinationFolder();
 				string AssetGUID = CreateVRCAsset(TargetAssetType);
 				if (string.IsNullOrEmpty(AssetGUID)) {
 					Result = false;
@@ -442,13 +441,14 @@ namespace VRSuya.AvatarSettingUpdater {
 		}
 
 		/// <summary>Export 폴더를 검사하여 존재하는지 확인 후, 없는 경우 생성 및 사전 데이터 업데이트</summary>
-		private static void CheckDestinationFolder() {
+		internal static void CheckDestinationFolder() {
 			string DestinationAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[VRCAssetType.Export]);
 			if (string.IsNullOrEmpty(DestinationAssetPath)) DestinationAssetPath = dictVRCSDKAssetFilePath[VRCAssetType.Export];
-			if (string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID(DestinationAssetPath))) {
+			if (!AssetDatabase.IsValidFolder(DestinationAssetPath)) {
 				string SourceAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[VRCAssetType.Template]);
 				if (string.IsNullOrEmpty(SourceAssetPath)) SourceAssetPath = dictVRCSDKAssetFilePath[VRCAssetType.Template];
 				string DestinationGUID = AssetDatabase.CreateFolder(SourceAssetPath, "Export");
+				AssetDatabase.Refresh();
 				dictVRCSDKAssetGUID[VRCAssetType.Export] = DestinationGUID;
 				dictVRCSDKAssetFilePath[VRCAssetType.Export] = AssetDatabase.GUIDToAssetPath(DestinationGUID);
 			}
