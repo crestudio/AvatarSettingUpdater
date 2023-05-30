@@ -90,7 +90,7 @@ namespace VRSuya.AvatarSettingUpdater {
 			GUI.enabled = true;
 			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			if (!string.IsNullOrEmpty(SerializedStatusCode.stringValue)) {
-                EditorGUILayout.HelpBox(LanguageHelper.GetContextString(SerializedStatusCode.stringValue), MessageType.Info);
+                EditorGUILayout.HelpBox(LanguageHelper.GetContextString(SerializedStatusCode.stringValue), MessageType.Warning);
             }
 			serializedObject.ApplyModifiedProperties();
 			if (GUILayout.Button(LanguageHelper.GetContextString("String_GetAvatarData"))) {
