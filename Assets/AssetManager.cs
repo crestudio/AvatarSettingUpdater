@@ -267,7 +267,9 @@ namespace VRSuya.AvatarSettingUpdater {
 					string AssetGUID = CreateVRCAsset(VRCAssetType.Menu);
 					if (!string.IsNullOrEmpty(AssetGUID)) {
 						Undo.RecordObject(AvatarVRCAvatarDescriptor, "Added new VRC Menu");
-						AvatarVRCMenu = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+						if (!AvatarVRCAvatarDescriptor.customExpressions) AvatarVRCAvatarDescriptor.customExpressions = true;
+						AvatarVRCAvatarDescriptor.expressionsMenu = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+						AvatarVRCMenu = AvatarVRCAvatarDescriptor.expressionsMenu;
 						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 						Undo.CollapseUndoOperations(UndoGroupIndex);
 					} else {
@@ -280,7 +282,9 @@ namespace VRSuya.AvatarSettingUpdater {
 					string AssetGUID = CreateVRCAsset(VRCAssetType.Parameter);
 					if (!string.IsNullOrEmpty(AssetGUID)) {
 						Undo.RecordObject(AvatarVRCAvatarDescriptor, "Added new VRC Parameter");
-						AvatarVRCParameter = AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+						if (!AvatarVRCAvatarDescriptor.customExpressions) AvatarVRCAvatarDescriptor.customExpressions = true;
+						AvatarVRCAvatarDescriptor.expressionParameters = AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+						AvatarVRCParameter = AvatarVRCAvatarDescriptor.expressionParameters;
 						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 						Undo.CollapseUndoOperations(UndoGroupIndex);
 					} else {
@@ -323,6 +327,7 @@ namespace VRSuya.AvatarSettingUpdater {
 					Undo.RecordObject(AvatarVRCAvatarDescriptor, "Changed VRC Layer");
 					int Index = Array.FindIndex(AvatarVRCAvatarLayers, Layer => TargetType == Layer.type);
 					AnimatorController TargetAnimationController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+					if (!AvatarVRCAvatarDescriptor.customizeAnimationLayers) AvatarVRCAvatarDescriptor.customizeAnimationLayers = true;
 					if (AvatarVRCAvatarLayers[Index].isDefault == true) {
 						VRCAvatarDescriptor.CustomAnimLayer newCustomAnimLayer;
 						newCustomAnimLayer.isEnabled = false;
