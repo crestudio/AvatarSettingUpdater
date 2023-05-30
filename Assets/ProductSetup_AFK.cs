@@ -57,8 +57,8 @@ namespace VRSuya.AvatarSettingUpdater {
 					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
 					TargetInstance.transform.parent = AvatarGameObject.transform;
 					TransformPrefab(TargetInstance, AvatarGameObject, true);
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(TargetInstance, "Added New GameObject");
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			GetVRSuyaGameObjects();
@@ -84,11 +84,11 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (VRSuyaAFKAnchorGameObject) {
 				ParentConstraint AnchorParentConstraint = VRSuyaAFKAnchorGameObject.GetComponent<ParentConstraint>();
 				if (AnchorParentConstraint) {
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(AnchorParentConstraint, "Changed Parent Constraint");
 					AnchorParentConstraint.SetSource(0, new ConstraintSource() { sourceTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.RightHand), weight = 1 });
 					AnchorParentConstraint.constraintActive = true;
 					EditorUtility.SetDirty(AnchorParentConstraint);
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			return;
@@ -97,10 +97,10 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>Prefab의 이름을 애니메이션 Path 규격에 맞춰 변경합니다.</summary>
 		private static void UpdatePrefabName() {
 			if (VRSuyaAFKGameObject.name != "VRSuya_AFK_Prefab") {
-				Undo.IncrementCurrentGroup();
 				Undo.RecordObject(VRSuyaAFKGameObject, "Changed GameObject Name");
 				VRSuyaAFKGameObject.name = "VRSuya_AFK_Prefab";
 				EditorUtility.SetDirty(VRSuyaAFKGameObject);
+				Undo.CollapseUndoOperations(UndoGroupIndex);
 			}
 		}
 	}

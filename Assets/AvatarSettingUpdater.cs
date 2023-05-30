@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
+using UnityEditor;
 using UnityEditor.Animations;
 
 using VRC.SDK3.Avatars.Components;
@@ -119,6 +120,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		// 상태 반환
 		protected static string StatusCode = "";
+		protected static int UndoGroupIndex;
 
         // 컴포넌트 최초 로드시 동작
         void OnEnable() {
@@ -171,6 +173,9 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// 본 프로그램의 메인 세팅 로직입니다.
 		/// </summary>
 		public void UpdateAvatarSetting() {
+			Undo.IncrementCurrentGroup();
+			Undo.SetCurrentGroupName("VRSuya Avatar Setting Updater");
+			UndoGroupIndex = Undo.GetCurrentGroup();
 			SetStaticVariable();
 			if (VerifyVariable()) {
 				ProductSetup.RequestProductRegister();

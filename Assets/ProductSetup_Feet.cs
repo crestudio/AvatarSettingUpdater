@@ -74,8 +74,8 @@ namespace VRSuya.AvatarSettingUpdater {
 					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
 					TargetInstance.transform.parent = AvatarGameObject.transform;
 					TransformPrefab(TargetInstance, AvatarGameObject, false);
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(TargetInstance, "Added New GameObject");
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			GetVRSuyaGameObjects();
@@ -126,11 +126,11 @@ namespace VRSuya.AvatarSettingUpdater {
 								break;
 						}
 						if (TargetTransform) {
-							Undo.IncrementCurrentGroup();
 							Undo.RecordObject(TargetParentConstraint, "Changed Parent Constraint");
 							TargetParentConstraint.SetSource(0, new ConstraintSource() { sourceTransform = TargetTransform, weight = 1 });
 							TargetParentConstraint.constraintActive = true;
 							EditorUtility.SetDirty(TargetParentConstraint);
+							Undo.CollapseUndoOperations(UndoGroupIndex);
 						}
 					}
 				}
@@ -147,10 +147,10 @@ namespace VRSuya.AvatarSettingUpdater {
 					if (ToePhysBone) {
 						Transform TargetToeTransform = Array.Find(FeetTransforms, FeetTransform => TargetTransform.name == FeetTransform.name);
 						if (TargetTransform) {
-							Undo.IncrementCurrentGroup();
 							Undo.RecordObject(ToePhysBone, "Changed PhysBone Root Transform");
 							ToePhysBone.rootTransform = TargetToeTransform;
 							EditorUtility.SetDirty(ToePhysBone);
+							Undo.CollapseUndoOperations(UndoGroupIndex);
 						}
 					}
 				}
@@ -161,10 +161,10 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>Prefab의 이름을 애니메이션 Path 규격에 맞춰 변경합니다.</summary>
 		private static void UpdatePrefabName() {
 			if (VRSuyaHopedskyDFeetGameObject.name != "VRSuya_HopeskyD_Feet") {
-				Undo.IncrementCurrentGroup();
 				Undo.RecordObject(VRSuyaHopedskyDFeetGameObject, "Changed GameObject Name");
 				VRSuyaHopedskyDFeetGameObject.name = "VRSuya_HopeskyD_Feet";
 				EditorUtility.SetDirty(VRSuyaHopedskyDFeetGameObject);
+				Undo.CollapseUndoOperations(UndoGroupIndex);
 			}
 		}
 	}

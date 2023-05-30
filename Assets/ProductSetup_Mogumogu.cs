@@ -69,8 +69,8 @@ namespace VRSuya.AvatarSettingUpdater {
 					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
 					TargetInstance.transform.parent = AvatarGameObject.transform;
 					TransformPrefab(TargetInstance, AvatarGameObject, true);
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(TargetInstance, "Added New GameObject");
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			if (!Array.Exists(HeadChildAvatarGameObjectNames, GameObjectName => GameObjectName.Contains("VRSuya_Mogumogu_Particle"))) {
@@ -82,8 +82,8 @@ namespace VRSuya.AvatarSettingUpdater {
 					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
 					TargetInstance.transform.parent = AvatarAnimator.GetBoneTransform(HumanBodyBones.Head);
 					TransformPrefab(TargetInstance, AvatarGameObject, true);
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(TargetInstance, "Added New GameObject");
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			GetVRSuyaGameObjects();
@@ -128,16 +128,16 @@ namespace VRSuya.AvatarSettingUpdater {
 					}
 				}
 				if (Cheek_L && PhysBone_Cheek_L) {
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(PhysBone_Cheek_L, "Changed PhysBone Root Transform");
 					PhysBone_Cheek_L.rootTransform = Cheek_L;
 					EditorUtility.SetDirty(PhysBone_Cheek_L);
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 				if (Cheek_R && PhysBone_Cheek_R) {
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(PhysBone_Cheek_R, "Changed PhysBone Root Transform");
 					PhysBone_Cheek_R.rootTransform = Cheek_R;
 					EditorUtility.SetDirty(PhysBone_Cheek_R);
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			return;
@@ -148,10 +148,10 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (AvatarCheekBoneTransforms.Length > 0) {
 				foreach (Transform TargetTransform in AvatarCheekBoneTransforms) {
 					if (TargetTransform.GetComponent<VRCPhysBone>()) {
-						Undo.IncrementCurrentGroup();
 						Undo.RecordObject(TargetTransform.GetComponent<VRCPhysBone>(), "Disabled PhysBone");
 						TargetTransform.GetComponent<VRCPhysBone>().enabled = false;
 						EditorUtility.SetDirty(TargetTransform.GetComponent<VRCPhysBone>());
+						Undo.CollapseUndoOperations(UndoGroupIndex);
 					}
 				}
 			}
@@ -165,10 +165,10 @@ namespace VRSuya.AvatarSettingUpdater {
 				foreach (string TargetLayerName in dictSELESTIAMogumoguLayerName) {
 					int Index = Array.FindIndex(VRCFXLayer.layers, Layer => TargetLayerName == Layer.name);
 					if (Index != -1) {
-						Undo.IncrementCurrentGroup();
 						Undo.RecordObject(VRCFXLayer, "Disabled Animator Controller Cheek Bone Layer");
 						VRCFXLayer.layers[Index].defaultWeight = 0;
 						EditorUtility.SetDirty(VRCFXLayer);
+						Undo.CollapseUndoOperations(UndoGroupIndex);
 					}
 				}
 			}

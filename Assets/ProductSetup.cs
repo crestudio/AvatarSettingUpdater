@@ -162,18 +162,18 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static void UpdateTargetAnimatorController(AnimatorController TargetController, AnimatorControllerLayer[] TargetLayers, AnimatorControllerParameter[] TargetParameters) {
 			foreach (AnimatorControllerParameter NewParameter in TargetParameters) {
 				if (!Array.Exists(TargetController.parameters, ExistParameter => NewParameter.name == ExistParameter.name)) {
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Parameter");
 					TargetController.parameters = TargetController.parameters.Concat(new AnimatorControllerParameter[] { NewParameter }).ToArray();
 					EditorUtility.SetDirty(TargetController);
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			foreach (AnimatorControllerLayer NewLayer in TargetLayers) {
 				if (!Array.Exists(TargetController.layers, ExistLayer => NewLayer.name == ExistLayer.name)) {
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Layer");
 					TargetController.layers = TargetController.layers.Concat(new AnimatorControllerLayer[] { NewLayer }).ToArray();
 					EditorUtility.SetDirty(TargetController);
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			return;
@@ -183,9 +183,9 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static void UpdateAvatarParameters() {
             foreach (VRCExpressionParameters.Parameter NewParameter in VRSuyaParameters) {
                 if (!Array.Exists(AvatarVRCParameter.parameters, ExistParameter => ExistParameter.name == NewParameter.name)) {
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(AvatarVRCParameter, "Added VRC Parameter");
 					AvatarVRCParameter.parameters = AvatarVRCParameter.parameters.Concat(new VRCExpressionParameters.Parameter[] { NewParameter }).ToArray();
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
             }
 			EditorUtility.SetDirty(AvatarVRCParameter);
@@ -196,9 +196,9 @@ namespace VRSuya.AvatarSettingUpdater {
 		private static void UpdateAvatarMenus() {
             foreach (VRCExpressionsMenu.Control NewMenu in VRSuyaMenus) {
                 if (!AvatarVRCMenu.controls.Exists(ExistMenu => ExistMenu.subMenu == NewMenu.subMenu)) {
-					Undo.IncrementCurrentGroup();
 					Undo.RecordObject(AvatarVRCMenu, "Added VRC Menu");
 					AvatarVRCMenu.controls.Add(NewMenu);
+					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
 			EditorUtility.SetDirty(AvatarVRCMenu);
