@@ -266,6 +266,8 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (AvatarVRCMenu == null) {
 					string AssetGUID = CreateVRCAsset(VRCAssetType.Menu);
 					if (!string.IsNullOrEmpty(AssetGUID)) {
+						Undo.IncrementCurrentGroup();
+						Undo.RecordObject(AvatarVRCAvatarDescriptor, "Added new VRC Menu");
 						AvatarVRCMenu = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
 						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 					} else {
@@ -277,6 +279,8 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (AvatarVRCParameter == null) {
 					string AssetGUID = CreateVRCAsset(VRCAssetType.Parameter);
 					if (!string.IsNullOrEmpty(AssetGUID)) {
+						Undo.IncrementCurrentGroup();
+						Undo.RecordObject(AvatarVRCAvatarDescriptor, "Added new VRC Parameter");
 						AvatarVRCParameter = AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(AssetDatabase.GUIDToAssetPath(AssetGUID));
 						EditorUtility.SetDirty(AvatarVRCAvatarDescriptor);
 					} else {
@@ -317,6 +321,8 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (string.IsNullOrEmpty(AssetGUID)) {
 					Result = false;
 				} else {
+					Undo.IncrementCurrentGroup();
+					Undo.RecordObject(AvatarVRCAvatarDescriptor, "Changed VRC Layer");
 					int Index = Array.FindIndex(AvatarVRCAvatarLayers, Layer => TargetType == Layer.type);
 					AnimatorController TargetAnimationController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
 					if (AvatarVRCAvatarLayers[Index].isDefault == true) {
@@ -365,6 +371,8 @@ namespace VRSuya.AvatarSettingUpdater {
 					break;
 			}
 			if (!string.IsNullOrEmpty(AssetGUID)) {
+				Undo.IncrementCurrentGroup();
+				Undo.RecordObject(AvatarVRCAvatarDescriptor, "Changed VRC Layer");
 				int Index = Array.FindIndex(AvatarVRCAvatarLayers, Layer => TargetType == Layer.type);
 				AnimatorController TargetAnimationController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AssetGUID));
 				if (AvatarVRCAvatarLayers[Index].isDefault == true) {

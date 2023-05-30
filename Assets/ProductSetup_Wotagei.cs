@@ -57,6 +57,8 @@ namespace VRSuya.AvatarSettingUpdater {
 					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
 					TargetInstance.transform.parent = AvatarGameObject.transform;
 					TransformPrefab(TargetInstance, AvatarGameObject, true);
+					Undo.IncrementCurrentGroup();
+					Undo.RecordObject(TargetInstance, "Added New GameObject");
 				}
 			}
 			GetVRSuyaGameObjects();
@@ -83,6 +85,8 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (LeftHandGameObject) {
 				ParentConstraint AnchorParentConstraint = LeftHandGameObject.GetComponent<ParentConstraint>();
 				if (AnchorParentConstraint) {
+					Undo.IncrementCurrentGroup();
+					Undo.RecordObject(AnchorParentConstraint, "Changed Parent Constraint");
 					AnchorParentConstraint.SetSource(0, new ConstraintSource() { sourceTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.LeftHand), weight = 1 });
 					AnchorParentConstraint.constraintActive = true;
 					EditorUtility.SetDirty(AnchorParentConstraint);
@@ -91,6 +95,8 @@ namespace VRSuya.AvatarSettingUpdater {
 			if (RightHandGameObject) {
 				ParentConstraint AnchorParentConstraint = RightHandGameObject.GetComponent<ParentConstraint>();
 				if (AnchorParentConstraint) {
+					Undo.IncrementCurrentGroup();
+					Undo.RecordObject(AnchorParentConstraint, "Changed Parent Constraint");
 					AnchorParentConstraint.SetSource(0, new ConstraintSource() { sourceTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.RightHand), weight = 1 });
 					AnchorParentConstraint.constraintActive = true;
 					EditorUtility.SetDirty(AnchorParentConstraint);
@@ -102,6 +108,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		/// <summary>Prefab의 이름을 애니메이션 Path 규격에 맞춰 변경합니다.</summary>
 		private static void UpdatePrefabName() {
 			if (VRSuyaWotageiGameObject.name != "VRSuya_Wotagei") {
+				Undo.IncrementCurrentGroup();
+				Undo.RecordObject(VRSuyaWotageiGameObject, "Changed GameObject Name");
 				VRSuyaWotageiGameObject.name = "VRSuya_Wotagei";
 				EditorUtility.SetDirty(VRSuyaWotageiGameObject);
 			}
