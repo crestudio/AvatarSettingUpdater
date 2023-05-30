@@ -40,6 +40,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		public bool InstallProductWotageiEditor = false;
 		public bool InstallProductFeetEditor = false;
 
+		public int StatusNeedMoreSpaceMenuEditor = 0;
+		public int StatusNeedMoreSpaceParameterEditor = 0;
 		public string StatusCodeEditor = "";
 
 		// 아바타 관련 변수
@@ -210,6 +212,8 @@ namespace VRSuya.AvatarSettingUpdater {
 			InstalledVRSuyaProductAvatars = new Avatar[0];
 			RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
 			StatusCode = "";
+			StatusNeedMoreSpaceMenuEditor = 0;
+			StatusNeedMoreSpaceParameterEditor = 0;
             return;
         }
 
@@ -299,10 +303,12 @@ namespace VRSuya.AvatarSettingUpdater {
 			}
 			if (CurrentAvatarVRCMenuCount + RequiredMenuCount > VRCExpressionsMenu.MAX_CONTROLS) {
 				StatusCode = "NO_MORE_MENU";
+				StatusNeedMoreSpaceMenuEditor = (CurrentAvatarVRCMenuCount + RequiredMenuCount) - VRCExpressionsMenu.MAX_CONTROLS;
 				return false;
 			}
 			if (CurrentAvatarVRCParameterCosts + RequiredParametersCost > VRCExpressionParameters.MAX_PARAMETER_COST) {
 				StatusCode = "NO_MORE_PARAMETER";
+				StatusNeedMoreSpaceParameterEditor = (CurrentAvatarVRCParameterCosts + RequiredParametersCost) - VRCExpressionParameters.MAX_PARAMETER_COST;
 				return false;
             }
 			return true;

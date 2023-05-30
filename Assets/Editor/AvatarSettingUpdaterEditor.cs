@@ -17,6 +17,8 @@ namespace VRSuya.AvatarSettingUpdater {
         SerializedProperty SerializedAvatarAnchorOverride;
 		SerializedProperty SerializedKeepAnimatorController;
 		SerializedProperty SerializedStatusCode;
+		SerializedProperty SerializedStatusNeedMoreSpaceMenu;
+		SerializedProperty SerializedStatusNeedMoreSpaceParameter;
 		SerializedProperty SerializedInstalledVRSuyaProductAvatarsEditor;
 
 		// 제품 추가시 추가해야 될 변수
@@ -35,6 +37,8 @@ namespace VRSuya.AvatarSettingUpdater {
 		public static int AvatarType = 0;
 		public static string[] AvatarNames = new string[0];
 		public static string SelectedAvatarName = "";
+		public static int StatusNeedMoreSpaceMenu;
+		public static int StatusNeedMoreSpaceParameter;
 
 		void OnEnable() {
             SerializedAvatarGameObject = serializedObject.FindProperty("AvatarGameObjectEditor");
@@ -43,6 +47,8 @@ namespace VRSuya.AvatarSettingUpdater {
 			SerializedKeepAnimatorController = serializedObject.FindProperty("KeepAnimatorControllerEditor");
 			SerializedAvatarAnchorOverride = serializedObject.FindProperty("AvatarAnchorOverrideEditor");
 			SerializedStatusCode = serializedObject.FindProperty("StatusCodeEditor");
+			SerializedStatusNeedMoreSpaceMenu = serializedObject.FindProperty("StatusNeedMoreSpaceMenuEditor");
+			SerializedStatusNeedMoreSpaceParameter = serializedObject.FindProperty("StatusNeedMoreSpaceParameterEditor");
 			SerializedInstalledVRSuyaProductAvatarsEditor = serializedObject.FindProperty("InstalledVRSuyaProductAvatarsEditor");
 
 			// 제품 추가시 추가해야 될 변수
@@ -90,7 +96,9 @@ namespace VRSuya.AvatarSettingUpdater {
 			GUI.enabled = true;
 			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			if (!string.IsNullOrEmpty(SerializedStatusCode.stringValue)) {
-                EditorGUILayout.HelpBox(LanguageHelper.GetContextString(SerializedStatusCode.stringValue), MessageType.Warning);
+				StatusNeedMoreSpaceMenu = SerializedStatusNeedMoreSpaceMenu.intValue;
+				StatusNeedMoreSpaceParameter = SerializedStatusNeedMoreSpaceParameter.intValue;
+				EditorGUILayout.HelpBox(LanguageHelper.GetContextString(SerializedStatusCode.stringValue), MessageType.Warning);
             }
 			serializedObject.ApplyModifiedProperties();
 			if (GUILayout.Button(LanguageHelper.GetContextString("String_GetAvatarData"))) {
