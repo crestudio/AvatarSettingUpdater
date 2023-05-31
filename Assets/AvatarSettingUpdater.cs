@@ -337,12 +337,6 @@ namespace VRSuya.AvatarSettingUpdater {
 			}
 			return ReturnResult;
 		}
-
-		/// <summary>디버그용 메소드</summary>
-		public void DebugAvatarSetting() {
-			SetStaticVariable();
-			return;
-		}
 	}
 }
 #endif

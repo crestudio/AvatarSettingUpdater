@@ -109,9 +109,6 @@ namespace VRSuya.AvatarSettingUpdater {
 				Repaint();
 			}
 			EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_Undo"), MessageType.Info);
-			if (GUILayout.Button(LanguageHelper.GetContextString("String_Debug"))) {
-				(target as AvatarSettingUpdater).DebugAvatarSetting();
-			}
 		}
 
 		/// <summary>요청한 VRSuya 제품의 아바타 파일이 설치 되어있는지 검사합니다.</summary>
