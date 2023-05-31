@@ -4,8 +4,9 @@
 
 ## 다운로드
 
-![VCC 패키지 추가](vcc://vpm/addRepo?url=https://macchiato.kr/vpm/vpm.json)
-![ZIP 다운로드](https://github.com/crestudio/AvatarSettingUpdater/releases)
+[VCC 패키지 추가](vcc://vpm/addRepo?url=https://macchiato.kr/vpm/vpm.json)
+
+[ZIP 다운로드](https://github.com/crestudio/AvatarSettingUpdater/releases)
 
 ---
 
