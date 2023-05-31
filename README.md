@@ -4,7 +4,7 @@
 
 ## 다운로드
 
-[VCC 패키지 추가](vcc://vpm/addRepo?url=https://macchiato.kr/vpm/vpm.json)
+VCC 패키지 추가 > vcc://vpm/addRepo?url=https://macchiato.kr/vpm/vpm.json
 
 [ZIP 다운로드](https://github.com/crestudio/AvatarSettingUpdater/releases)
 
@@ -51,7 +51,7 @@ VRChat 아바타용 VRSuya 제품 자동 세팅 프로그램
 
 ## 업데이트 로그
 
-### 2023년 ?월 ?일 : 1.00
+### 2023년 5월 31일 : 1.00
 
 + 릴리즈
 
