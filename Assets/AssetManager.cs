@@ -43,6 +43,7 @@ namespace VRSuya.AvatarSettingUpdater {
 		};
 
 		private static Dictionary<VRCAssetType, string> dictVRCSDKAssetGUID = new Dictionary<VRCAssetType, string>() {
+			{ VRCAssetType.VRSuya, "00679ffab5ad14d42afccca44034c525" },
 			{ VRCAssetType.Template, "00679ffab5ad14d42afccca44034c525" },
 			{ VRCAssetType.Export, "13684ec2ba89160419ef0d32a11968cd" },
 			{ VRCAssetType.Locomotion, "4239c7ee49e2a664bbbf793ea643905b" },
@@ -54,8 +55,9 @@ namespace VRSuya.AvatarSettingUpdater {
 		};
 
 		private static Dictionary<VRCAssetType, string> dictVRCSDKAssetFilePath = new Dictionary<VRCAssetType, string>() {
+			{ VRCAssetType.VRSuya, "Assets/VRSuya" },
 			{ VRCAssetType.Template, "Assets/VRSuya/Library/Script/AvatarSettingUpdater/Controller" },
-			{ VRCAssetType.Export, "Assets/VRSuya/Library/Script/AvatarSettingUpdater/Controller/Export" },
+			{ VRCAssetType.Export, "Assets/VRSuya/Export" },
 			{ VRCAssetType.Locomotion, "VRSuya_Default_LocomotionLayer.controller" },
 			{ VRCAssetType.Gesture, "VRSuya_Default_GestureLayer.controller" },
 			{ VRCAssetType.Action, "VRSuya_Default_ActionLayer.controller" },
@@ -465,8 +467,8 @@ namespace VRSuya.AvatarSettingUpdater {
 			string DestinationAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[VRCAssetType.Export]);
 			if (string.IsNullOrEmpty(DestinationAssetPath)) DestinationAssetPath = dictVRCSDKAssetFilePath[VRCAssetType.Export];
 			if (!AssetDatabase.IsValidFolder(DestinationAssetPath)) {
-				string SourceAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[VRCAssetType.Template]);
-				if (string.IsNullOrEmpty(SourceAssetPath)) SourceAssetPath = dictVRCSDKAssetFilePath[VRCAssetType.Template];
+				string SourceAssetPath = AssetDatabase.GUIDToAssetPath(dictVRCSDKAssetGUID[VRCAssetType.VRSuya]);
+				if (string.IsNullOrEmpty(SourceAssetPath)) SourceAssetPath = dictVRCSDKAssetFilePath[VRCAssetType.VRSuya];
 				string DestinationGUID = AssetDatabase.CreateFolder(SourceAssetPath, "Export");
 				AssetDatabase.Refresh();
 				dictVRCSDKAssetGUID[VRCAssetType.Export] = DestinationGUID;
