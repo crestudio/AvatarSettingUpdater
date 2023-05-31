@@ -14,7 +14,7 @@ using VRC.SDK3.Dynamics.PhysBone.Components;
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
  */
 
-namespace VRSuya.AvatarSettingUpdater {
+namespace com.vrsuya.avatarsettingupdater {
 
 	[ExecuteInEditMode]
 	[AddComponentMenu("")]

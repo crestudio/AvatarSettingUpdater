@@ -1,0 +1,18 @@
+{
+    "name": "com.vrsuya.avatarsettingupdater.Editor",
+    "references": [
+        "GUID:eb4da792d48120c40a88f603f1380414",
+        "GUID:5718fb738711cd34ea54e9553040911d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

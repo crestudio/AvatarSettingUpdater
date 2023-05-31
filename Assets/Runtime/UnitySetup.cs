@@ -10,7 +10,7 @@ using UnityEngine.Rendering;
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
  */
 
-namespace VRSuya.AvatarSettingUpdater {
+namespace com.vrsuya.avatarsettingupdater {
 
 	[ExecuteInEditMode]
 	[AddComponentMenu("")]

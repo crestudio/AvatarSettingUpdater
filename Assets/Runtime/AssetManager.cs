@@ -15,7 +15,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
  */
 
-namespace VRSuya.AvatarSettingUpdater {
+namespace com.vrsuya.avatarsettingupdater {
 
 	[ExecuteInEditMode]
 	[AddComponentMenu("")]
@@ -56,7 +56,7 @@ namespace VRSuya.AvatarSettingUpdater {
 
 		private static Dictionary<VRCAssetType, string> dictVRCSDKAssetFilePath = new Dictionary<VRCAssetType, string>() {
 			{ VRCAssetType.VRSuya, "Assets/VRSuya" },
-			{ VRCAssetType.Template, "Assets/VRSuya/Library/Script/AvatarSettingUpdater/Controller" },
+			{ VRCAssetType.Template, "Packages/com.vrsuya.avatarsettingupdater/Controller" },
 			{ VRCAssetType.Export, "Assets/VRSuya/Export" },
 			{ VRCAssetType.Locomotion, "VRSuya_Default_LocomotionLayer.controller" },
 			{ VRCAssetType.Gesture, "VRSuya_Default_GestureLayer.controller" },

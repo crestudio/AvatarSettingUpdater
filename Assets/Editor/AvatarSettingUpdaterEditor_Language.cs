@@ -8,7 +8,7 @@ using UnityEditor;
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
  */
 
-namespace VRSuya.AvatarSettingUpdater {
+namespace com.vrsuya.avatarsettingupdater {
 
 	public class LanguageHelper : AvatarSettingUpdaterEditor {
 
