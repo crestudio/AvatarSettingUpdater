@@ -72,9 +72,9 @@ namespace VRSuya.AvatarSettingUpdater {
 				if (TargetPrefabPath != null) {
 					GameObject TargetPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(TargetPrefabPath, typeof(GameObject));
 					GameObject TargetInstance = (GameObject)PrefabUtility.InstantiatePrefab(TargetPrefab);
+					Undo.RecordObject(TargetInstance, "Added New GameObject");
 					TargetInstance.transform.parent = AvatarGameObject.transform;
 					TransformPrefab(TargetInstance, AvatarGameObject, false);
-					Undo.RecordObject(TargetInstance, "Added New GameObject");
 					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
