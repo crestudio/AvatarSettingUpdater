@@ -416,7 +416,22 @@ namespace VRSuya.AvatarSettingUpdater {
 				string OriginalFileName = SourceAssetPath.Split('/')[SourceAssetPath.Split('/').Length - 1];
 				string ExportFileName = OriginalFileName.Replace(dictDefaultFilename, AvatarGameObject.name);
 				string FinalDestinationAssetPath = DestinationAssetPath + "/" + ExportFileName;
-				if (string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID(FinalDestinationAssetPath))) {
+				object ReadFile = null;
+				switch (TargetType) {
+					case VRCAssetType.Locomotion:
+					case VRCAssetType.Gesture:
+					case VRCAssetType.Action:
+					case VRCAssetType.FX:
+						ReadFile = AssetDatabase.LoadAssetAtPath<AnimatorController>(FinalDestinationAssetPath);
+						break;
+					case VRCAssetType.Menu:
+						ReadFile = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(FinalDestinationAssetPath);
+						break;
+					case VRCAssetType.Parameter:
+						ReadFile = AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(FinalDestinationAssetPath);
+						break;
+				}
+				if (ReadFile == null) {
 					FileUtil.CopyFileOrDirectory(SourceAssetPath, FinalDestinationAssetPath);
 					AssetDatabase.Refresh();
 				}
