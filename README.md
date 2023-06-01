@@ -6,7 +6,7 @@
 
 [VCC 패키지 추가](https://crestudio.notion.site/Avatar-Setting-Updater-628ff7f0bd2640a29e56cade96104f71)
 
-[ZIP 다운로드](https://github.com/crestudio/AvatarSettingUpdater/releases)
+[UnityPackage 다운로드](https://github.com/crestudio/AvatarSettingUpdater/releases)
 
 ---
 
