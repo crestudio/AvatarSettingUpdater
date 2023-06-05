@@ -122,6 +122,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			return VRSuyaGameObjects;
 		}
 
+		/// <summary>정적 변수를 초기화 합니다.</summary>
 		private static void ClearVariable() {
 			VRSuyaLocomotionLayers = new AnimatorControllerLayer[0];
 			VRSuyaGestureLayers = new AnimatorControllerLayer[0];
