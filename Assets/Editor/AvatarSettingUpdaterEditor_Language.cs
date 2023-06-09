@@ -81,8 +81,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "NO_VRCAVATARDESCRIPTOR", "Not found VRC Avatar Descriptor Component in the Avatar" },
 			{ "NO_VRCSDK_MENU", "Not found VRC Avatar Menu" },
 			{ "NO_VRCSDK_PARAMETER", "Not found VRC Avatar Parameter" },
-			{ "NO_MORE_MENU", "Need " + StatusNeedMoreSpaceMenu + " more space to add VRC Menu" },
-			{ "NO_MORE_PARAMETER", "Need " + StatusNeedMoreSpaceParameter + " more space to add VRC Parameter" },
+			{ "NO_MORE_MENU", "Need {0} more space to add VRC Menu" },
+			{ "NO_MORE_PARAMETER", "Need {0} more space to add VRC Parameter" },
 			{ "NO_SOURCE_FILE", "Not found VRC Assets(likes Animator Controller, Menu, Parameter) in the Avatar" }
 		};
 
@@ -114,8 +114,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "NO_VRCAVATARDESCRIPTOR", "아바타에서 VRC 아바타 디스크립터를 찾을 수 없습니다" },
 			{ "NO_VRCSDK_MENU", "VRC 메뉴가 존재하지 않습니다" },
 			{ "NO_VRCSDK_PARAMETER", "VRC 파라메터가 존재하지 않습니다" },
-			{ "NO_MORE_MENU", "VRC 메뉴를 추가할 공간이 " + StatusNeedMoreSpaceMenu + "개 부족합니다" },
-			{ "NO_MORE_PARAMETER", "VRC 파라메터를 추가할 공간이 " + StatusNeedMoreSpaceParameter + "개 부족합니다" },
+			{ "NO_MORE_MENU", "VRC 메뉴를 추가할 공간이 {0}개 부족합니다" },
+			{ "NO_MORE_PARAMETER", "VRC 파라메터를 추가할 공간이 {0}개 부족합니다" },
 			{ "NO_SOURCE_FILE", "아바타에서 VRC용 에셋(애니메이터, 메뉴, 파라메터)을 찾을 수 없습니다" }
 		};
 
@@ -147,8 +147,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "NO_VRCAVATARDESCRIPTOR", "アバターにVRCアバターディスクリプターが見つかりません" },
 			{ "NO_VRCSDK_MENU", "VRCメニューが存在しません" },
 			{ "NO_VRCSDK_PARAMETER", "VRCパラメータが存在しません" },
-			{ "NO_MORE_MENU", "VRCメニューを追加するスペース" + StatusNeedMoreSpaceMenu + "スロットが不足しています" },
-			{ "NO_MORE_PARAMETER", "VRCパラメータを追加するスペース" + StatusNeedMoreSpaceParameter + "スロットが不足しています" },
+			{ "NO_MORE_MENU", "VRCメニューを追加するスペース{0}スロットが不足しています" },
+			{ "NO_MORE_PARAMETER", "VRCパラメータを追加するスペース{0}スロットが不足しています" },
 			{ "NO_SOURCE_FILE", "アバターにVRC用アセット(アニメーター、メニュー、パラメータ)が見つかりません" }
 		};
 

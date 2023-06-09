@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+
+using UnityEngine;
 using UnityEditor;
 
 /*
@@ -39,6 +42,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		public static string SelectedAvatarName = "";
 		public static int StatusNeedMoreSpaceMenu;
 		public static int StatusNeedMoreSpaceParameter;
+		private static readonly string[] StringFormatCode = new string[] { "NO_MORE_MENU", "NO_MORE_PARAMETER" };
 
 		void OnEnable() {
             SerializedAvatarGameObject = serializedObject.FindProperty("AvatarGameObjectEditor");
@@ -96,9 +100,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			GUI.enabled = true;
 			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			if (!string.IsNullOrEmpty(SerializedStatusCode.stringValue)) {
-				StatusNeedMoreSpaceMenu = SerializedStatusNeedMoreSpaceMenu.intValue;
-				StatusNeedMoreSpaceParameter = SerializedStatusNeedMoreSpaceParameter.intValue;
-				EditorGUILayout.HelpBox(LanguageHelper.GetContextString(SerializedStatusCode.stringValue), MessageType.Warning);
+				EditorGUILayout.HelpBox(ReturnStatusString(SerializedStatusCode.stringValue), MessageType.Warning);
             }
 			serializedObject.ApplyModifiedProperties();
 			if (GUILayout.Button(LanguageHelper.GetContextString("String_GetAvatarData"))) {
@@ -119,6 +121,25 @@ namespace com.vrsuya.avatarsettingupdater {
 				ReturnResult = true;
 			}
 			return ReturnResult;
+		}
+
+		/// <summary>요청한 StatusCode를 요청한 언어로 번역하여 현재 데이터 결과를 반영한 String으로 반환합니다.</summary>
+		/// <returns>완전한 StatusCode의 String</returns>
+		private string ReturnStatusString(string StatusCode) {
+			string ReturnString = LanguageHelper.GetContextString(StatusCode);
+			StatusNeedMoreSpaceMenu = SerializedStatusNeedMoreSpaceMenu.intValue;
+			StatusNeedMoreSpaceParameter = SerializedStatusNeedMoreSpaceParameter.intValue;
+			if (Array.Exists(StringFormatCode, Code => StatusCode == Code)) {
+				switch (StatusCode) {
+					case "NO_MORE_MENU":
+						ReturnString = string.Format(ReturnString, StatusNeedMoreSpaceMenu);
+						break;
+					case "NO_MORE_PARAMETER":
+						ReturnString = string.Format(ReturnString, StatusNeedMoreSpaceParameter);
+						break;
+				}
+			}
+			return ReturnString;
 		}
 	}
 }
