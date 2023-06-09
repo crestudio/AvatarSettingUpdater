@@ -120,7 +120,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID = new Dictionary<VRCAvatarDescriptor.AnimLayerType, string>();
 			foreach (string TargetVRCAnimatorType in dictAnimatorControllerName) {
 				string TargetAvatarType = "";
-				if (AvatarType != Avatar.NULL) TargetAvatarType = AvatarType.ToString();
+				if (AvatarType != Avatar.General) TargetAvatarType = AvatarType.ToString();
 				string[] TargetVRCAnimatorGUID = AssetDatabase.FindAssets(TargetVRCAnimatorType + " t:AnimatorController " + TargetAvatarType, new[] { SearchPath });
 				if (TargetVRCAnimatorGUID.Length == 0) TargetVRCAnimatorGUID = AssetDatabase.FindAssets(TargetVRCAnimatorType + " t:AnimatorController", new[] { SearchPath });
 				if (TargetVRCAnimatorGUID.Length > 0) {
@@ -250,7 +250,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 			// 제품 추가시 추가해야 될 변수
 			if (TypeProduct == ProductName.AFK || TypeProduct == ProductName.Wotagei) {
-				AvatarNames = AvatarNames.Concat(new Avatar[] { Avatar.NULL }).ToArray();
+				AvatarNames = AvatarNames.Concat(new Avatar[] { Avatar.General }).ToArray();
 			}
 			AvatarNames = AvatarNames.Distinct().ToArray();
 			return AvatarNames;

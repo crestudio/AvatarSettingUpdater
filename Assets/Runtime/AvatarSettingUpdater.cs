@@ -47,7 +47,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		// 아바타 관련 변수
 		protected static GameObject AvatarGameObject;
-		protected static Avatar AvatarType = Avatar.NULL;
+		protected static Avatar AvatarType = Avatar.General;
 		protected static Animator AvatarAnimator;
 		protected static SkinnedMeshRenderer[] AvatarSkinnedMeshRenderers;
 		protected static MeshRenderer[] AvatarMeshRenderers;
@@ -91,7 +91,7 @@ namespace com.vrsuya.avatarsettingupdater {
         }
 
 		public enum Avatar {
-			NULL, Aldina, Angura, Anon, Anri, Ash, Cygnet, Emmelie, EYO, Firina, Fuzzy, Glaze, Grus, Hakka, IMERIS,
+			General, Aldina, Angura, Anon, Anri, Ash, Cygnet, Emmelie, EYO, Firina, Fuzzy, Glaze, Grus, Hakka, IMERIS,
 			Karin, Kikyo, Kokoa, Koyuki, Kuronatu, Leefa, Leeme, Lunalitt, Maki, Mamehinata, Mariel, Marron,
 			Maya, Merino, Milk, Minahoshi, Minase, Mint, Mir, Mishe, Moe, Nayu, Platinum, Quiche, Rainy,
 			Ramune_Old, RINDO, Rue, Rusk, SELESTIA, Sephira, Sue, Suzuhana, Tien, Ukon, Usasaki, Wolferia,
@@ -202,7 +202,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		/// <summary>정적 변수를 초기화 합니다.</summary>
 		private void ClearVariable() {
-			AvatarType = Avatar.NULL;
+			AvatarType = Avatar.General;
 			AvatarAnimator = null;
             AvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
             AvatarMeshRenderers = new MeshRenderer[0];
