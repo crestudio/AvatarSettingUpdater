@@ -155,6 +155,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <summary>요청한 아바타 이름들을 설정된 언어에 맞춰 변환합니다.</summary>
 		/// <returns>요청한 아바타 이름들의 현재 설정된 언어 버전</returns>
 		private static readonly Dictionary<AvatarSettingUpdater.Avatar, string[]> dictAvatarNames = new Dictionary<AvatarSettingUpdater.Avatar, string[]>() {
+			{ AvatarSettingUpdater.Avatar.NULL, new string[] { "General", "일반", "一般" } },
 			{ AvatarSettingUpdater.Avatar.Aldina, new string[] { "Aldina", "알디나", "アルディナ" } },
 			{ AvatarSettingUpdater.Avatar.Angura, new string[] { "Angura", "앙그라", "アングラ" } },
 			{ AvatarSettingUpdater.Avatar.Anon, new string[] { "Anon", "아논", "あのん" } },

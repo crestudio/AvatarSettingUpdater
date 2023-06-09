@@ -247,6 +247,11 @@ namespace com.vrsuya.avatarsettingupdater {
 					// if (!Enum.TryParse<Avatar>(AvatarName, out AvatarType)) Debug.LogError("[VRSuya AvatarSettingUpdater] Prefab 아바타 이름 오류 : " + AssetDatabase.GUIDToAssetPath(AssetGUID));
 				}
 			}
+
+			// 제품 추가시 추가해야 될 변수
+			if (TypeProduct == ProductName.AFK || TypeProduct == ProductName.Wotagei) {
+				AvatarNames = AvatarNames.Concat(new Avatar[] { Avatar.NULL }).ToArray();
+			}
 			AvatarNames = AvatarNames.Distinct().ToArray();
 			return AvatarNames;
 		}
