@@ -17,7 +17,7 @@
     "url": "https://github.com/crestudio"
   },
   "url": "https://github.com/crestudio/AvatarSettingUpdater",
-  "repo": "https://macchiato.kr/vpm/vpm.json",
+  "repo": "https://server.macchiato.kr/vpm/vpm.json",
   "vpmDependencies": {
     "com.vrchat.avatars": ">=3.0.9"
   }
