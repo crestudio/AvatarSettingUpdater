@@ -49,14 +49,6 @@ VRChat 아바타용 VRSuya 제품 자동 세팅 프로그램
 
 ---
 
-## 업데이트 로그
-
-### 2023년 5월 31일 : 1.00
-
-+ 릴리즈
-
----
-
 ## Contact
 
 - Twitter : https://twitter.com/VRSuya
