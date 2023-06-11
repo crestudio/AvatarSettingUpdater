@@ -250,7 +250,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 			// 제품 추가시 추가해야 될 변수
 			if (TypeProduct == ProductName.AFK || TypeProduct == ProductName.Wotagei) {
-				AvatarNames = AvatarNames.Concat(new Avatar[] { Avatar.General }).ToArray();
+				if (AssetsGUID.Length > 0) AvatarNames = AvatarNames.Concat(new Avatar[] { Avatar.General }).ToArray();
 			}
 			AvatarNames = AvatarNames.Distinct().ToArray();
 			return AvatarNames;
