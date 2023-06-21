@@ -53,6 +53,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				if (VRSuyaHopedskyDFeetGameObject) {
 					GetFeetTransforms();
 					UpdateParentConstraints();
+					UpdateOtherConstraints();
 					UpdatePhysBones();
 					UpdatePrefabName();
 				}
@@ -106,9 +107,8 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		/// <summary>Parent Constraint 컴포넌트와 아바타를 연결합니다.</summary>
 		private static void UpdateParentConstraints() {
-			GameObject ArmatureGameObject = Array.Find(VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<Transform>(true), transform => transform.gameObject.name == "Armature").gameObject;
-			if (ArmatureGameObject) {
-				ParentConstraint[] AnchorParentConstraints = ArmatureGameObject.GetComponentsInChildren<ParentConstraint>();
+			if (VRSuyaHopedskyDFeetGameObject) {
+				ParentConstraint[] AnchorParentConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<ParentConstraint>();
 				if (AnchorParentConstraints != null) {
 					foreach (ParentConstraint TargetParentConstraint in AnchorParentConstraints) {
 						Transform TargetTransform = null;
@@ -119,11 +119,8 @@ namespace com.vrsuya.avatarsettingupdater {
 							case ("Right ankle"):
 								TargetTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.RightFoot);
 								break;
-							case ("Left toe"):
-								TargetTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.LeftToes);
-								break;
-							case ("Right toe"):
-								TargetTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.RightToes);
+							case ("Right wrist"):
+								TargetTransform = AvatarAnimator.GetBoneTransform(HumanBodyBones.RightHand);
 								break;
 						}
 						if (TargetTransform) {
@@ -134,6 +131,34 @@ namespace com.vrsuya.avatarsettingupdater {
 							Undo.CollapseUndoOperations(UndoGroupIndex);
 						}
 					}
+				}
+			}
+			return;
+		}
+
+		/// <summary>하위 Constraint 컴포넌트와 아바타를 연결합니다.</summary>
+		private static void UpdateOtherConstraints() {
+			if (VRSuyaHopedskyDFeetGameObject) {
+				PositionConstraint[] PositionConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<PositionConstraint>();
+				RotationConstraint[] RotationConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<RotationConstraint>();
+				if (PositionConstraints != null) {
+					foreach (PositionConstraint TargetPositionConstraint in PositionConstraints) {
+						Undo.RecordObject(TargetPositionConstraint, "Changed Position Constraint");
+						TargetPositionConstraint.SetSource(0, new ConstraintSource() { sourceTransform = AvatarGameObject.transform, weight = -1 });
+						TargetPositionConstraint.constraintActive = true;
+						EditorUtility.SetDirty(TargetPositionConstraint);
+						Undo.CollapseUndoOperations(UndoGroupIndex);
+					}
+				}
+				if (RotationConstraints != null) {
+					foreach (RotationConstraint TargetRotationConstraint in RotationConstraints) {
+						Undo.RecordObject(TargetRotationConstraint, "Changed Rotation Constraint");
+						TargetRotationConstraint.SetSource(0, new ConstraintSource() { sourceTransform = AvatarGameObject.transform, weight = (float)-0.5 });
+						TargetRotationConstraint.constraintActive = true;
+						EditorUtility.SetDirty(TargetRotationConstraint);
+						Undo.CollapseUndoOperations(UndoGroupIndex);
+					}
+
 				}
 			}
 			return;

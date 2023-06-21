@@ -75,7 +75,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		private static readonly string[] dictIgnoreLayerName = new string[] { "Base Layer", "AllParts", "Left Hand", "Right Hand" };
 
-		private static readonly string[] dictIgnorePrefabName = new string[] { "Cyalume", "LightStick" };
+		private static readonly string[] dictIgnorePrefabName = new string[] { "Cyalume", "LightStick", "Guide", "Sphere", "Transparent" };
 
 		private static readonly string dictDefaultFilename = "Default";
 
