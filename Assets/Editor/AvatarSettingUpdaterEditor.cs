@@ -126,14 +126,14 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <returns>완전한 StatusCode의 String</returns>
 		private string ReturnStatusString(string StatusCode) {
 			string ReturnString = LanguageHelper.GetContextString(StatusCode);
-			StatusNeedMoreSpaceMenu = SerializedStatusNeedMoreSpaceMenu.intValue;
-			StatusNeedMoreSpaceParameter = SerializedStatusNeedMoreSpaceParameter.intValue;
 			if (Array.Exists(StringFormatCode, Code => StatusCode == Code)) {
 				switch (StatusCode) {
 					case "NO_MORE_MENU":
+						StatusNeedMoreSpaceMenu = SerializedStatusNeedMoreSpaceMenu.intValue;
 						ReturnString = string.Format(ReturnString, StatusNeedMoreSpaceMenu);
 						break;
 					case "NO_MORE_PARAMETER":
+						StatusNeedMoreSpaceParameter = SerializedStatusNeedMoreSpaceParameter.intValue;
 						ReturnString = string.Format(ReturnString, StatusNeedMoreSpaceParameter);
 						break;
 				}
