@@ -35,11 +35,13 @@ namespace com.vrsuya.avatarsettingupdater {
 		public bool InstalledProductMogumoguEditor = false;
 		public bool InstalledProductWotageiEditor = false;
 		public bool InstalledProductFeetEditor = false;
+		public bool InstalledProductNyoronyoroEditor = false;
 
 		public bool InstallProductAFKEditor = false;
 		public bool InstallProductMogumoguEditor = false;
 		public bool InstallProductWotageiEditor = false;
 		public bool InstallProductFeetEditor = false;
+		public bool InstallProductNyoronyoroEditor = false;
 
 		public int StatusNeedMoreSpaceMenuEditor = 0;
 		public int StatusNeedMoreSpaceParameterEditor = 0;
@@ -87,7 +89,8 @@ namespace com.vrsuya.avatarsettingupdater {
             AFK,
             Mogumogu,
             Wotagei,
-            Feet
+            Feet,
+            Nyoronyoro
         }
 
 		public enum Avatar {
@@ -107,11 +110,13 @@ namespace com.vrsuya.avatarsettingupdater {
 		protected static bool InstalledProductMogumogu = false;
 		protected static bool InstalledProductWotagei = false;
 		protected static bool InstalledProductFeet = false;
+		protected static bool InstalledProductNyoronyoro = false;
 
 		protected static bool InstallProductAFK = false;
 		protected static bool InstallProductMogumogu = false;
 		protected static bool InstallProductWotagei = false;
 		protected static bool InstallProductFeet = false;
+		protected static bool InstallProductNyoronyoro = false;
 
 		// 추가될 VRSuya 데이터
 		protected static VRSuyaProduct[] InstalledVRSuyaProducts;
@@ -140,7 +145,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstallProductMogumogu = InstallProductMogumoguEditor;
 			InstallProductWotagei = InstallProductWotageiEditor;
 			InstallProductFeet = InstallProductFeetEditor;
-			return;
+			InstallProductNyoronyoro = InstallProductNyoronyoroEditor;
+            return;
         }
 
 		/// <summary>정적 변수 -> 에디터 변수 동기화합니다.</summary>
@@ -151,7 +157,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstalledProductMogumoguEditor = InstalledProductMogumogu;
 			InstalledProductWotageiEditor = InstalledProductWotagei;
 			InstalledProductFeetEditor = InstalledProductFeet;
-			InstalledVRSuyaProductAvatarsEditor = InstalledVRSuyaProductAvatars;
+			InstalledProductNyoronyoroEditor = InstalledProductNyoronyoro;
+            InstalledVRSuyaProductAvatarsEditor = InstalledVRSuyaProductAvatars;
 			StatusCodeEditor = StatusCode;
 			return;
 		}
@@ -216,7 +223,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstalledProductMogumogu = false;
 			InstalledProductWotagei = false;
 			InstalledProductFeet = false;
-			InstalledVRSuyaProducts = new VRSuyaProduct[0];
+			InstalledProductNyoronyoro = false;
+            InstalledVRSuyaProducts = new VRSuyaProduct[0];
 			InstalledVRSuyaProductAvatars = new Avatar[0];
 			RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
 			StatusCode = "";
@@ -271,7 +279,11 @@ namespace com.vrsuya.avatarsettingupdater {
 				VRSuyaProduct RequestProduct = Array.Find(InstalledVRSuyaProducts, Product => Product.ProductName == ProductName.Feet);
 				RequestSetupVRSuyaProductList = RequestSetupVRSuyaProductList.Concat(new VRSuyaProduct[] { RequestProduct }).ToArray();
 			}
-			return;
+            if (InstalledProductNyoronyoro && InstallProductNyoronyoro) {
+                VRSuyaProduct RequestProduct = Array.Find(InstalledVRSuyaProducts, Product => Product.ProductName == ProductName.Nyoronyoro);
+                RequestSetupVRSuyaProductList = RequestSetupVRSuyaProductList.Concat(new VRSuyaProduct[] { RequestProduct }).ToArray();
+            }
+            return;
 		}
 
 		/// <summary>세팅해야 할 메뉴와 파라메터를 검사하여 세팅 가능한지 확인합니다.</summary>
