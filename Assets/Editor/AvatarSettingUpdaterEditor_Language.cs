@@ -183,6 +183,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ AvatarSettingUpdater.Avatar.Lunalitt, new string[] { "Lunalitt", "루나릿트", "ルーナリット" } },
 			{ AvatarSettingUpdater.Avatar.Maki, new string[] { "Maki", "마키", "碼希" } },
 			{ AvatarSettingUpdater.Avatar.Mamehinata, new string[] { "Mamehinata", "마메히나타", "まめひなた" } },
+			{ AvatarSettingUpdater.Avatar.MANUKA, new string[] { "MANUKA", "마누카", "マヌカ" } },
 			{ AvatarSettingUpdater.Avatar.Mariel, new string[] { "Mariel", "마리엘", "まりえる" } },
 			{ AvatarSettingUpdater.Avatar.Marron, new string[] { "Marron", "마론", "マロン" } },
 			{ AvatarSettingUpdater.Avatar.Maya, new string[] { "Maya", "마야", "舞夜" } },

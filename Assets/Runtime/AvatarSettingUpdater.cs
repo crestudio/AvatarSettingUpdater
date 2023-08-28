@@ -95,7 +95,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		public enum Avatar {
 			General, Aldina, Angura, Anon, Anri, Ash, Cygnet, Emmelie, EYO, Firina, Fuzzy, Glaze, Grus, Hakka, IMERIS,
-			Karin, Kikyo, Kokoa, Koyuki, Kuronatu, Leefa, Leeme, Lunalitt, Maki, Mamehinata, Mariel, Marron,
+			Karin, Kikyo, Kokoa, Koyuki, Kuronatu, Leefa, Leeme, Lunalitt, Maki, Mamehinata, MANUKA, Mariel, Marron,
 			Maya, Merino, Milk, Minahoshi, Minase, Mint, Mir, Mishe, Moe, Nayu, Platinum, Quiche, Rainy,
 			Ramune_Old, RINDO, Rue, Rusk, SELESTIA, Sephira, Sue, Suzuhana, Tien, Ukon, Usasaki, Wolferia,
 			Yoll, Yuuko
