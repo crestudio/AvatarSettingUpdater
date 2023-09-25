@@ -178,9 +178,11 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ AvatarSettingUpdater.Avatar.Kokoa, new string[] { "Kokoa", "코코아", "ここあ" } },
 			{ AvatarSettingUpdater.Avatar.Koyuki, new string[] { "Koyuki", "코유키", "狐雪" } },
 			{ AvatarSettingUpdater.Avatar.Kuronatu, new string[] { "Kuronatu", "쿠로나츠", "くろなつ" } },
-			{ AvatarSettingUpdater.Avatar.Leefa, new string[] { "Leefa", "리파", "リーファ" } },
+            { AvatarSettingUpdater.Avatar.Lapwing, new string[] { "Lapwing", "랩윙", "Lapwing" } },
+            { AvatarSettingUpdater.Avatar.Leefa, new string[] { "Leefa", "리파", "リーファ" } },
 			{ AvatarSettingUpdater.Avatar.Leeme, new string[] { "Leeme", "리메", "リーメ" } },
-			{ AvatarSettingUpdater.Avatar.Lunalitt, new string[] { "Lunalitt", "루나릿트", "ルーナリット" } },
+            { AvatarSettingUpdater.Avatar.Lime, new string[] { "Lime", "라임", "ライム" } },
+            { AvatarSettingUpdater.Avatar.Lunalitt, new string[] { "Lunalitt", "루나릿트", "ルーナリット" } },
 			{ AvatarSettingUpdater.Avatar.Maki, new string[] { "Maki", "마키", "碼希" } },
 			{ AvatarSettingUpdater.Avatar.Mamehinata, new string[] { "Mamehinata", "마메히나타", "まめひなた" } },
 			{ AvatarSettingUpdater.Avatar.MANUKA, new string[] { "MANUKA", "마누카", "マヌカ" } },
@@ -205,14 +207,18 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ AvatarSettingUpdater.Avatar.Rusk, new string[] { "Rusk", "러스크", "ラスク" } },
 			{ AvatarSettingUpdater.Avatar.SELESTIA, new string[] { "SELESTIA", "셀레스티아", "セレスティア" } },
 			{ AvatarSettingUpdater.Avatar.Sephira, new string[] { "Sephira", "세피라", "セフィラ" } },
-			{ AvatarSettingUpdater.Avatar.Sue, new string[] { "Sue", "스우", "透羽" } },
+            { AvatarSettingUpdater.Avatar.Shinra, new string[] { "Shinra", "신라", "森羅" } },
+            { AvatarSettingUpdater.Avatar.Sue, new string[] { "Sue", "스우", "透羽" } },
 			{ AvatarSettingUpdater.Avatar.Suzuhana, new string[] { "Suzuhana", "스즈하나", "すずはな" } },
 			{ AvatarSettingUpdater.Avatar.Tien, new string[] { "Tien", "티엔", "ティエン" } },
-			{ AvatarSettingUpdater.Avatar.Ukon, new string[] { "Ukon", "우콘", "右近" } },
+            { AvatarSettingUpdater.Avatar.TubeRose, new string[] { "TubeRose", "튜베로즈", "TubeRose" } },
+            { AvatarSettingUpdater.Avatar.Ukon, new string[] { "Ukon", "우콘", "右近" } },
 			{ AvatarSettingUpdater.Avatar.Usasaki, new string[] { "Usasaki", "우사사키", "うささき" } },
-			{ AvatarSettingUpdater.Avatar.Wolferia, new string[] { "Wolferia", "울페리아", "ウルフェリア" } },
+            { AvatarSettingUpdater.Avatar.Uzuki, new string[] { "Uzuki", "우즈키", "卯月" } },
+            { AvatarSettingUpdater.Avatar.Wolferia, new string[] { "Wolferia", "울페리아", "ウルフェリア" } },
 			{ AvatarSettingUpdater.Avatar.Yoll, new string[] { "Yoll", "요루", "ヨル" } },
-			{ AvatarSettingUpdater.Avatar.Yuuko, new string[] { "Yuuko", "유우코", "幽狐" } }
+            { AvatarSettingUpdater.Avatar.YUGI_MIYO, new string[] { "YUGI MIYO", "유기 미요", "ユギ ミヨ" } },
+            { AvatarSettingUpdater.Avatar.Yuuko, new string[] { "Yuuko", "유우코", "幽狐" } }
 		};
 	}
 }
