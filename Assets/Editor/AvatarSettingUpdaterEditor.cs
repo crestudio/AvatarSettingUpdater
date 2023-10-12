@@ -41,6 +41,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		public static int AvatarType = 0;
 		public static string[] AvatarNames = new string[0];
 		public static string SelectedAvatarName = "";
+		public static bool FoldAdvanced = false;
 		public static int StatusNeedMoreSpaceMenu;
 		public static int StatusNeedMoreSpaceParameter;
 		private static readonly string[] StringFormatCode = new string[] { "NO_MORE_MENU", "NO_MORE_PARAMETER" };
@@ -79,16 +80,24 @@ namespace com.vrsuya.avatarsettingupdater {
 			AvatarType = EditorGUILayout.Popup(LanguageHelper.GetContextString("String_Avatar"), AvatarType, AvatarNames);
 			SelectedAvatarName = SerializedInstalledVRSuyaProductAvatarsEditor.enumNames[AvatarType];
 			(target as AvatarSettingUpdater).AvatarTypeNameEditor = SelectedAvatarName;
-			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
-			EditorGUILayout.PropertyField(SerializedChangeTwosidedShadow, new GUIContent(LanguageHelper.GetContextString("String_TwoSidedShadow")));
-			EditorGUILayout.PropertyField(SerializedChangeAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ChangeAnchorOverride")));
-			EditorGUILayout.PropertyField(SerializedKeepAnimatorController, new GUIContent(LanguageHelper.GetContextString("String_KeepAnimatorController")));
-			if (SerializedKeepAnimatorController.boolValue == true) {
-				EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_KeepAnimatorController_Info"), MessageType.Info);
+			FoldAdvanced = EditorGUILayout.Foldout(FoldAdvanced, LanguageHelper.GetContextString("String_Advanced"));
+			if (FoldAdvanced) {
+				EditorGUI.indentLevel++;
+				EditorGUILayout.PropertyField(SerializedChangeTwosidedShadow, new GUIContent(LanguageHelper.GetContextString("String_TwoSidedShadow")));
+				EditorGUILayout.PropertyField(SerializedChangeAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ChangeAnchorOverride")));
+				EditorGUILayout.PropertyField(SerializedKeepAnimatorController, new GUIContent(LanguageHelper.GetContextString("String_KeepAnimatorController")));
+				if (SerializedKeepAnimatorController.boolValue == true) {
+					EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_KeepAnimatorController_Info"), MessageType.Info);
+				}
+				EditorGUILayout.PropertyField(SerializedAvatarAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ObjectAnchorOverride")));
+				if (GUILayout.Button(LanguageHelper.GetContextString("String_GetAvatarData"))) {
+					(target as AvatarSettingUpdater).UpdateUnityEditorStatus();
+				}
+				EditorGUI.indentLevel--;
+				EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			}
-			EditorGUILayout.PropertyField(SerializedAvatarAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ObjectAnchorOverride")));
-            EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			EditorGUILayout.LabelField(LanguageHelper.GetContextString("String_SetupProduct"), EditorStyles.boldLabel);
+			EditorGUI.indentLevel++;
 
 			// 제품 추가시 추가해야 될 변수
 			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.AFK, SerializedInstalledProductAFK);
@@ -102,15 +111,13 @@ namespace com.vrsuya.avatarsettingupdater {
             GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.Nyoronyoro, SerializedInstalledProductNyoronyoro);
             EditorGUILayout.PropertyField(SerializedInstallProductNyoronyoro, new GUIContent(LanguageHelper.GetContextString("String_ProductNyoronyoro")));
 
-            GUI.enabled = true;
+			EditorGUI.indentLevel--;
+			GUI.enabled = true;
 			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			if (!string.IsNullOrEmpty(SerializedStatusCode.stringValue)) {
 				EditorGUILayout.HelpBox(ReturnStatusString(SerializedStatusCode.stringValue), MessageType.Warning);
             }
 			serializedObject.ApplyModifiedProperties();
-			if (GUILayout.Button(LanguageHelper.GetContextString("String_GetAvatarData"))) {
-                (target as AvatarSettingUpdater).UpdateUnityEditorStatus();
-            }
             if (GUILayout.Button(LanguageHelper.GetContextString("String_UpdateAvatarData") + " (" + SelectedAvatarName + ")")) {
                 (target as AvatarSettingUpdater).UpdateAvatarSetting();
 				Repaint();
