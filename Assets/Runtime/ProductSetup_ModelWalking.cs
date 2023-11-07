@@ -34,6 +34,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			if (InstallProductModelWalking) {
 				VRSuyaModelWalkingGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_ModelWalking"));
 				if (!VRSuyaModelWalkingGameObject) SetupPrefab();
+				if (!AvatarAnimator.applyRootMotion) ApplyRootMotion();
 			}
 			return;
 		}
@@ -73,6 +74,14 @@ namespace com.vrsuya.avatarsettingupdater {
 				TargetGameObject.transform.localScale = new Vector3(1, 1, 1);
 			}
 			return;
+		}
+
+		/// <summary>아바타의 Root Motion을 활성화하는 메소드</summary>
+		private static void ApplyRootMotion() {
+			Undo.RecordObject(AvatarAnimator, "Changed Avatar Root Motion");
+			AvatarAnimator.applyRootMotion = true;
+			EditorUtility.SetDirty(AvatarAnimator);
+			Undo.CollapseUndoOperations(UndoGroupIndex);
 		}
 	}
 }
