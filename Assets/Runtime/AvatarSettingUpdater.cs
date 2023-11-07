@@ -37,12 +37,14 @@ namespace com.vrsuya.avatarsettingupdater {
 		public bool InstalledProductWotageiEditor = false;
 		public bool InstalledProductFeetEditor = false;
 		public bool InstalledProductNyoronyoroEditor = false;
+		public bool InstalledProductModelWalkingEditor = false;
 
 		public bool InstallProductAFKEditor = false;
 		public bool InstallProductMogumoguEditor = false;
 		public bool InstallProductWotageiEditor = false;
 		public bool InstallProductFeetEditor = false;
 		public bool InstallProductNyoronyoroEditor = false;
+		public bool InstallProductModelWalkingEditor = false;
 
 		public int StatusNeedMoreSpaceMenuEditor = 0;
 		public int StatusNeedMoreSpaceParameterEditor = 0;
@@ -92,7 +94,8 @@ namespace com.vrsuya.avatarsettingupdater {
             Mogumogu,
             Wotagei,
             Feet,
-            Nyoronyoro
+            Nyoronyoro,
+			ModelWalking
         }
 
 		public enum Avatar {
@@ -113,12 +116,14 @@ namespace com.vrsuya.avatarsettingupdater {
 		protected static bool InstalledProductWotagei = false;
 		protected static bool InstalledProductFeet = false;
 		protected static bool InstalledProductNyoronyoro = false;
+		protected static bool InstalledProductModelWalking = false;
 
 		protected static bool InstallProductAFK = false;
 		protected static bool InstallProductMogumogu = false;
 		protected static bool InstallProductWotagei = false;
 		protected static bool InstallProductFeet = false;
 		protected static bool InstallProductNyoronyoro = false;
+		protected static bool InstallProductModelWalking = false;
 
 		// 추가될 VRSuya 데이터
 		protected static VRSuyaProduct[] InstalledVRSuyaProducts;
@@ -149,6 +154,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstallProductWotagei = InstallProductWotageiEditor;
 			InstallProductFeet = InstallProductFeetEditor;
 			InstallProductNyoronyoro = InstallProductNyoronyoroEditor;
+			InstallProductModelWalking = InstallProductModelWalkingEditor;
             return;
         }
 
@@ -161,6 +167,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstalledProductWotageiEditor = InstalledProductWotagei;
 			InstalledProductFeetEditor = InstalledProductFeet;
 			InstalledProductNyoronyoroEditor = InstalledProductNyoronyoro;
+			InstalledProductModelWalkingEditor = InstalledProductModelWalking;
             InstalledVRSuyaProductAvatarsEditor = InstalledVRSuyaProductAvatars;
 			StatusCodeEditor = StatusCode;
 			return;
@@ -227,6 +234,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstalledProductWotagei = false;
 			InstalledProductFeet = false;
 			InstalledProductNyoronyoro = false;
+			InstalledProductModelWalking = false;
             InstalledVRSuyaProducts = new VRSuyaProduct[0];
 			InstalledVRSuyaProductAvatars = new Avatar[0];
 			RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
@@ -286,7 +294,11 @@ namespace com.vrsuya.avatarsettingupdater {
                 VRSuyaProduct RequestProduct = Array.Find(InstalledVRSuyaProducts, Product => Product.ProductName == ProductName.Nyoronyoro);
                 RequestSetupVRSuyaProductList = RequestSetupVRSuyaProductList.Concat(new VRSuyaProduct[] { RequestProduct }).ToArray();
             }
-            return;
+			if (InstalledProductModelWalking && InstallProductModelWalking) {
+				VRSuyaProduct RequestProduct = Array.Find(InstalledVRSuyaProducts, Product => Product.ProductName == ProductName.ModelWalking);
+				RequestSetupVRSuyaProductList = RequestSetupVRSuyaProductList.Concat(new VRSuyaProduct[] { RequestProduct }).ToArray();
+			}
+			return;
 		}
 
 		/// <summary>세팅해야 할 메뉴와 파라메터를 검사하여 세팅 가능한지 확인합니다.</summary>

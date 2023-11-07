@@ -26,7 +26,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Mogumogu, "29f78992daf6d7548bec811c4ff3cfd6" },
 			{ ProductName.Wotagei, "201253d8e16814cbfa1ddbdea4d2f030" },
 			{ ProductName.Feet, "b3267c74ea5c8274d88f728b4c84d10d" },
-			{ ProductName.Nyoronyoro, "699ae58fc7b34ba4388d4ec8cf6e9d62" }
+			{ ProductName.Nyoronyoro, "699ae58fc7b34ba4388d4ec8cf6e9d62" },
+			{ ProductName.ModelWalking, "d797d8857806b2f4cb4ff83df63c4c2b" }
 		};
 
 		private static readonly Dictionary<ProductName, string> dictProductPath = new Dictionary<ProductName, string>() {
@@ -34,14 +35,16 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Mogumogu, "Assets/VRSuya/Mogumogu" },
 			{ ProductName.Wotagei, "Assets/VRSuya/Wotagei" },
 			{ ProductName.Feet, "Assets/VRSuya/HopeskyD/Feet" },
-			{ ProductName.Nyoronyoro, "Assets/VRSuya/Nyoronyoro" }
+			{ ProductName.Nyoronyoro, "Assets/VRSuya/Nyoronyoro" },
+			{ ProductName.ModelWalking, "Assets/VRSuya/ModelWalking" }
 		};
 
 		private static readonly Dictionary<ProductName, string> dictPresentMenuFileName = new Dictionary<ProductName, string>() {
 			{ ProductName.AFK, "VRSuya_AFK_Menu.asset" },
 			{ ProductName.Mogumogu, "VRSuya_Mogumogu_Menu.asset" },
 			{ ProductName.Wotagei, "VRSuya_Wotagei_Menu.asset" },
-			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu.asset" }
+			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu.asset" },
+			{ ProductName.ModelWalking, "VRSuya_ModelWalking_Menu.asset" }
 		};
 
 		private static Dictionary<VRCAssetType, string> dictVRCSDKAssetGUID = new Dictionary<VRCAssetType, string>() {
@@ -241,7 +244,10 @@ namespace com.vrsuya.avatarsettingupdater {
 				case ProductName.Nyoronyoro:
 					SearchWord = "Nyoronyoro_";
 					break;
-            }
+				case ProductName.ModelWalking:
+					SearchWord = "ModelWalking_";
+					break;
+			}
 			foreach (string AssetGUID in AssetsGUID) {
 				string AssetName = AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/')[AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/').Length - 1].Split('.')[0];
 				if (AssetName.Contains(SearchWord)) {
@@ -256,7 +262,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			// 제품 추가시 추가해야 될 변수
 			if (TypeProduct == ProductName.AFK || TypeProduct == ProductName.Wotagei) {
 				if (AssetsGUID.Length > 0) AvatarNames = AvatarNames.Concat(new Avatar[] { Avatar.General }).ToArray();
-			} else if (TypeProduct == ProductName.Nyoronyoro) {
+			} else if (TypeProduct == ProductName.Nyoronyoro || TypeProduct == ProductName.ModelWalking) {
                 if (AssetsGUID.Length > 0) AvatarNames = (Avatar[])Enum.GetValues(typeof(Avatar));
             }
 			AvatarNames = AvatarNames.Distinct().ToArray();
@@ -380,6 +386,10 @@ namespace com.vrsuya.avatarsettingupdater {
                     }
 					break;
 				case VRCAvatarDescriptor.AnimLayerType.Action:
+					if (InstalledProductModelWalking && InstallProductModelWalking) {
+						AssetGUID = Array.Find(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.ModelWalking).ActionAnimatorGUID;
+						break;
+					}
 					if (InstalledProductAFK && InstallProductAFK && InstalledProductWotagei && InstallProductWotagei) {
 						AssetGUID = GetMasterActionAnimatorController();
 						break;

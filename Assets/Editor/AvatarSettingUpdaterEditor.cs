@@ -30,12 +30,14 @@ namespace com.vrsuya.avatarsettingupdater {
 		SerializedProperty SerializedInstalledProductWotagei;
 		SerializedProperty SerializedInstalledProductFeet;
 		SerializedProperty SerializedInstalledProductNyoronyoro;
+		SerializedProperty SerializedInstalledProductModelWalking;
 
 		SerializedProperty SerializedInstallProductAFK;
 		SerializedProperty SerializedInstallProductMogumogu;
 		SerializedProperty SerializedInstallProductWotagei;
 		SerializedProperty SerializedInstallProductFeet;
 		SerializedProperty SerializedInstallProductNyoronyoro;
+		SerializedProperty SerializedInstallProductModelWalking;
 
 		public static int LanguageIndex = 0;
         public readonly string[] LanguageType = new[] { "English", "한국어", "日本語" };
@@ -65,12 +67,14 @@ namespace com.vrsuya.avatarsettingupdater {
 			SerializedInstalledProductWotagei = serializedObject.FindProperty("InstalledProductWotageiEditor");
 			SerializedInstalledProductFeet = serializedObject.FindProperty("InstalledProductFeetEditor");
 			SerializedInstalledProductNyoronyoro = serializedObject.FindProperty("InstalledProductNyoronyoroEditor");
+			SerializedInstalledProductModelWalking = serializedObject.FindProperty("InstalledProductModelWalkingEditor");
 
 			SerializedInstallProductAFK = serializedObject.FindProperty("InstallProductAFKEditor");
 			SerializedInstallProductMogumogu = serializedObject.FindProperty("InstallProductMogumoguEditor");
 			SerializedInstallProductWotagei = serializedObject.FindProperty("InstallProductWotageiEditor");
 			SerializedInstallProductFeet = serializedObject.FindProperty("InstallProductFeetEditor");
 			SerializedInstallProductNyoronyoro = serializedObject.FindProperty("InstallProductNyoronyoroEditor");
+			SerializedInstallProductModelWalking = serializedObject.FindProperty("InstallProductModelWalkingEditor");
 		}
 
         public override void OnInspectorGUI() {
@@ -113,6 +117,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			EditorGUILayout.PropertyField(SerializedInstallProductFeet, new GUIContent(LanguageHelper.GetContextString("String_ProductFeet")));
             GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.Nyoronyoro, SerializedInstalledProductNyoronyoro);
             EditorGUILayout.PropertyField(SerializedInstallProductNyoronyoro, new GUIContent(LanguageHelper.GetContextString("String_ProductNyoronyoro")));
+			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.ModelWalking, SerializedInstalledProductModelWalking);
+			EditorGUILayout.PropertyField(SerializedInstallProductModelWalking, new GUIContent(LanguageHelper.GetContextString("String_ProductModelWalking")));
 
 			EditorGUI.indentLevel--;
 			GUI.enabled = true;
