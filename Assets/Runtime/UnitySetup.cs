@@ -30,6 +30,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		internal static void UpdateAvatarData() {
 			if (ChangeTwosidedShadow) UpdateTwosidedShadow();
 			if (ChangeAnchorOverride) UpdateAnchorOverride();
+			if (ChangeBounds) UpdateBounds();
 			return;
 		}
 
@@ -100,6 +101,22 @@ namespace com.vrsuya.avatarsettingupdater {
 				Undo.CollapseUndoOperations(UndoGroupIndex);
 			}
 			return;
+		}
+
+		/// <summary>아바타의 Bounds 세팅을 설정 합니다.</summary>
+		private static void UpdateBounds() {
+			Bounds newBounds = new Bounds();
+			Vector3 BoundsCenter = new Vector3(0.0f, 0.0f, 0.0f);
+			Vector3 BoundsExtents = new Vector3(1.0f, 1.0f, 1.0f);
+			newBounds.center = BoundsCenter;
+			newBounds.extents = BoundsExtents;
+			foreach (SkinnedMeshRenderer TargetSkinnedMeshRenderer in AvatarSkinnedMeshRenderers) {
+				Undo.RecordObject(TargetSkinnedMeshRenderer, "Changed Bounds");
+				TargetSkinnedMeshRenderer.updateWhenOffscreen = true;
+				TargetSkinnedMeshRenderer.localBounds = newBounds;
+				TargetSkinnedMeshRenderer.updateWhenOffscreen = false;
+				Undo.CollapseUndoOperations(UndoGroupIndex);
+			}
 		}
 	}
 }
