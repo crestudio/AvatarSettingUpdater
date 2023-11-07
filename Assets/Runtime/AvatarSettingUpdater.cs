@@ -364,6 +364,34 @@ namespace com.vrsuya.avatarsettingupdater {
 			}
 			return ReturnResult;
 		}
+
+		/// <summary>요청한 제품에서 읽어들인 내용을 디버그 합니다.</summary>
+		public static void PrintProductInformation(VRSuyaProduct RequestProduct) {
+			string RequestProductName = RequestProduct.ProductName.ToString();
+			string[] AnimatorLayers = RequestProduct.RequiredAnimatorLayers.Select(Item => Item.Key.ToString() + " (" + string.Join(", ", Item.Value.Select(Layer => Layer.name).ToArray()) + ")").ToArray();
+			string[] AnimatorParameters = RequestProduct.RequiredAnimatorParameters.Select(Item => Item.Key.ToString() + " (" + string.Join(", ", Item.Value.Select(Layer => Layer.name).ToArray()) + ")").ToArray();
+			string[] VRCMenus = RequestProduct.RequiredVRCMenus.Select(Item => Item.name).ToArray();
+			string[] RequiredParameters = RequestProduct.RequiredVRCParameters.Select(Item => Item.name).ToArray();
+			string[] SupportAvatars = RequestProduct.SupportAvatarList.Select(Item => Item.ToString()).ToArray();
+			string[] AnimationControllers = RequestProduct.AnimationControllerGUID.Select(Item => AssetDatabase.GUIDToAssetPath(Item).Split('/')[AssetDatabase.GUIDToAssetPath(Item).Split('/').Length - 1]).ToArray();
+			string[] Menus = RequestProduct.MenuGUID.Select(Item => AssetDatabase.GUIDToAssetPath(Item).Split('/')[AssetDatabase.GUIDToAssetPath(Item).Split('/').Length - 1]).ToArray();
+			string[] Parameters = RequestProduct.ParameterGUID.Select(Item => AssetDatabase.GUIDToAssetPath(Item).Split('/')[AssetDatabase.GUIDToAssetPath(Item).Split('/').Length - 1]).ToArray();
+			string[] Prefabs = RequestProduct.PrefabGUID.Select(Item => AssetDatabase.GUIDToAssetPath(Item).Split('/')[AssetDatabase.GUIDToAssetPath(Item).Split('/').Length - 1]).ToArray();
+			Debug.Log(RequestProductName + " Product Name : " + RequestProduct.ProductName.ToString());
+			Debug.Log(RequestProductName + " Locomotion Animator : " + AssetDatabase.GUIDToAssetPath(RequestProduct.LocomotionAnimatorGUID).Split('/')[AssetDatabase.GUIDToAssetPath(RequestProduct.LocomotionAnimatorGUID).Split('/').Length - 1]);
+			Debug.Log(RequestProductName + " Action Animator : " + AssetDatabase.GUIDToAssetPath(RequestProduct.ActionAnimatorGUID).Split('/')[AssetDatabase.GUIDToAssetPath(RequestProduct.ActionAnimatorGUID).Split('/').Length - 1]);
+			Debug.Log(RequestProductName + " Required Animator Layers : " + string.Join(", ", AnimatorLayers));
+			Debug.Log(RequestProductName + " Required Animator Parameters : " + string.Join(", ", AnimatorParameters));
+			Debug.Log(RequestProductName + " Required VRC Menus : " + string.Join(", ", VRCMenus));
+			Debug.Log(RequestProductName + " Required VRC MemoryCount : " + RequestProduct.RequiredVRCMemoryCount);
+			Debug.Log(RequestProductName + " Required VRC Parameters : " + string.Join(", ", RequiredParameters));
+			Debug.Log(RequestProductName + " Support Avatar : " + string.Join(", ", SupportAvatars));
+			Debug.Log(RequestProductName + " AnimationController Files : " + string.Join(", ", AnimationControllers));
+			Debug.Log(RequestProductName + " Menu Files : " + string.Join(", ", Menus));
+			Debug.Log(RequestProductName + " Parameter Files : " + string.Join(", ", Parameters));
+			Debug.Log(RequestProductName + " Prefab Files : " + string.Join(", ", Prefabs));
+			return;
+		}
 	}
 }
 #endif
