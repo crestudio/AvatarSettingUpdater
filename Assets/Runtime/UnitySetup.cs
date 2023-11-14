@@ -115,6 +115,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				TargetSkinnedMeshRenderer.updateWhenOffscreen = true;
 				TargetSkinnedMeshRenderer.localBounds = newBounds;
 				TargetSkinnedMeshRenderer.updateWhenOffscreen = false;
+				EditorUtility.SetDirty(TargetSkinnedMeshRenderer);
 				Undo.CollapseUndoOperations(UndoGroupIndex);
 			}
 		}
