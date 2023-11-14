@@ -26,7 +26,6 @@ namespace com.vrsuya.avatarsettingupdater {
 			ModelWalking = AssetManager.UpdateProductInformation(ProductName.ModelWalking);
 			InstalledVRSuyaProducts = InstalledVRSuyaProducts.Concat(new VRSuyaProduct[] { ModelWalking }).ToArray();
 			if (ModelWalking.SupportAvatarList.Length > 0) InstalledProductModelWalking = true;
-			PrintProductInformation(ModelWalking);
 			return;
 		}
 
