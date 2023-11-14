@@ -78,6 +78,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "String_ProductFeet", "HopeskyD Asiasi Project" },
 			{ "String_ProductNyoronyoro", "Nyoronyoro Locomotion" },
 			{ "String_ProductModelWalking", "Model Walking" },
+			{ "String_ProductHandmotion", "Handmotion" },
 
 			// 에러 코드
 			{ "NO_AVATAR", "No Avatar is selected" },
@@ -115,6 +116,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "String_ProductFeet", "HopeskyD 아시아시 프로젝트" },
 			{ "String_ProductNyoronyoro", "뇨로뇨로 로코모션" },
 			{ "String_ProductModelWalking", "모델 워킹" },
+			{ "String_ProductHandmotion", "핸드모션" },
 
 			// 에러 코드
 			{ "NO_AVATAR", "아바타가 지정되지 않았습니다" },
@@ -152,6 +154,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "String_ProductFeet", "HopeskyD 足足プロジェクト" },
 			{ "String_ProductNyoronyoro", "にょろにょろ ロコモーション" },
 			{ "String_ProductModelWalking", "ランウェイ・モデルウォーク" },
+			{ "String_ProductHandmotion", "ハンドモーション" },
 
 			// 에러 코드
 			{ "NO_AVATAR", "アバターが指定されていません" },

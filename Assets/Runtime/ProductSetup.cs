@@ -54,6 +54,9 @@ namespace com.vrsuya.avatarsettingupdater {
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_ModelWalking))) {
 				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.ModelWalking)) ProductSetup_ModelWalking.RequestSetting();
 			}
+			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Handmotion))) {
+				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Handmotion)) ProductSetup_Handmotion.RequestSetting();
+			}
 			if (RequestSetupVRSuyaProductList.Length > 0) {
 				foreach (var RequestedAllLayers in RequestSetupVRSuyaProductList.Select(Product => Product.RequiredAnimatorLayers)) {
 					foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> RequestedLayers in RequestedAllLayers) {
@@ -115,6 +118,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Feet))) ProductSetup_Feet.RegisterProduct();
             if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Nyoronyoro))) ProductSetup_Nyoronyoro.RegisterProduct();
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_ModelWalking))) ProductSetup_ModelWalking.RegisterProduct();
+			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Handmotion))) ProductSetup_Handmotion.RegisterProduct();
 			UpdateInstalledAvatarList();
 			return;
 		}
