@@ -208,7 +208,31 @@ namespace com.vrsuya.avatarsettingupdater {
 						newAnimationLayer.defaultWeight = RequiredLayers[Index].defaultWeight;
 						newAnimationLayer.iKPass = RequiredLayers[Index].iKPass;
 						newAnimationLayer.name = RequiredLayers[Index].name;
-						newAnimationLayer.stateMachine = RequiredLayers[Index].stateMachine;
+						newAnimationLayer.syncedLayerAffectsTiming = RequiredLayers[Index].syncedLayerAffectsTiming;
+
+						AnimatorStateMachine oldStateMachines = RequiredLayers[Index].stateMachine;
+						AnimatorStateMachine newStateMachines = newAnimationLayer.stateMachine;
+						for (int StateIndex = 0; StateIndex < oldStateMachines.states.Length; StateIndex++) {
+							AnimatorState oldState = oldStateMachines.states[StateIndex].state;
+							AnimatorStateTransition[] oldTransitions = oldState.transitions;
+							AnimatorState newState = newStateMachines.AddState(oldState.name);
+							newState.motion = oldState.motion;
+							for (int TransitionIndex = 0; TransitionIndex < oldTransitions.Length; TransitionIndex++) {
+								AnimatorStateTransition newTransition = newState.AddTransition(oldTransitions[TransitionIndex].destinationState);
+								newTransition.canTransitionToSelf = oldTransitions[TransitionIndex].canTransitionToSelf;
+								newTransition.duration = oldTransitions[TransitionIndex].duration;
+								newTransition.exitTime = oldTransitions[TransitionIndex].exitTime;
+								newTransition.hasExitTime = oldTransitions[TransitionIndex].hasExitTime;
+								newTransition.hasFixedDuration = oldTransitions[TransitionIndex].hasFixedDuration;
+								newTransition.interruptionSource = oldTransitions[TransitionIndex].interruptionSource;
+								newTransition.offset = oldTransitions[TransitionIndex].offset;
+								newTransition.orderedInterruption = oldTransitions[TransitionIndex].orderedInterruption;
+								newTransition.solo = oldTransitions[TransitionIndex].solo;
+								for (int ConditionIndex = 0; ConditionIndex < oldTransitions[TransitionIndex].conditions.Length; ConditionIndex++) {
+									newTransition.AddCondition(oldTransitions[TransitionIndex].conditions[ConditionIndex].mode, oldTransitions[TransitionIndex].conditions[ConditionIndex].threshold, oldTransitions[TransitionIndex].conditions[ConditionIndex].parameter);
+								}
+							}
+						}
 						newAnimatorLayers[TargetController.layers.Length + Index] = newAnimationLayer;
 					}
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Layer");
