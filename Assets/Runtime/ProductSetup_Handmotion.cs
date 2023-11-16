@@ -62,18 +62,6 @@ namespace com.vrsuya.avatarsettingupdater {
 			VRSuyaHandmotionGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Handmotion"));
 			return;
 		}
-
-		/// <summary>요청한 GameObject의 Transform을 Origin에 맞춰주는 메소드</summary>
-		private static void TransformPrefab(GameObject TargetGameObject, GameObject BaseGameObject, bool KeepScale) {
-			TargetGameObject.transform.localPosition = new Vector3(0, 0, 0);
-			TargetGameObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
-			if (!KeepScale) {
-				TargetGameObject.transform.localScale = BaseGameObject.transform.localScale;
-			} else {
-				TargetGameObject.transform.localScale = new Vector3(1, 1, 1);
-			}
-			return;
-		}
 	}
 }
 #endif
