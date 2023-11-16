@@ -81,7 +81,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		private static readonly string[] dictAnimatorControllerName = new string[] { "LocomotionLayer", "GestureLayer", "ActionLayer", "FXLayer" };
 
-		private static readonly string[] dictIgnoreLayerName = new string[] { "Base Layer", "AllParts", "Left Hand", "Right Hand" };
+		private static readonly string[] dictIgnoreLayerName = new string[] { "Base Layer", "AllParts", "Left Hand", "Right Hand", "Locomotion" };
 
 		private static readonly string[] dictIgnorePrefabName = new string[] { "Cyalume", "LightStick", "Guide", "Sphere", "Transparent", "Particle" };
 
