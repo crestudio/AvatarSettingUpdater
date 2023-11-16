@@ -187,10 +187,32 @@ namespace com.vrsuya.avatarsettingupdater {
 					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
 			}
-			foreach (AnimatorControllerLayer NewLayer in TargetLayers) {
-				if (!Array.Exists(TargetController.layers, ExistLayer => NewLayer.name == ExistLayer.name)) {
+			if (KeepLinkAnimatorLayer) {
+				foreach (AnimatorControllerLayer NewLayer in TargetLayers) {
+					if (!Array.Exists(TargetController.layers, ExistLayer => NewLayer.name == ExistLayer.name)) {
+						Undo.RecordObject(TargetController, "Added Unity Animator Controller Layer");
+						TargetController.layers = TargetController.layers.Concat(new AnimatorControllerLayer[] { NewLayer }).ToArray();
+						EditorUtility.SetDirty(TargetController);
+						Undo.CollapseUndoOperations(UndoGroupIndex);
+					}
+				}
+			} else {
+				AnimatorControllerLayer[] RequiredLayers = TargetLayers.Where(TargetLayer => !Array.Exists(TargetController.layers, ExistLayer => TargetLayer.name == ExistLayer.name)).ToArray();
+				if (RequiredLayers.Length > 0) {
+					AnimatorControllerLayer[] newAnimatorLayers = new AnimatorControllerLayer[TargetController.layers.Length + RequiredLayers.Length];
+					Array.Copy(TargetController.layers, newAnimatorLayers, TargetController.layers.Length);
+					for (int Index = 0; Index < RequiredLayers.Length; Index++) {
+						AnimatorControllerLayer newAnimationLayer = new AnimatorControllerLayer();
+						newAnimationLayer.avatarMask = RequiredLayers[Index].avatarMask;
+						newAnimationLayer.blendingMode = RequiredLayers[Index].blendingMode;
+						newAnimationLayer.defaultWeight = RequiredLayers[Index].defaultWeight;
+						newAnimationLayer.iKPass = RequiredLayers[Index].iKPass;
+						newAnimationLayer.name = RequiredLayers[Index].name;
+						newAnimationLayer.stateMachine = RequiredLayers[Index].stateMachine;
+						newAnimatorLayers[TargetController.layers.Length + Index] = newAnimationLayer;
+					}
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Layer");
-					TargetController.layers = TargetController.layers.Concat(new AnimatorControllerLayer[] { NewLayer }).ToArray();
+					TargetController.layers = newAnimatorLayers;
 					EditorUtility.SetDirty(TargetController);
 					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}

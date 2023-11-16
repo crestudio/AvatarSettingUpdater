@@ -29,6 +29,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		public bool ChangeAnchorOverrideEditor = true;
 		public bool ChangeBoundsEditor = true;
 		public bool KeepAnimatorControllerEditor = false;
+		public bool KeepLinkAnimatorLayerEditor = false;
 
 		public Avatar[] InstalledVRSuyaProductAvatarsEditor;
 
@@ -72,6 +73,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		protected static bool ChangeAnchorOverride = true;
 		protected static bool ChangeBounds = true;
 		protected static bool KeepAnimatorController = false;
+		protected static bool KeepLinkAnimatorLayer = false;
 
         // 제품 구조체
 		public struct VRSuyaProduct {
@@ -154,6 +156,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			ChangeAnchorOverride = ChangeAnchorOverrideEditor;
 			ChangeBounds = ChangeBoundsEditor;
 			KeepAnimatorController = KeepAnimatorControllerEditor;
+			KeepLinkAnimatorLayer = KeepLinkAnimatorLayerEditor;
 			InstallProductAFK = InstallProductAFKEditor;
 			InstallProductMogumogu = InstallProductMogumoguEditor;
 			InstallProductWotagei = InstallProductWotageiEditor;

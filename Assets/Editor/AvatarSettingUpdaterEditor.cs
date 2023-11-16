@@ -19,6 +19,7 @@ namespace com.vrsuya.avatarsettingupdater {
         SerializedProperty SerializedAvatarAnchorOverride;
 		SerializedProperty SerializedChangeBounds;
 		SerializedProperty SerializedKeepAnimatorController;
+		SerializedProperty SerializedKeepLinkAnimatorLayer;
 		SerializedProperty SerializedStatusCode;
 		SerializedProperty SerializedStatusNeedMoreSpaceMenu;
 		SerializedProperty SerializedStatusNeedMoreSpaceParameter;
@@ -57,6 +58,7 @@ namespace com.vrsuya.avatarsettingupdater {
             SerializedChangeAnchorOverride = serializedObject.FindProperty("ChangeAnchorOverrideEditor");
 			SerializedChangeBounds = serializedObject.FindProperty("ChangeBoundsEditor");
 			SerializedKeepAnimatorController = serializedObject.FindProperty("KeepAnimatorControllerEditor");
+			SerializedKeepLinkAnimatorLayer = serializedObject.FindProperty("KeepLinkAnimatorLayerEditor");
 			SerializedAvatarAnchorOverride = serializedObject.FindProperty("AvatarAnchorOverrideEditor");
 			SerializedStatusCode = serializedObject.FindProperty("StatusCodeEditor");
 			SerializedStatusNeedMoreSpaceMenu = serializedObject.FindProperty("StatusNeedMoreSpaceMenuEditor");
@@ -100,6 +102,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				if (SerializedKeepAnimatorController.boolValue == true) {
 					EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_KeepAnimatorController_Info"), MessageType.Info);
 				}
+				EditorGUILayout.PropertyField(SerializedKeepLinkAnimatorLayer, new GUIContent(LanguageHelper.GetContextString("String_KeepLinkAnimatorLayer")));
 				EditorGUILayout.PropertyField(SerializedAvatarAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ObjectAnchorOverride")));
 				if (GUILayout.Button(LanguageHelper.GetContextString("String_GetAvatarData"))) {
 					(target as AvatarSettingUpdater).UpdateUnityEditorStatus();
