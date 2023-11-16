@@ -410,7 +410,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		internal static string GUIDToAssetName(string GUID, bool OnlyFileName) {
 			string FileName = "";
 			FileName = AssetDatabase.GUIDToAssetPath(GUID).Split('/')[AssetDatabase.GUIDToAssetPath(GUID).Split('/').Length - 1];
-			if (OnlyFileName) FileName = FileName.Split('.')[FileName.Split('.').Length - 1];
+			if (OnlyFileName) FileName = FileName.Split('.')[0];
 			return FileName;
 		}
 	}
