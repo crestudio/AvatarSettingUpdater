@@ -54,9 +54,6 @@ namespace com.vrsuya.avatarsettingupdater {
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_ModelWalking))) {
 				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.ModelWalking)) ProductSetup_ModelWalking.RequestSetting();
 			}
-			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Handmotion))) {
-				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Handmotion)) ProductSetup_Handmotion.RequestSetting();
-			}
 			if (RequestSetupVRSuyaProductList.Length > 0) {
 				foreach (var RequestedAllLayers in RequestSetupVRSuyaProductList.Select(Product => Product.RequiredAnimatorLayers)) {
 					foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> RequestedLayers in RequestedAllLayers) {
