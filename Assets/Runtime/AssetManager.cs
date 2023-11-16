@@ -158,7 +158,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> ResolveAnimationControllerLayer(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]> AnimatorLayerInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerLayer[]>();
 			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
-				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/')[AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/').Length - 1];
+				string TargetAssetFileName = GUIDToAssetName(AnimatorLayer.Value, false);
 				AnimatorController TargetController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value));
 				if (TargetController) {
 					AnimatorControllerLayer[] TargetControllerLayers = new AnimatorControllerLayer[0];
@@ -178,7 +178,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> ResolveAnimationControllerParameter(Dictionary<VRCAvatarDescriptor.AnimLayerType, string> AnimatorGUID) {
 			Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]> AnimatorParameterInAssets = new Dictionary<VRCAvatarDescriptor.AnimLayerType, AnimatorControllerParameter[]>();
 			foreach (KeyValuePair<VRCAvatarDescriptor.AnimLayerType, string> AnimatorLayer in AnimatorGUID) {
-				string TargetAssetFileName = AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/')[AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value).Split('/').Length - 1];
+				string TargetAssetFileName = GUIDToAssetName(AnimatorLayer.Value, false);
 				AnimatorController TargetController = AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(AnimatorLayer.Value));
 				if (TargetController) {
 					AnimatorControllerParameter[] TargetControllerParameters = new AnimatorControllerParameter[0];
@@ -196,7 +196,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static List<VRCExpressionsMenu.Control> ResolveMenu(string[] AssetsGUID, ProductName TypeProduct) {
 			List<VRCExpressionsMenu.Control> MenusInAssets = new List<VRCExpressionsMenu.Control>();
 			foreach (string AssetGUID in AssetsGUID) {
-				if (AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/')[AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/').Length - 1].Contains(dictPresentMenuFileName[TypeProduct])) {
+				if (GUIDToAssetName(AssetGUID, false).Contains(dictPresentMenuFileName[TypeProduct])) {
 					VRCExpressionsMenu MenuFile = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
 					if (MenuFile) MenusInAssets.AddRange(MenuFile.controls);
 				}
@@ -255,7 +255,7 @@ namespace com.vrsuya.avatarsettingupdater {
 					break;
 			}
 			foreach (string AssetGUID in AssetsGUID) {
-				string AssetName = AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/')[AssetDatabase.GUIDToAssetPath(AssetGUID).Split('/').Length - 1].Split('.')[0];
+				string AssetName = GUIDToAssetName(AssetGUID, true);
 				if (AssetName.Contains(SearchWord)) {
 					string AvatarName = AssetName.Substring(AssetName.IndexOf(SearchWord) + SearchWord.Length);
 					if (Array.Exists(dictIgnorePrefabName, Name => AvatarName == Name)) continue;

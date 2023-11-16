@@ -385,13 +385,13 @@ namespace com.vrsuya.avatarsettingupdater {
 			string[] VRCMenus = RequestProduct.RequiredVRCMenus.Select(Item => Item.name).ToArray();
 			string[] RequiredParameters = RequestProduct.RequiredVRCParameters.Select(Item => Item.name).ToArray();
 			string[] SupportAvatars = RequestProduct.SupportAvatarList.Select(Item => Item.ToString()).ToArray();
-			string[] AnimationControllers = RequestProduct.AnimationControllerGUID.Select(Item => AssetDatabase.GUIDToAssetPath(Item).Split('/')[AssetDatabase.GUIDToAssetPath(Item).Split('/').Length - 1]).ToArray();
-			string[] Menus = RequestProduct.MenuGUID.Select(Item => AssetDatabase.GUIDToAssetPath(Item).Split('/')[AssetDatabase.GUIDToAssetPath(Item).Split('/').Length - 1]).ToArray();
-			string[] Parameters = RequestProduct.ParameterGUID.Select(Item => AssetDatabase.GUIDToAssetPath(Item).Split('/')[AssetDatabase.GUIDToAssetPath(Item).Split('/').Length - 1]).ToArray();
-			string[] Prefabs = RequestProduct.PrefabGUID.Select(Item => AssetDatabase.GUIDToAssetPath(Item).Split('/')[AssetDatabase.GUIDToAssetPath(Item).Split('/').Length - 1]).ToArray();
+			string[] AnimationControllers = RequestProduct.AnimationControllerGUID.Select(Item => GUIDToAssetName(Item, true)).ToArray();
+			string[] Menus = RequestProduct.MenuGUID.Select(Item => GUIDToAssetName(Item, true)).ToArray();
+			string[] Parameters = RequestProduct.ParameterGUID.Select(Item => GUIDToAssetName(Item, true)).ToArray();
+			string[] Prefabs = RequestProduct.PrefabGUID.Select(Item => GUIDToAssetName(Item, true)).ToArray();
 			Debug.Log(RequestProductName + " Product Name : " + RequestProduct.ProductName.ToString());
-			Debug.Log(RequestProductName + " Locomotion Animator : " + AssetDatabase.GUIDToAssetPath(RequestProduct.LocomotionAnimatorGUID).Split('/')[AssetDatabase.GUIDToAssetPath(RequestProduct.LocomotionAnimatorGUID).Split('/').Length - 1]);
-			Debug.Log(RequestProductName + " Action Animator : " + AssetDatabase.GUIDToAssetPath(RequestProduct.ActionAnimatorGUID).Split('/')[AssetDatabase.GUIDToAssetPath(RequestProduct.ActionAnimatorGUID).Split('/').Length - 1]);
+			Debug.Log(RequestProductName + " Locomotion Animator : " + GUIDToAssetName(RequestProduct.LocomotionAnimatorGUID, true));
+			Debug.Log(RequestProductName + " Action Animator : " + GUIDToAssetName(RequestProduct.ActionAnimatorGUID, true));
 			Debug.Log(RequestProductName + " Required Animator Layers : " + string.Join(", ", AnimatorLayers));
 			Debug.Log(RequestProductName + " Required Animator Parameters : " + string.Join(", ", AnimatorParameters));
 			Debug.Log(RequestProductName + " Required VRC Menus : " + string.Join(", ", VRCMenus));
@@ -403,6 +403,15 @@ namespace com.vrsuya.avatarsettingupdater {
 			Debug.Log(RequestProductName + " Parameter Files : " + string.Join(", ", Parameters));
 			Debug.Log(RequestProductName + " Prefab Files : " + string.Join(", ", Prefabs));
 			return;
+		}
+
+		/// <summary>요청한 GUID를 파일 이름으로 반환합니다. 2번째 인자는 확장명 포함 여부를 결정합니다.</summary>
+		/// <returns>파일 이름</returns>
+		internal static string GUIDToAssetName(string GUID, bool OnlyFileName) {
+			string FileName = "";
+			FileName = AssetDatabase.GUIDToAssetPath(GUID).Split('/')[AssetDatabase.GUIDToAssetPath(GUID).Split('/').Length - 1];
+			if (OnlyFileName) FileName = FileName.Split('.')[FileName.Split('.').Length - 1];
+			return FileName;
 		}
 	}
 }
