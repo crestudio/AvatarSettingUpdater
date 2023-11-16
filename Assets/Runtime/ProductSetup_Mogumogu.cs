@@ -151,11 +151,25 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static void DisableExistMoumoguAnimatorLayer() {
 			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
 			if (VRCFXLayer) {
-				foreach (string TargetLayerName in dictSELESTIAMogumoguLayerName) {
-					int Index = Array.FindIndex(VRCFXLayer.layers, Layer => TargetLayerName == Layer.name);
-					if (Index != -1) {
+				if (Array.Exists(VRCFXLayer.layers, ExistLayer => Array.Exists(dictSELESTIAMogumoguLayerName, TargetName => ExistLayer.name == TargetName))) {
+					if (VRCFXLayer.layers.Where(ExistLayer => ExistLayer.defaultWeight != 0.0f).ToArray().Length > 0) {
+						AnimatorControllerLayer[] newAnimationLayers = new AnimatorControllerLayer[VRCFXLayer.layers.Length];
+						for (int Index = 0; Index < newAnimationLayers.Length; Index++) {
+							AnimatorControllerLayer newAnimationLayer = new AnimatorControllerLayer();
+							newAnimationLayer.avatarMask = VRCFXLayer.layers[Index].avatarMask;
+							newAnimationLayer.blendingMode = VRCFXLayer.layers[Index].blendingMode;
+							newAnimationLayer.iKPass = VRCFXLayer.layers[Index].iKPass;
+							newAnimationLayer.name = VRCFXLayer.layers[Index].name;
+							newAnimationLayer.stateMachine = VRCFXLayer.layers[Index].stateMachine;
+							if (Array.Exists(dictSELESTIAMogumoguLayerName, TargetName => VRCFXLayer.layers[Index].name == TargetName)) {
+								newAnimationLayer.defaultWeight = 0.0f;
+							} else {
+								newAnimationLayer.defaultWeight = VRCFXLayer.layers[Index].defaultWeight;
+							}
+							newAnimationLayers[Index] = newAnimationLayer;
+						}
 						Undo.RecordObject(VRCFXLayer, "Disabled Animator Controller Cheek Bone Layer");
-						VRCFXLayer.layers[Index].defaultWeight = 0;
+						VRCFXLayer.layers = newAnimationLayers;
 						EditorUtility.SetDirty(VRCFXLayer);
 						Undo.CollapseUndoOperations(UndoGroupIndex);
 					}
