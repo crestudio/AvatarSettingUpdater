@@ -230,28 +230,13 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <returns>Avatar Enum 배열</returns>
 		private static Avatar[] FindAllAvatarNames(ProductName TypeProduct, string[] AssetsGUID) {
 			Avatar[] AvatarNames = new Avatar[0];
-			string SearchWord = "Prefab_";
+			string SearchWord = TypeProduct.ToString() + "_";
 			switch (TypeProduct) {
 				case ProductName.AFK:
 					SearchWord = "Prefab_";
 					break;
 				case ProductName.Mogumogu:
 					SearchWord = "PhysBone_";
-					break;
-				case ProductName.Wotagei:
-					SearchWord = "Wotagei_";
-					break;
-				case ProductName.Feet:
-					SearchWord = "Feet_";
-					break;
-				case ProductName.Nyoronyoro:
-					SearchWord = "Nyoronyoro_";
-					break;
-				case ProductName.ModelWalking:
-					SearchWord = "ModelWalking_";
-					break;
-				case ProductName.Handmotion:
-					SearchWord = "Handmotion_";
 					break;
 			}
 			foreach (string AssetGUID in AssetsGUID) {
