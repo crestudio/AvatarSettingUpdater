@@ -212,27 +212,60 @@ namespace com.vrsuya.avatarsettingupdater {
 
 						AnimatorStateMachine oldStateMachines = RequiredLayers[Index].stateMachine;
 						AnimatorStateMachine newStateMachines = newAnimationLayer.stateMachine;
+						newStateMachines.anyStatePosition = oldStateMachines.anyStatePosition;
+						newStateMachines.entryPosition = oldStateMachines.entryPosition;
+						newStateMachines.exitPosition = oldStateMachines.exitPosition;
+						newStateMachines.parentStateMachinePosition = oldStateMachines.parentStateMachinePosition;
+
+						// State 복제
 						for (int StateIndex = 0; StateIndex < oldStateMachines.states.Length; StateIndex++) {
 							AnimatorState oldState = oldStateMachines.states[StateIndex].state;
-							AnimatorStateTransition[] oldTransitions = oldState.transitions;
 							AnimatorState newState = newStateMachines.AddState(oldState.name);
+							newState.behaviours = oldState.behaviours;
+							newState.cycleOffset = oldState.cycleOffset;
+							newState.cycleOffsetParameter = oldState.cycleOffsetParameter;
+							newState.cycleOffsetParameterActive = oldState.cycleOffsetParameterActive;
+							newState.iKOnFeet = oldState.iKOnFeet;
+							newState.mirror = oldState.mirror;
+							newState.mirrorParameter = oldState.mirrorParameter;
+							newState.mirrorParameterActive = oldState.mirrorParameterActive;
 							newState.motion = oldState.motion;
-							for (int TransitionIndex = 0; TransitionIndex < oldTransitions.Length; TransitionIndex++) {
-								AnimatorStateTransition newTransition = newState.AddTransition(oldTransitions[TransitionIndex].destinationState);
-								newTransition.canTransitionToSelf = oldTransitions[TransitionIndex].canTransitionToSelf;
-								newTransition.duration = oldTransitions[TransitionIndex].duration;
-								newTransition.exitTime = oldTransitions[TransitionIndex].exitTime;
-								newTransition.hasExitTime = oldTransitions[TransitionIndex].hasExitTime;
-								newTransition.hasFixedDuration = oldTransitions[TransitionIndex].hasFixedDuration;
-								newTransition.interruptionSource = oldTransitions[TransitionIndex].interruptionSource;
-								newTransition.offset = oldTransitions[TransitionIndex].offset;
-								newTransition.orderedInterruption = oldTransitions[TransitionIndex].orderedInterruption;
-								newTransition.solo = oldTransitions[TransitionIndex].solo;
-								for (int ConditionIndex = 0; ConditionIndex < oldTransitions[TransitionIndex].conditions.Length; ConditionIndex++) {
-									newTransition.AddCondition(oldTransitions[TransitionIndex].conditions[ConditionIndex].mode, oldTransitions[TransitionIndex].conditions[ConditionIndex].threshold, oldTransitions[TransitionIndex].conditions[ConditionIndex].parameter);
+							newState.speed = oldState.speed;
+							newState.speedParameter = oldState.speedParameter;
+							newState.speedParameterActive = oldState.speedParameterActive;
+							newState.tag = oldState.tag;
+							newState.timeParameter = oldState.timeParameter;
+							newState.timeParameterActive = oldState.timeParameterActive;
+							newState.writeDefaultValues = oldState.writeDefaultValues;
+						}
+
+						// StateTransition 복제
+						for (int StateIndex = 0; StateIndex < oldStateMachines.states.Length; StateIndex++) {
+							AnimatorStateTransition[] oldStateTransitions = oldStateMachines.states[StateIndex].state.transitions;
+							AnimatorStateTransition[] newStateTransitions = new AnimatorStateTransition[oldStateTransitions.Length];
+							for (int TransitionIndex = 0; TransitionIndex < oldStateTransitions.Length; TransitionIndex++) {
+								AnimatorState newTargetState = Array.Find(newStateMachines.states, ExistState => ExistState.state.name == oldStateTransitions[TransitionIndex].destinationState.name).state;
+								AnimatorStateTransition newTransition = newStateMachines.states[StateIndex].state.AddTransition(newTargetState);
+								newTransition.canTransitionToSelf = oldStateTransitions[TransitionIndex].canTransitionToSelf;
+								newTransition.duration = oldStateTransitions[TransitionIndex].duration;
+								newTransition.exitTime = oldStateTransitions[TransitionIndex].exitTime;
+								newTransition.hasExitTime = oldStateTransitions[TransitionIndex].hasExitTime;
+								newTransition.hasFixedDuration = oldStateTransitions[TransitionIndex].hasFixedDuration;
+								newTransition.interruptionSource = oldStateTransitions[TransitionIndex].interruptionSource;
+								newTransition.offset = oldStateTransitions[TransitionIndex].offset;
+								newTransition.orderedInterruption = oldStateTransitions[TransitionIndex].orderedInterruption;
+								newTransition.isExit = oldStateTransitions[TransitionIndex].isExit;
+								newTransition.mute = oldStateTransitions[TransitionIndex].mute;
+								newTransition.solo = oldStateTransitions[TransitionIndex].solo;
+								newTransition.hideFlags = oldStateTransitions[TransitionIndex].hideFlags;
+								newTransition.name = oldStateTransitions[TransitionIndex].name;
+								for (int ConditionIndex = 0; ConditionIndex < oldStateTransitions[TransitionIndex].conditions.Length; ConditionIndex++) {
+									newTransition.AddCondition(oldStateTransitions[TransitionIndex].conditions[ConditionIndex].mode, oldStateTransitions[TransitionIndex].conditions[ConditionIndex].threshold, oldStateTransitions[TransitionIndex].conditions[ConditionIndex].parameter);
 								}
 							}
 						}
+
+						newAnimationLayer.stateMachine = newStateMachines;
 						newAnimatorLayers[TargetController.layers.Length + Index] = newAnimationLayer;
 					}
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Layer");
