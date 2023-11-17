@@ -211,7 +211,7 @@ namespace com.vrsuya.avatarsettingupdater {
 						newAnimationLayer.syncedLayerAffectsTiming = RequiredLayers[Index].syncedLayerAffectsTiming;
 
 						AnimatorStateMachine oldStateMachines = RequiredLayers[Index].stateMachine;
-						AnimatorStateMachine newStateMachines = newAnimationLayer.stateMachine;
+						AnimatorStateMachine newStateMachines = new AnimatorStateMachine();
 						newStateMachines.anyStatePosition = oldStateMachines.anyStatePosition;
 						newStateMachines.entryPosition = oldStateMachines.entryPosition;
 						newStateMachines.exitPosition = oldStateMachines.exitPosition;
@@ -244,7 +244,7 @@ namespace com.vrsuya.avatarsettingupdater {
 							AnimatorStateTransition[] oldStateTransitions = oldStateMachines.states[StateIndex].state.transitions;
 							AnimatorStateTransition[] newStateTransitions = new AnimatorStateTransition[oldStateTransitions.Length];
 							for (int TransitionIndex = 0; TransitionIndex < oldStateTransitions.Length; TransitionIndex++) {
-								AnimatorState newTargetState = Array.Find(newStateMachines.states, ExistState => ExistState.state.name == oldStateTransitions[TransitionIndex].destinationState.name).state;
+								AnimatorState newTargetState = Array.Find(newStateMachines.states, ExistState => ExistState.state == oldStateTransitions[TransitionIndex].destinationState).state;
 								AnimatorStateTransition newTransition = newStateMachines.states[StateIndex].state.AddTransition(newTargetState);
 								newTransition.canTransitionToSelf = oldStateTransitions[TransitionIndex].canTransitionToSelf;
 								newTransition.duration = oldStateTransitions[TransitionIndex].duration;
