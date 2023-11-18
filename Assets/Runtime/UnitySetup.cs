@@ -105,11 +105,10 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		/// <summary>아바타의 Bounds 세팅을 설정 합니다.</summary>
 		private static void UpdateBounds() {
-			Bounds newBounds = new Bounds();
-			Vector3 BoundsCenter = new Vector3(0.0f, 0.0f, 0.0f);
-			Vector3 BoundsExtents = new Vector3(1.0f, 1.0f, 1.0f);
-			newBounds.center = BoundsCenter;
-			newBounds.extents = BoundsExtents;
+			Bounds newBounds = new Bounds {
+				center = new Vector3(0.0f, 0.0f, 0.0f),
+				extents = new Vector3(1.0f, 1.0f, 1.0f),
+			};
 			foreach (SkinnedMeshRenderer TargetSkinnedMeshRenderer in AvatarSkinnedMeshRenderers) {
 				if (TargetSkinnedMeshRenderer.localBounds != newBounds) {
 					Undo.RecordObject(TargetSkinnedMeshRenderer, "Changed Bounds");

@@ -20,12 +20,13 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		/// <summary>요청한 애니메이터 컨트롤러에 파라메터를 추가합니다.</summary>
 		internal static void AddParameter(AnimatorController TargetController, AnimatorControllerParameter TargetParameter) {
-			AnimatorControllerParameter newParameter = new AnimatorControllerParameter();
-			newParameter.defaultBool = TargetParameter.defaultBool;
-			newParameter.defaultFloat = TargetParameter.defaultFloat;
-			newParameter.defaultInt = TargetParameter.defaultInt;
-			newParameter.name = TargetParameter.name;
-			newParameter.type = TargetParameter.type;
+			AnimatorControllerParameter newParameter = new AnimatorControllerParameter {
+				defaultBool = TargetParameter.defaultBool,
+				defaultFloat = TargetParameter.defaultFloat,
+				defaultInt = TargetParameter.defaultInt,
+				name = TargetParameter.name,
+				type = TargetParameter.type
+			};
 			TargetController.AddParameter(newParameter);
 			return;
 		}
