@@ -161,6 +161,8 @@ namespace com.vrsuya.avatarsettingupdater {
 							newAnimationLayer.iKPass = VRCFXLayer.layers[Index].iKPass;
 							newAnimationLayer.name = VRCFXLayer.layers[Index].name;
 							newAnimationLayer.stateMachine = VRCFXLayer.layers[Index].stateMachine;
+							newAnimationLayer.syncedLayerAffectsTiming = VRCFXLayer.layers[Index].syncedLayerAffectsTiming;
+							newAnimationLayer.syncedLayerIndex = VRCFXLayer.layers[Index].syncedLayerIndex;
 							if (Array.Exists(dictSELESTIAMogumoguLayerName, TargetName => VRCFXLayer.layers[Index].name == TargetName)) {
 								newAnimationLayer.defaultWeight = 0.0f;
 							} else {
