@@ -111,12 +111,14 @@ namespace com.vrsuya.avatarsettingupdater {
 			newBounds.center = BoundsCenter;
 			newBounds.extents = BoundsExtents;
 			foreach (SkinnedMeshRenderer TargetSkinnedMeshRenderer in AvatarSkinnedMeshRenderers) {
-				Undo.RecordObject(TargetSkinnedMeshRenderer, "Changed Bounds");
-				TargetSkinnedMeshRenderer.updateWhenOffscreen = true;
-				TargetSkinnedMeshRenderer.localBounds = newBounds;
-				TargetSkinnedMeshRenderer.updateWhenOffscreen = false;
-				EditorUtility.SetDirty(TargetSkinnedMeshRenderer);
-				Undo.CollapseUndoOperations(UndoGroupIndex);
+				if (TargetSkinnedMeshRenderer.localBounds != newBounds) {
+					Undo.RecordObject(TargetSkinnedMeshRenderer, "Changed Bounds");
+					TargetSkinnedMeshRenderer.updateWhenOffscreen = true;
+					TargetSkinnedMeshRenderer.localBounds = newBounds;
+					TargetSkinnedMeshRenderer.updateWhenOffscreen = false;
+					EditorUtility.SetDirty(TargetSkinnedMeshRenderer);
+					Undo.CollapseUndoOperations(UndoGroupIndex);
+				}
 			}
 		}
 	}
