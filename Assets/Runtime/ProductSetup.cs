@@ -182,7 +182,11 @@ namespace com.vrsuya.avatarsettingupdater {
 			foreach (AnimatorControllerParameter NewParameter in TargetParameters) {
 				if (!Array.Exists(TargetController.parameters, ExistParameter => NewParameter.name == ExistParameter.name)) {
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Parameter");
-					TargetController.parameters = TargetController.parameters.Concat(new AnimatorControllerParameter[] { NewParameter }).ToArray();
+					if (KeepLinkAnimatorLayer) {
+						TargetController.parameters = TargetController.parameters.Concat(new AnimatorControllerParameter[] { NewParameter }).ToArray();
+					} else {
+						AnimationControllerDuplicator.AddParameter(TargetController, NewParameter);
+					}
 					EditorUtility.SetDirty(TargetController);
 					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
@@ -199,76 +203,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			} else {
 				AnimatorControllerLayer[] RequiredLayers = TargetLayers.Where(TargetLayer => !Array.Exists(TargetController.layers, ExistLayer => TargetLayer.name == ExistLayer.name)).ToArray();
 				if (RequiredLayers.Length > 0) {
-					AnimatorControllerLayer[] newAnimatorLayers = new AnimatorControllerLayer[TargetController.layers.Length + RequiredLayers.Length];
-					Array.Copy(TargetController.layers, newAnimatorLayers, TargetController.layers.Length);
-					for (int Index = 0; Index < RequiredLayers.Length; Index++) {
-						AnimatorControllerLayer newAnimationLayer = new AnimatorControllerLayer();
-						newAnimationLayer.avatarMask = RequiredLayers[Index].avatarMask;
-						newAnimationLayer.blendingMode = RequiredLayers[Index].blendingMode;
-						newAnimationLayer.defaultWeight = RequiredLayers[Index].defaultWeight;
-						newAnimationLayer.iKPass = RequiredLayers[Index].iKPass;
-						newAnimationLayer.name = RequiredLayers[Index].name;
-						newAnimationLayer.syncedLayerAffectsTiming = RequiredLayers[Index].syncedLayerAffectsTiming;
-
-						AnimatorStateMachine oldStateMachines = RequiredLayers[Index].stateMachine;
-						AnimatorStateMachine newStateMachines = new AnimatorStateMachine();
-						newStateMachines.anyStatePosition = oldStateMachines.anyStatePosition;
-						newStateMachines.entryPosition = oldStateMachines.entryPosition;
-						newStateMachines.exitPosition = oldStateMachines.exitPosition;
-						newStateMachines.parentStateMachinePosition = oldStateMachines.parentStateMachinePosition;
-
-						// State 복제
-						for (int StateIndex = 0; StateIndex < oldStateMachines.states.Length; StateIndex++) {
-							AnimatorState oldState = oldStateMachines.states[StateIndex].state;
-							AnimatorState newState = newStateMachines.AddState(oldState.name);
-							newState.behaviours = oldState.behaviours;
-							newState.cycleOffset = oldState.cycleOffset;
-							newState.cycleOffsetParameter = oldState.cycleOffsetParameter;
-							newState.cycleOffsetParameterActive = oldState.cycleOffsetParameterActive;
-							newState.iKOnFeet = oldState.iKOnFeet;
-							newState.mirror = oldState.mirror;
-							newState.mirrorParameter = oldState.mirrorParameter;
-							newState.mirrorParameterActive = oldState.mirrorParameterActive;
-							newState.motion = oldState.motion;
-							newState.speed = oldState.speed;
-							newState.speedParameter = oldState.speedParameter;
-							newState.speedParameterActive = oldState.speedParameterActive;
-							newState.tag = oldState.tag;
-							newState.timeParameter = oldState.timeParameter;
-							newState.timeParameterActive = oldState.timeParameterActive;
-							newState.writeDefaultValues = oldState.writeDefaultValues;
-						}
-
-						// StateTransition 복제
-						for (int StateIndex = 0; StateIndex < oldStateMachines.states.Length; StateIndex++) {
-							AnimatorStateTransition[] oldStateTransitions = oldStateMachines.states[StateIndex].state.transitions;
-							AnimatorStateTransition[] newStateTransitions = new AnimatorStateTransition[oldStateTransitions.Length];
-							for (int TransitionIndex = 0; TransitionIndex < oldStateTransitions.Length; TransitionIndex++) {
-								AnimatorState newTargetState = Array.Find(newStateMachines.states, ExistState => ExistState.state == oldStateTransitions[TransitionIndex].destinationState).state;
-								AnimatorStateTransition newTransition = newStateMachines.states[StateIndex].state.AddTransition(newTargetState);
-								newTransition.canTransitionToSelf = oldStateTransitions[TransitionIndex].canTransitionToSelf;
-								newTransition.duration = oldStateTransitions[TransitionIndex].duration;
-								newTransition.exitTime = oldStateTransitions[TransitionIndex].exitTime;
-								newTransition.hasExitTime = oldStateTransitions[TransitionIndex].hasExitTime;
-								newTransition.hasFixedDuration = oldStateTransitions[TransitionIndex].hasFixedDuration;
-								newTransition.interruptionSource = oldStateTransitions[TransitionIndex].interruptionSource;
-								newTransition.offset = oldStateTransitions[TransitionIndex].offset;
-								newTransition.orderedInterruption = oldStateTransitions[TransitionIndex].orderedInterruption;
-								newTransition.isExit = oldStateTransitions[TransitionIndex].isExit;
-								newTransition.mute = oldStateTransitions[TransitionIndex].mute;
-								newTransition.solo = oldStateTransitions[TransitionIndex].solo;
-								newTransition.hideFlags = oldStateTransitions[TransitionIndex].hideFlags;
-								newTransition.name = oldStateTransitions[TransitionIndex].name;
-								for (int ConditionIndex = 0; ConditionIndex < oldStateTransitions[TransitionIndex].conditions.Length; ConditionIndex++) {
-									newTransition.AddCondition(oldStateTransitions[TransitionIndex].conditions[ConditionIndex].mode, oldStateTransitions[TransitionIndex].conditions[ConditionIndex].threshold, oldStateTransitions[TransitionIndex].conditions[ConditionIndex].parameter);
-								}
-							}
-						}
-
-						newAnimationLayer.stateMachine = newStateMachines;
-						newAnimatorLayers[TargetController.layers.Length + Index] = newAnimationLayer;
-					}
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Layer");
+					AnimatorControllerLayer[] newAnimatorLayers = AnimationControllerDuplicator.DuplicateAnimatorLayer(TargetController, RequiredLayers);
 					TargetController.layers = newAnimatorLayers;
 					EditorUtility.SetDirty(TargetController);
 					Undo.CollapseUndoOperations(UndoGroupIndex);
