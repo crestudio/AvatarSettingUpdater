@@ -1,9 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -37,75 +34,137 @@ namespace com.vrsuya.avatarsettingupdater {
 			AnimatorControllerLayer[] newAnimatorLayers = new AnimatorControllerLayer[TargetController.layers.Length + TargetLayers.Length];
 			Array.Copy(TargetController.layers, newAnimatorLayers, TargetController.layers.Length);
 			for (int Index = 0; Index < TargetLayers.Length; Index++) {
-				AnimatorControllerLayer newAnimationLayer = new AnimatorControllerLayer();
-				newAnimationLayer.avatarMask = TargetLayers[Index].avatarMask;
-				newAnimationLayer.blendingMode = TargetLayers[Index].blendingMode;
-				newAnimationLayer.defaultWeight = TargetLayers[Index].defaultWeight;
-				newAnimationLayer.iKPass = TargetLayers[Index].iKPass;
-				newAnimationLayer.name = TargetLayers[Index].name;
-				newAnimationLayer.syncedLayerAffectsTiming = TargetLayers[Index].syncedLayerAffectsTiming;
-				newAnimationLayer.syncedLayerIndex = TargetLayers[Index].syncedLayerIndex;
-
-				AnimatorStateMachine oldStateMachines = TargetLayers[Index].stateMachine;
-				AnimatorStateMachine newStateMachines = new AnimatorStateMachine();
-				newStateMachines.anyStatePosition = oldStateMachines.anyStatePosition;
-				newStateMachines.behaviours = oldStateMachines.behaviours;
-				newStateMachines.entryPosition = oldStateMachines.entryPosition;
-				newStateMachines.exitPosition = oldStateMachines.exitPosition;
-				newStateMachines.parentStateMachinePosition = oldStateMachines.parentStateMachinePosition;
-
-				// State 복제
-				for (int StateIndex = 0; StateIndex < oldStateMachines.states.Length; StateIndex++) {
-					AnimatorState oldState = oldStateMachines.states[StateIndex].state;
-					AnimatorState newState = newStateMachines.AddState(oldState.name);
-					newState.behaviours = oldState.behaviours;
-					newState.cycleOffset = oldState.cycleOffset;
-					newState.cycleOffsetParameter = oldState.cycleOffsetParameter;
-					newState.cycleOffsetParameterActive = oldState.cycleOffsetParameterActive;
-					newState.iKOnFeet = oldState.iKOnFeet;
-					newState.mirror = oldState.mirror;
-					newState.mirrorParameter = oldState.mirrorParameter;
-					newState.mirrorParameterActive = oldState.mirrorParameterActive;
-					newState.motion = oldState.motion;
-					newState.speed = oldState.speed;
-					newState.speedParameter = oldState.speedParameter;
-					newState.speedParameterActive = oldState.speedParameterActive;
-					newState.tag = oldState.tag;
-					newState.timeParameter = oldState.timeParameter;
-					newState.timeParameterActive = oldState.timeParameterActive;
-					newState.writeDefaultValues = oldState.writeDefaultValues;
-				}
-
-				// StateTransition 복제
-				for (int StateIndex = 0; StateIndex < oldStateMachines.states.Length; StateIndex++) {
-					AnimatorStateTransition[] oldStateTransitions = oldStateMachines.states[StateIndex].state.transitions;
-					AnimatorStateTransition[] newStateTransitions = new AnimatorStateTransition[oldStateTransitions.Length];
-					for (int TransitionIndex = 0; TransitionIndex < oldStateTransitions.Length; TransitionIndex++) {
-						AnimatorState newTargetState = Array.Find(newStateMachines.states, ExistState => ExistState.state == oldStateTransitions[TransitionIndex].destinationState).state;
-						AnimatorStateTransition newTransition = newStateMachines.states[StateIndex].state.AddTransition(newTargetState);
-						newTransition.canTransitionToSelf = oldStateTransitions[TransitionIndex].canTransitionToSelf;
-						newTransition.duration = oldStateTransitions[TransitionIndex].duration;
-						newTransition.exitTime = oldStateTransitions[TransitionIndex].exitTime;
-						newTransition.hasExitTime = oldStateTransitions[TransitionIndex].hasExitTime;
-						newTransition.hasFixedDuration = oldStateTransitions[TransitionIndex].hasFixedDuration;
-						newTransition.interruptionSource = oldStateTransitions[TransitionIndex].interruptionSource;
-						newTransition.offset = oldStateTransitions[TransitionIndex].offset;
-						newTransition.orderedInterruption = oldStateTransitions[TransitionIndex].orderedInterruption;
-						newTransition.isExit = oldStateTransitions[TransitionIndex].isExit;
-						newTransition.mute = oldStateTransitions[TransitionIndex].mute;
-						newTransition.solo = oldStateTransitions[TransitionIndex].solo;
-						newTransition.hideFlags = oldStateTransitions[TransitionIndex].hideFlags;
-						newTransition.name = oldStateTransitions[TransitionIndex].name;
-						for (int ConditionIndex = 0; ConditionIndex < oldStateTransitions[TransitionIndex].conditions.Length; ConditionIndex++) {
-							newTransition.AddCondition(oldStateTransitions[TransitionIndex].conditions[ConditionIndex].mode, oldStateTransitions[TransitionIndex].conditions[ConditionIndex].threshold, oldStateTransitions[TransitionIndex].conditions[ConditionIndex].parameter);
-						}
-					}
-				}
-
-				newAnimationLayer.stateMachine = newStateMachines;
-				newAnimatorLayers[TargetController.layers.Length + Index] = newAnimationLayer;
+				AnimatorControllerLayer newAnimatorLayer = DuplicateAnimatorLayer(TargetLayers[Index]);
+				newAnimatorLayers[TargetController.layers.Length + Index] = newAnimatorLayer;
 			}
 			return newAnimatorLayers;
+		}
+
+		/// <summary>요청한 애니메이터 레이어를 복제하여 반환합니다.</summary>
+		/// <returns>복제된 애니메이터 레이어</returns>
+		private static AnimatorControllerLayer DuplicateAnimatorLayer(AnimatorControllerLayer TargetAnimatorLayer) {
+			AnimatorControllerLayer newAnimatorLayer = new AnimatorControllerLayer {
+				avatarMask = TargetAnimatorLayer.avatarMask,
+				blendingMode = TargetAnimatorLayer.blendingMode,
+				defaultWeight = TargetAnimatorLayer.defaultWeight,
+				iKPass = TargetAnimatorLayer.iKPass,
+				name = TargetAnimatorLayer.name,
+				stateMachine = DuplicateStateMachine(TargetAnimatorLayer.stateMachine),
+				syncedLayerAffectsTiming = TargetAnimatorLayer.syncedLayerAffectsTiming,
+				syncedLayerIndex = TargetAnimatorLayer.syncedLayerIndex
+			};
+			return newAnimatorLayer;
+		}
+
+		/// <summary>요청한 StateMachine을 복제하여 반환합니다.</summary>
+		/// <returns>복제된 StateMachine</returns>
+		private static AnimatorStateMachine DuplicateStateMachine(AnimatorStateMachine TargetStateMachine) {
+			AnimatorStateMachine newStateMachines = new AnimatorStateMachine {
+				anyStatePosition = TargetStateMachine.anyStatePosition,
+				behaviours = TargetStateMachine.behaviours,
+				entryPosition = TargetStateMachine.entryPosition,
+				exitPosition = TargetStateMachine.exitPosition,
+				parentStateMachinePosition = TargetStateMachine.parentStateMachinePosition,
+				stateMachines = DuplicateChildStateMachine(TargetStateMachine.stateMachines),
+				states = DuplicateChildAnimatorState(TargetStateMachine.states)
+			};
+			return newStateMachines;
+		}
+
+		/// <summary>요청한 하위 StateMachine을 복제하여 반환합니다.</summary>
+		/// <returns>복제된 하위 StateMachine</returns>
+		private static ChildAnimatorStateMachine[] DuplicateChildStateMachine(ChildAnimatorStateMachine[] TargetChildStateMachines) {
+			ChildAnimatorStateMachine[] newChildStateMachines = new ChildAnimatorStateMachine[TargetChildStateMachines.Length];
+			for (int Index = 0; Index < TargetChildStateMachines.Length; Index++) {
+				ChildAnimatorStateMachine newChildStateMachine = new ChildAnimatorStateMachine {
+					position = TargetChildStateMachines[Index].position,
+					stateMachine = DuplicateStateMachine(TargetChildStateMachines[Index].stateMachine)
+				};
+				newChildStateMachines[Index] = newChildStateMachine;
+			}
+			return newChildStateMachines;
+		}
+
+		/// <summary>요청한 ChildAnimatorState을 복제하여 반환합니다.</summary>
+		/// <returns>복제된 ChildAnimatorState</returns>
+		private static ChildAnimatorState[] DuplicateChildAnimatorState(ChildAnimatorState[] TargetChildAnimatorStates) {
+			ChildAnimatorState[] newChildAnimatorStates = new ChildAnimatorState[TargetChildAnimatorStates.Length];
+			for (int Index = 0; Index < TargetChildAnimatorStates.Length; Index++) {
+				ChildAnimatorState newChildAnimatorState = new ChildAnimatorState {
+					position = TargetChildAnimatorStates[Index].position,
+					state = DuplicateAnimatorState(TargetChildAnimatorStates[Index].state)
+				};
+				newChildAnimatorStates[Index] = newChildAnimatorState;
+			}
+			return newChildAnimatorStates;
+		}
+
+		/// <summary>요청한 ChildAnimatorState을 복제하여 반환합니다.</summary>
+		/// <returns>복제된 ChildAnimatorState</returns>
+		private static AnimatorState DuplicateAnimatorState(AnimatorState TargetAnimatorState) {
+			AnimatorState newState = new AnimatorState {
+				behaviours = TargetAnimatorState.behaviours,
+				cycleOffset = TargetAnimatorState.cycleOffset,
+				cycleOffsetParameter = TargetAnimatorState.cycleOffsetParameter,
+				cycleOffsetParameterActive = TargetAnimatorState.cycleOffsetParameterActive,
+				iKOnFeet = TargetAnimatorState.iKOnFeet,
+				mirror = TargetAnimatorState.mirror,
+				mirrorParameter = TargetAnimatorState.mirrorParameter,
+				mirrorParameterActive = TargetAnimatorState.mirrorParameterActive,
+				motion = TargetAnimatorState.motion,
+				speed = TargetAnimatorState.speed,
+				speedParameter = TargetAnimatorState.speedParameter,
+				speedParameterActive = TargetAnimatorState.speedParameterActive,
+				tag = TargetAnimatorState.tag,
+				timeParameter = TargetAnimatorState.timeParameter,
+				timeParameterActive = TargetAnimatorState.timeParameterActive,
+				transitions = new AnimatorStateTransition[TargetAnimatorState.transitions.Length],
+				writeDefaultValues = TargetAnimatorState.writeDefaultValues
+			};
+			return newState;
+		}
+
+		/// <summary>요청한 Transition을 복제하여 반환합니다.</summary>
+		/// <returns>복제된 Transition</returns>
+		private static AnimatorStateTransition[] DuplicateTransitions(AnimatorStateTransition[] TargetStateTransitions) {
+			AnimatorStateTransition[] newStateTransitions = new AnimatorStateTransition[TargetStateTransitions.Length];
+			for (int Index = 0; Index < TargetStateTransitions.Length; Index++) {
+				AnimatorStateTransition newTransition = new AnimatorStateTransition {
+					canTransitionToSelf = TargetStateTransitions[Index].canTransitionToSelf,
+					duration = TargetStateTransitions[Index].duration,
+					exitTime = TargetStateTransitions[Index].exitTime,
+					hasExitTime = TargetStateTransitions[Index].hasExitTime,
+					hasFixedDuration = TargetStateTransitions[Index].hasFixedDuration,
+					interruptionSource = TargetStateTransitions[Index].interruptionSource,
+					offset = TargetStateTransitions[Index].offset,
+					orderedInterruption = TargetStateTransitions[Index].orderedInterruption,
+					conditions = DuplicateConditions(TargetStateTransitions[Index].conditions),
+					destinationState = TargetStateTransitions[Index].destinationState,
+					destinationStateMachine = TargetStateTransitions[Index].destinationStateMachine,
+					isExit = TargetStateTransitions[Index].isExit,
+					mute = TargetStateTransitions[Index].mute,
+					solo = TargetStateTransitions[Index].solo,
+					hideFlags = TargetStateTransitions[Index].hideFlags,
+					name = TargetStateTransitions[Index].name
+				};
+				newStateTransitions[Index] = newTransition;
+			}
+			return newStateTransitions;
+		}
+
+		/// <summary>요청한 조건을 복제하여 반환합니다.</summary>
+		/// <returns>복제된 조건</returns>
+		private static AnimatorCondition[] DuplicateConditions(AnimatorCondition[] TargetConditions) {
+			AnimatorCondition[] newConditions = new AnimatorCondition[TargetConditions.Length];
+			for (int Index = 0; Index < TargetConditions.Length; Index++) {
+				AnimatorCondition newCondition = new AnimatorCondition {
+					mode = TargetConditions[Index].mode,
+					threshold = TargetConditions[Index].threshold,
+					parameter = TargetConditions[Index].parameter
+				};
+				newConditions[Index] = newCondition;
+			}
+			return newConditions;
 		}
 	}
 }
