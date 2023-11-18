@@ -66,7 +66,9 @@ namespace com.vrsuya.avatarsettingupdater {
 				exitPosition = TargetStateMachine.exitPosition,
 				parentStateMachinePosition = TargetStateMachine.parentStateMachinePosition,
 				stateMachines = DuplicateChildStateMachine(TargetStateMachine.stateMachines),
-				states = DuplicateChildAnimatorState(TargetStateMachine.states)
+				states = DuplicateChildAnimatorState(TargetStateMachine.states),
+				hideFlags = TargetStateMachine.hideFlags,
+				name = TargetStateMachine.name
 			};
 			return newStateMachines;
 		}
@@ -119,7 +121,9 @@ namespace com.vrsuya.avatarsettingupdater {
 				timeParameter = TargetAnimatorState.timeParameter,
 				timeParameterActive = TargetAnimatorState.timeParameterActive,
 				transitions = new AnimatorStateTransition[TargetAnimatorState.transitions.Length],
-				writeDefaultValues = TargetAnimatorState.writeDefaultValues
+				writeDefaultValues = TargetAnimatorState.writeDefaultValues,
+				hideFlags = TargetAnimatorState.hideFlags,
+				name = TargetAnimatorState.name
 			};
 			return newState;
 		}
