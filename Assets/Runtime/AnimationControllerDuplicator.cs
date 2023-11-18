@@ -87,9 +87,13 @@ namespace com.vrsuya.avatarsettingupdater {
 				if (OldStateTransitions.Length > 0) {
 					AnimatorStateTransition[] newTransitions = new AnimatorStateTransition[OldStateTransitions.Length];
 					for (int Index = 0; Index < OldStateTransitions.Length; Index++) {
-						AnimatorState newDestinationState = Array.Find(NewAnimatorStates, AnimatorState => AnimatorState.name == OldStateTransitions[Index].destinationState.name);
-						AnimatorStateMachine newDestinationExistStateMachine = Array.Find(NewAnimatorStateMachines, ExistStateMachine => ExistStateMachine.name == OldStateTransitions[Index].destinationStateMachine.name);
-						newTransitions[Index] = DuplicateTransition(OldStateTransitions[Index], newDestinationState, newDestinationExistStateMachine);
+						if (OldStateTransitions[Index].destinationState != null) {
+							AnimatorState newDestinationState = Array.Find(NewAnimatorStates, AnimatorState => AnimatorState.name == OldStateTransitions[Index].destinationState.name);
+							newTransitions[Index] = DuplicateTransition(OldStateTransitions[Index], newDestinationState, null);
+						} else if (OldStateTransitions[Index].destinationStateMachine != null) {
+							AnimatorStateMachine newDestinationExistStateMachine = Array.Find(NewAnimatorStateMachines, ExistStateMachine => ExistStateMachine.name == OldStateTransitions[Index].destinationStateMachine.name);
+							newTransitions[Index] = DuplicateTransition(OldStateTransitions[Index], null, newDestinationExistStateMachine);
+						}
 					}
 					TargetState.transitions = newTransitions;
 				}
