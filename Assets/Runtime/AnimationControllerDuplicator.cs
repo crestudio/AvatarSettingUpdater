@@ -82,13 +82,16 @@ namespace com.vrsuya.avatarsettingupdater {
 			AnimatorState[] OldAnimatorStates = GetAllStates(OldStateMachine);
 			AnimatorState[] NewAnimatorStates = GetAllStates(TargetStateMachine);
 			foreach (AnimatorState TargetState in NewAnimatorStates) {
-				if (TargetState.transitions.Length > 0) {
-					AnimatorStateTransition[] OldStateTransitions = Array.Find(OldAnimatorStates, ExistState => ExistState.name == TargetState.name).transitions;
+				AnimatorState ExistState = Array.Find(OldAnimatorStates, AnimatorState => AnimatorState.name == TargetState.name);
+				AnimatorStateTransition[] OldStateTransitions = ExistState.transitions;
+				if (OldStateTransitions.Length > 0) {
+					AnimatorStateTransition[] newTransitions = new AnimatorStateTransition[OldStateTransitions.Length];
 					for (int Index = 0; Index < OldStateTransitions.Length; Index++) {
-						AnimatorState newDestinationState = Array.Find(NewAnimatorStates, ExistState => ExistState.name == OldStateTransitions[Index].destinationState.name);
+						AnimatorState newDestinationState = Array.Find(NewAnimatorStates, AnimatorState => AnimatorState.name == OldStateTransitions[Index].destinationState.name);
 						AnimatorStateMachine newDestinationExistStateMachine = Array.Find(NewAnimatorStateMachines, ExistStateMachine => ExistStateMachine.name == OldStateTransitions[Index].destinationStateMachine.name);
-						DuplicateTransition(OldStateTransitions[Index], newDestinationState, newDestinationExistStateMachine);
+						newTransitions[Index] = DuplicateTransition(OldStateTransitions[Index], newDestinationState, newDestinationExistStateMachine);
 					}
+					TargetState.transitions = newTransitions;
 				}
 			}
 			return;
@@ -165,7 +168,6 @@ namespace com.vrsuya.avatarsettingupdater {
 				tag = TargetAnimatorState.tag,
 				timeParameter = TargetAnimatorState.timeParameter,
 				timeParameterActive = TargetAnimatorState.timeParameterActive,
-				transitions = new AnimatorStateTransition[TargetAnimatorState.transitions.Length],
 				writeDefaultValues = TargetAnimatorState.writeDefaultValues,
 				hideFlags = TargetAnimatorState.hideFlags,
 				name = TargetAnimatorState.name
