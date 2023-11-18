@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System;
+using System.Linq;
 
 using UnityEditor.Animations;
 using UnityEngine;
@@ -70,7 +71,51 @@ namespace com.vrsuya.avatarsettingupdater {
 				hideFlags = TargetStateMachine.hideFlags,
 				name = TargetStateMachine.name
 			};
+			CopyTransitions(newStateMachines, TargetStateMachine);
 			return newStateMachines;
+		}
+
+		/// <summary>새로 생성된 StateMachine에서 Transition 데이터를 복제 작업을 합니다.</summary>
+		private static void CopyTransitions(AnimatorStateMachine TargetStateMachine, AnimatorStateMachine OldStateMachine) {
+			AnimatorStateMachine[] OldAnimatorStateMachines = GetAllStateMachines(OldStateMachine);
+			AnimatorStateMachine[] NewAnimatorStateMachines = GetAllStateMachines(TargetStateMachine);
+			AnimatorState[] OldAnimatorStates = GetAllStates(OldStateMachine);
+			AnimatorState[] NewAnimatorStates = GetAllStates(TargetStateMachine);
+			foreach (AnimatorState TargetState in NewAnimatorStates) {
+				if (TargetState.transitions.Length > 0) {
+					AnimatorStateTransition[] OldStateTransitions = Array.Find(OldAnimatorStates, ExistState => ExistState.name == TargetState.name).transitions;
+					for (int Index = 0; Index < OldStateTransitions.Length; Index++) {
+						AnimatorState newDestinationState = Array.Find(NewAnimatorStates, ExistState => ExistState.name == OldStateTransitions[Index].destinationState.name);
+						AnimatorStateMachine newDestinationExistStateMachine = Array.Find(NewAnimatorStateMachines, ExistStateMachine => ExistStateMachine.name == OldStateTransitions[Index].destinationStateMachine.name);
+						DuplicateTransition(OldStateTransitions[Index], newDestinationState, newDestinationExistStateMachine);
+					}
+				}
+			}
+			return;
+		}
+
+		/// <summary>모든 State 어레이를 반환합니다.</summary>
+		/// <returns>State 어레이</returns>
+		private static AnimatorState[] GetAllStates(AnimatorStateMachine TargetStateMachine) {
+			AnimatorState[] States = TargetStateMachine.states.Select(ExistChildState => ExistChildState.state).ToArray();
+			if (TargetStateMachine.stateMachines.Length > 0) {
+				foreach (var TargetChildStatetMachine in TargetStateMachine.stateMachines) {
+					States = States.Concat(GetAllStates(TargetChildStatetMachine.stateMachine)).ToArray();
+				}
+			}
+			return States;
+		}
+
+		/// <summary>모든 StateMachine 어레이를 반환합니다.</summary>
+		/// <returns>StateMachine 어레이</returns>
+		private static AnimatorStateMachine[] GetAllStateMachines(AnimatorStateMachine TargetStateMachine) {
+			AnimatorStateMachine[] StateMachines = new AnimatorStateMachine[] { TargetStateMachine };
+			if (TargetStateMachine.stateMachines.Length > 0) {
+				foreach (var TargetChildStateMachine in TargetStateMachine.stateMachines) {
+					StateMachines = StateMachines.Concat(GetAllStateMachines(TargetChildStateMachine.stateMachine)).ToArray();
+				}
+			}
+			return StateMachines;
 		}
 
 		/// <summary>요청한 하위 StateMachine을 복제하여 반환합니다.</summary>
@@ -130,30 +175,26 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		/// <summary>요청한 Transition을 복제하여 반환합니다.</summary>
 		/// <returns>복제된 Transition</returns>
-		private static AnimatorStateTransition[] DuplicateTransitions(AnimatorStateTransition[] TargetStateTransitions) {
-			AnimatorStateTransition[] newStateTransitions = new AnimatorStateTransition[TargetStateTransitions.Length];
-			for (int Index = 0; Index < TargetStateTransitions.Length; Index++) {
-				AnimatorStateTransition newTransition = new AnimatorStateTransition {
-					canTransitionToSelf = TargetStateTransitions[Index].canTransitionToSelf,
-					duration = TargetStateTransitions[Index].duration,
-					exitTime = TargetStateTransitions[Index].exitTime,
-					hasExitTime = TargetStateTransitions[Index].hasExitTime,
-					hasFixedDuration = TargetStateTransitions[Index].hasFixedDuration,
-					interruptionSource = TargetStateTransitions[Index].interruptionSource,
-					offset = TargetStateTransitions[Index].offset,
-					orderedInterruption = TargetStateTransitions[Index].orderedInterruption,
-					conditions = DuplicateConditions(TargetStateTransitions[Index].conditions),
-					destinationState = TargetStateTransitions[Index].destinationState,
-					destinationStateMachine = TargetStateTransitions[Index].destinationStateMachine,
-					isExit = TargetStateTransitions[Index].isExit,
-					mute = TargetStateTransitions[Index].mute,
-					solo = TargetStateTransitions[Index].solo,
-					hideFlags = TargetStateTransitions[Index].hideFlags,
-					name = TargetStateTransitions[Index].name
-				};
-				newStateTransitions[Index] = newTransition;
-			}
-			return newStateTransitions;
+		private static AnimatorStateTransition DuplicateTransition(AnimatorStateTransition TargetStateTransition, AnimatorState TargetAnimatorState, AnimatorStateMachine TargetAnimatorStateMachine) {
+			AnimatorStateTransition newTransition = new AnimatorStateTransition {
+				canTransitionToSelf = TargetStateTransition.canTransitionToSelf,
+				duration = TargetStateTransition.duration,
+				exitTime = TargetStateTransition.exitTime,
+				hasExitTime = TargetStateTransition.hasExitTime,
+				hasFixedDuration = TargetStateTransition.hasFixedDuration,
+				interruptionSource = TargetStateTransition.interruptionSource,
+				offset = TargetStateTransition.offset,
+				orderedInterruption = TargetStateTransition.orderedInterruption,
+				conditions = DuplicateConditions(TargetStateTransition.conditions),
+				destinationState = TargetAnimatorState,
+				destinationStateMachine = TargetAnimatorStateMachine,
+				isExit = TargetStateTransition.isExit,
+				mute = TargetStateTransition.mute,
+				solo = TargetStateTransition.solo,
+				hideFlags = TargetStateTransition.hideFlags,
+				name = TargetStateTransition.name
+			};
+			return newTransition;
 		}
 
 		/// <summary>요청한 조건을 복제하여 반환합니다.</summary>
