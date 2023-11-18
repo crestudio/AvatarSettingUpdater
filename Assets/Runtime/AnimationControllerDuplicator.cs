@@ -33,7 +33,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		/// <summary>요청한 애니메이터 컨트롤러에 레이어를 복제하여 추가합니다.</summary>
 		/// <returns>데이터가 추가된 새로운 애니메이터 컨트롤러 레이어</returns>
-		internal static AnimatorControllerLayer[] DuplicateAnimatorLayer(AnimatorController TargetController, AnimatorControllerLayer[] TargetLayers) {
+		internal static AnimatorControllerLayer[] DuplicateAnimatorLayers(AnimatorController TargetController, AnimatorControllerLayer[] TargetLayers) {
 			AnimatorControllerLayer[] newAnimatorLayers = new AnimatorControllerLayer[TargetController.layers.Length + TargetLayers.Length];
 			Array.Copy(TargetController.layers, newAnimatorLayers, TargetController.layers.Length);
 			for (int Index = 0; Index < TargetLayers.Length; Index++) {

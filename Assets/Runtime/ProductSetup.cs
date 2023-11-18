@@ -204,7 +204,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				AnimatorControllerLayer[] RequiredLayers = TargetLayers.Where(TargetLayer => !Array.Exists(TargetController.layers, ExistLayer => TargetLayer.name == ExistLayer.name)).ToArray();
 				if (RequiredLayers.Length > 0) {
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Layer");
-					AnimatorControllerLayer[] newAnimatorLayers = AnimationControllerDuplicator.DuplicateAnimatorLayer(TargetController, RequiredLayers);
+					AnimatorControllerLayer[] newAnimatorLayers = AnimationControllerDuplicator.DuplicateAnimatorLayers(TargetController, RequiredLayers);
 					TargetController.layers = newAnimatorLayers;
 					EditorUtility.SetDirty(TargetController);
 					Undo.CollapseUndoOperations(UndoGroupIndex);
