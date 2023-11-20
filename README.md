@@ -43,12 +43,6 @@ VRChat 아바타용 VRSuya 제품 자동 세팅 프로그램
 
 ---
 
-## 알려진 버그
-
-- [ ] 셀레스티아 Animator Controller의 Cheek 관련 레이어가 Weight 0이 되지 않는 버그
-
----
-
 ## Contact
 
 - Twitter : https://twitter.com/VRSuya
