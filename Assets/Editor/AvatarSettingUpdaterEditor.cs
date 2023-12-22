@@ -85,14 +85,19 @@ namespace com.vrsuya.avatarsettingupdater {
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
+
 			AvatarNames = LanguageHelper.ReturnAvatarName(SerializedInstalledVRSuyaProductAvatarsEditor);
 			LanguageIndex = EditorGUILayout.Popup(LanguageHelper.GetContextString("String_Language"), LanguageIndex, LanguageType);
 			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
             EditorGUILayout.PropertyField(SerializedAvatarGameObject, new GUIContent(LanguageHelper.GetContextString("String_TargetAvatar")));
+
 			AvatarType = EditorGUILayout.Popup(LanguageHelper.GetContextString("String_Avatar"), AvatarType, AvatarNames);
-			SelectedAvatarName = SerializedInstalledVRSuyaProductAvatarsEditor.enumNames[AvatarType];
+			SerializedProperty SelectedAvatar = SerializedInstalledVRSuyaProductAvatarsEditor.GetArrayElementAtIndex(AvatarType);
+			SelectedAvatarName = SelectedAvatar.enumNames[SelectedAvatar.enumValueIndex];
 			(target as AvatarSettingUpdater).AvatarTypeNameEditor = SelectedAvatarName;
+
 			FoldAdvanced = EditorGUILayout.Foldout(FoldAdvanced, LanguageHelper.GetContextString("String_Advanced"));
+
 			if (FoldAdvanced) {
 				EditorGUI.indentLevel++;
 				EditorGUILayout.PropertyField(SerializedChangeTwosidedShadow, new GUIContent(LanguageHelper.GetContextString("String_TwoSidedShadow")));
@@ -110,6 +115,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				EditorGUI.indentLevel--;
 				EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			}
+
 			EditorGUILayout.LabelField(LanguageHelper.GetContextString("String_SetupProduct"), EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
 
