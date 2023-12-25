@@ -46,7 +46,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{
 				SerializedProperty ArrayItem = AvatarNameListProperty.GetArrayElementAtIndex(Index);
 				string AvatarEnumName = ArrayItem.enumNames[ArrayItem.enumValueIndex];
-				InstalledVRSuyaProductAvatars[Index] = System.Enum.Parse<AvatarSettingUpdater.Avatar>(AvatarEnumName);
+				InstalledVRSuyaProductAvatars[Index] = (AvatarSettingUpdater.Avatar)System.Enum.Parse(typeof(AvatarSettingUpdater.Avatar), AvatarEnumName);
 			}
 
 			return InstalledVRSuyaProductAvatars
