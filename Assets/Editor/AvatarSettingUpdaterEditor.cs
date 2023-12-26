@@ -107,7 +107,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				if (SerializedKeepAnimatorController.boolValue == true) {
 					EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_KeepAnimatorController_Info"), MessageType.Info);
 				}
-				EditorGUILayout.PropertyField(SerializedKeepLinkAnimatorLayer, new GUIContent(LanguageHelper.GetContextString("String_KeepLinkAnimatorLayer")));
+				// EditorGUILayout.PropertyField(SerializedKeepLinkAnimatorLayer, new GUIContent(LanguageHelper.GetContextString("String_KeepLinkAnimatorLayer")));
 				EditorGUILayout.PropertyField(SerializedAvatarAnchorOverride, new GUIContent(LanguageHelper.GetContextString("String_ObjectAnchorOverride")));
 				if (GUILayout.Button(LanguageHelper.GetContextString("String_GetAvatarData"))) {
 					(target as AvatarSettingUpdater).UpdateUnityEditorStatus();
@@ -130,8 +130,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			EditorGUILayout.PropertyField(SerializedInstallProductFeet, new GUIContent(LanguageHelper.GetContextString("String_ProductFeet")));
             GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.Nyoronyoro, SerializedInstalledProductNyoronyoro);
             EditorGUILayout.PropertyField(SerializedInstallProductNyoronyoro, new GUIContent(LanguageHelper.GetContextString("String_ProductNyoronyoro")));
-			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.ModelWalking, SerializedInstalledProductModelWalking);
-			EditorGUILayout.PropertyField(SerializedInstallProductModelWalking, new GUIContent(LanguageHelper.GetContextString("String_ProductModelWalking")));
+			// GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.ModelWalking, SerializedInstalledProductModelWalking);
+			// EditorGUILayout.PropertyField(SerializedInstallProductModelWalking, new GUIContent(LanguageHelper.GetContextString("String_ProductModelWalking")));
 			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.Handmotion, SerializedInstalledProductHandmotion);
 			EditorGUILayout.PropertyField(SerializedInstallProductHandmotion, new GUIContent(LanguageHelper.GetContextString("String_ProductHandmotion")));
 
