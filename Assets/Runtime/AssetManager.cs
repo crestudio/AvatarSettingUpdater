@@ -257,6 +257,16 @@ namespace com.vrsuya.avatarsettingupdater {
                 if (AssetsGUID.Length > 0) AvatarNames = (Avatar[])Enum.GetValues(typeof(Avatar));
             }
 			AvatarNames = AvatarNames.Distinct().ToArray();
+
+			// General 아바타를 Array 맨 처음으로 이동
+			int TargetIndex = Array.IndexOf(AvatarNames, Avatar.General);
+			if (TargetIndex != -1) {
+				Avatar ArrayFirst = AvatarNames[TargetIndex];
+				for (int Index = TargetIndex; Index > 0; Index--) {
+					AvatarNames[Index] = AvatarNames[Index - 1];
+				}
+				AvatarNames[0] = ArrayFirst;
+			}
 			return AvatarNames;
 		}
 
