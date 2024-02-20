@@ -27,7 +27,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		public Transform AvatarAnchorOverrideEditor;
 		public bool ChangeTwosidedShadowEditor = false;
 		public bool ChangeAnchorOverrideEditor = true;
-		public bool ChangeBoundsEditor = true;
+		public bool ChangeBoundsEditor = false;
 		public bool KeepAnimatorControllerEditor = false;
 		public bool KeepLinkAnimatorLayerEditor = true;
 
@@ -71,7 +71,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		// 아바타 세팅 선택 옵션
 		protected static bool ChangeTwosidedShadow = false;
 		protected static bool ChangeAnchorOverride = true;
-		protected static bool ChangeBounds = true;
+		protected static bool ChangeBounds = false;
 		protected static bool KeepAnimatorController = false;
 		protected static bool KeepLinkAnimatorLayer = true;
 
