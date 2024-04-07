@@ -116,7 +116,6 @@ namespace com.vrsuya.avatarsettingupdater {
             if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Nyoronyoro))) ProductSetup_Nyoronyoro.RegisterProduct();
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_ModelWalking))) ProductSetup_ModelWalking.RegisterProduct();
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Handmotion))) ProductSetup_Handmotion.RegisterProduct();
-			UpdateInstalledAvatarList();
 			return;
 		}
 
@@ -146,9 +145,13 @@ namespace com.vrsuya.avatarsettingupdater {
 		}
 
 		/// <summary>설치된 VRSuya 제품에서 지원하는 아바타 목록을 추려 사용 가능한 아바타 목록을 만듭니다.</summary>
-		private static void UpdateInstalledAvatarList() {
+		internal static void UpdateInstalledAvatarList() {
 			Avatar[] AllInstalledAvatars = InstalledVRSuyaProducts.SelectMany(Product => Product.SupportAvatarList).ToArray();
-			InstalledVRSuyaProductAvatars = AllInstalledAvatars.Distinct().ToArray();
+			if (AllInstalledAvatars.Length > 0) {
+				InstalledVRSuyaProductAvatars = AllInstalledAvatars.Distinct().ToArray();
+			} else {
+				InstalledVRSuyaProductAvatars = new Avatar[] { Avatar.None };
+			}
 			return;
 		}
 

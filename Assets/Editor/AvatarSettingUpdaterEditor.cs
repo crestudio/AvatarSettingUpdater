@@ -119,6 +119,9 @@ namespace com.vrsuya.avatarsettingupdater {
 			EditorGUILayout.LabelField(LanguageHelper.GetContextString("String_SetupProduct"), EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
 
+			if (SelectedAvatarName == "None") {
+				EditorGUILayout.HelpBox(ReturnStatusString("NO_VRSUYA_FILE"), MessageType.Warning);
+			}
 			// 제품 추가시 추가해야 될 변수
 			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.AFK, SerializedInstalledProductAFK);
 			EditorGUILayout.PropertyField(SerializedInstallProductAFK, new GUIContent(LanguageHelper.GetContextString("String_ProductAFK")));

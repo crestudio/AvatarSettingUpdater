@@ -91,7 +91,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "NO_VRCSDK_PARAMETER", "Not found VRC Avatar Parameter" },
 			{ "NO_MORE_MENU", "Need {0} more space to add VRC Menu" },
 			{ "NO_MORE_PARAMETER", "Need {0} more space to add VRC Parameter" },
-			{ "NO_SOURCE_FILE", "Not found VRC Assets(likes Animator Controller, Menu, Parameter) in the Avatar" }
+			{ "NO_SOURCE_FILE", "Not found VRC Assets(likes Animator Controller, Menu, Parameter) in the Avatar" },
+			{ "NO_VRSUYA_FILE", "VRSuya package is not installed on Unity project" }
 		};
 
 		// 한국어 사전 데이터
@@ -130,7 +131,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "NO_VRCSDK_PARAMETER", "VRC 파라메터가 존재하지 않습니다" },
 			{ "NO_MORE_MENU", "VRC 메뉴를 추가할 공간이 {0}개 부족합니다" },
 			{ "NO_MORE_PARAMETER", "VRC 파라메터를 추가할 공간이 {0}개 부족합니다" },
-			{ "NO_SOURCE_FILE", "아바타에서 VRC용 에셋(애니메이터, 메뉴, 파라메터)을 찾을 수 없습니다" }
+			{ "NO_SOURCE_FILE", "아바타에서 VRC용 에셋(애니메이터, 메뉴, 파라메터)을 찾을 수 없습니다" },
+			{ "NO_VRSUYA_FILE", "Unity 프로젝트에 VRSuya 패키지가 설치되어 있지 않습니다" }
 		};
 
 		// 일본어 사전 데이터
@@ -169,13 +171,15 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "NO_VRCSDK_PARAMETER", "VRCパラメータが存在しません" },
 			{ "NO_MORE_MENU", "VRCメニューを追加するスペース{0}スロットが不足しています" },
 			{ "NO_MORE_PARAMETER", "VRCパラメータを追加するスペース{0}スロットが不足しています" },
-			{ "NO_SOURCE_FILE", "アバターにVRC用アセット(アニメーター、メニュー、パラメータ)が見つかりません" }
+			{ "NO_SOURCE_FILE", "アバターにVRC用アセット(アニメーター、メニュー、パラメータ)が見つかりません" },
+			{ "NO_VRSUYA_FILE", "UnityプロジェクトにVRSuyaパッケージがインストールされていません" }
 		};
 
 		/// <summary>요청한 아바타 이름들을 설정된 언어에 맞춰 변환합니다.</summary>
 		/// <returns>요청한 아바타 이름들의 현재 설정된 언어 버전</returns>
 		private static readonly Dictionary<AvatarSettingUpdater.Avatar, string[]> dictAvatarNames = new Dictionary<AvatarSettingUpdater.Avatar, string[]>() {
 			{ AvatarSettingUpdater.Avatar.General, new string[] { "General", "일반", "一般" } },
+			{ AvatarSettingUpdater.Avatar.None, new string[] { "None", "없음", "無い" } },
 			{ AvatarSettingUpdater.Avatar.Aldina, new string[] { "Aldina", "알디나", "アルディナ" } },
 			{ AvatarSettingUpdater.Avatar.Angura, new string[] { "Angura", "앙그라", "アングラ" } },
 			{ AvatarSettingUpdater.Avatar.Anon, new string[] { "Anon", "아논", "あのん" } },
