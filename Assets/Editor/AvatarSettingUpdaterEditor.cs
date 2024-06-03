@@ -161,11 +161,8 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <summary>요청한 VRSuya 제품의 아바타 파일이 설치 되어있는지 검사합니다.</summary>
 		/// <returns>에셋 설치 여부</returns>
 		private static bool ReturnInstalled(AvatarSettingUpdater.ProductName RequestProductName, SerializedProperty ProductProperty) {
-			bool ReturnResult = false;
-			if (ProductProperty.boolValue && AvatarSettingUpdater.ReturnAvatarInstalled(RequestProductName, SelectedAvatarName)) {
-				ReturnResult = true;
-			}
-			return ReturnResult;
+			if (ProductProperty.boolValue && AvatarSettingUpdater.ReturnAvatarInstalled(RequestProductName, SelectedAvatarName)) return true;
+			return false;
 		}
 
 		/// <summary>요청한 StatusCode를 요청한 언어로 번역하여 현재 데이터 결과를 반영한 String으로 반환합니다.</summary>
