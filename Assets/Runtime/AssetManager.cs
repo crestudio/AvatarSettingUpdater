@@ -28,7 +28,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Feet, "b3267c74ea5c8274d88f728b4c84d10d" },
 			{ ProductName.Nyoronyoro, "699ae58fc7b34ba4388d4ec8cf6e9d62" },
 			{ ProductName.ModelWalking, "d797d8857806b2f4cb4ff83df63c4c2b" },
-			{ ProductName.Handmotion, "9f09dddbe7e80e54aa1e8565fb510b9d" }
+			{ ProductName.Handmotion, "9f09dddbe7e80e54aa1e8565fb510b9d" },
+			{ ProductName.Suyasuya, "93e06b6d83f9f48f1b06cff09857ca25" }
 		};
 
 		private static readonly Dictionary<ProductName, string> dictProductPath = new Dictionary<ProductName, string>() {
@@ -38,7 +39,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Feet, "Assets/VRSuya/HopeskyD/Feet" },
 			{ ProductName.Nyoronyoro, "Assets/VRSuya/Nyoronyoro" },
 			{ ProductName.ModelWalking, "Assets/VRSuya/ModelWalking" },
-			{ ProductName.Handmotion, "Assets/VRSuya/Handmotion" }
+			{ ProductName.Handmotion, "Assets/VRSuya/Handmotion" },
+			{ ProductName.Suyasuya, "Assets/VRSuya/Suyasuya" }
 		};
 
 		private static readonly Dictionary<ProductName, string> dictPresentMenuFileName = new Dictionary<ProductName, string>() {
@@ -47,7 +49,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Wotagei, "VRSuya_Wotagei_Menu.asset" },
 			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu.asset" },
 			{ ProductName.ModelWalking, "VRSuya_ModelWalking_Menu.asset" },
-			{ ProductName.Handmotion, "VRSuya_Handmotion_Menu.asset" }
+			{ ProductName.Handmotion, "VRSuya_Handmotion_Menu.asset" },
+			{ ProductName.Suyasuya, "VRSuya_Suyasuya_Menu_EN.asset" }
 		};
 
 		private static Dictionary<VRCAssetType, string> dictVRCSDKAssetGUID = new Dictionary<VRCAssetType, string>() {
@@ -253,7 +256,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			// 제품 추가시 추가해야 될 변수
 			if (TypeProduct == ProductName.AFK || TypeProduct == ProductName.Wotagei) {
 				if (AssetsGUID.Length > 0) AvatarNames = AvatarNames.Concat(new Avatar[] { Avatar.General }).ToArray();
-			} else if (TypeProduct == ProductName.Nyoronyoro || TypeProduct == ProductName.ModelWalking || TypeProduct == ProductName.Handmotion) {
+			} else if (TypeProduct == ProductName.Nyoronyoro || TypeProduct == ProductName.ModelWalking || TypeProduct == ProductName.Handmotion || TypeProduct == ProductName.Suyasuya) {
                 if (AssetsGUID.Length > 0) AvatarNames = (Avatar[])Enum.GetValues(typeof(Avatar));
             }
 			AvatarNames = AvatarNames.Distinct().ToArray();

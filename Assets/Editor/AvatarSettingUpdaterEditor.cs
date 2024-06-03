@@ -33,6 +33,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		SerializedProperty SerializedInstalledProductNyoronyoro;
 		SerializedProperty SerializedInstalledProductModelWalking;
 		SerializedProperty SerializedInstalledProductHandmotion;
+		SerializedProperty SerializedInstalledProductSuyasuya;
 
 		SerializedProperty SerializedInstallProductAFK;
 		SerializedProperty SerializedInstallProductMogumogu;
@@ -41,6 +42,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		SerializedProperty SerializedInstallProductNyoronyoro;
 		SerializedProperty SerializedInstallProductModelWalking;
 		SerializedProperty SerializedInstallProductHandmotion;
+		SerializedProperty SerializedInstallProductSuyasuya;
 
 		public static int LanguageIndex = 0;
         public readonly string[] LanguageType = new[] { "English", "한국어", "日本語" };
@@ -73,6 +75,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			SerializedInstalledProductNyoronyoro = serializedObject.FindProperty("InstalledProductNyoronyoroEditor");
 			SerializedInstalledProductModelWalking = serializedObject.FindProperty("InstalledProductModelWalkingEditor");
 			SerializedInstalledProductHandmotion = serializedObject.FindProperty("InstalledProductHandmotionEditor");
+			SerializedInstalledProductSuyasuya = serializedObject.FindProperty("InstalledProductSuyasuyaEditor");
 
 			SerializedInstallProductAFK = serializedObject.FindProperty("InstallProductAFKEditor");
 			SerializedInstallProductMogumogu = serializedObject.FindProperty("InstallProductMogumoguEditor");
@@ -81,6 +84,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			SerializedInstallProductNyoronyoro = serializedObject.FindProperty("InstallProductNyoronyoroEditor");
 			SerializedInstallProductModelWalking = serializedObject.FindProperty("InstallProductModelWalkingEditor");
 			SerializedInstallProductHandmotion = serializedObject.FindProperty("InstallProductHandmotionEditor");
+			SerializedInstallProductSuyasuya = serializedObject.FindProperty("InstallProductSuyasuyaEditor");
 		}
 
         public override void OnInspectorGUI() {
@@ -137,6 +141,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			// EditorGUILayout.PropertyField(SerializedInstallProductModelWalking, new GUIContent(LanguageHelper.GetContextString("String_ProductModelWalking")));
 			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.Handmotion, SerializedInstalledProductHandmotion);
 			EditorGUILayout.PropertyField(SerializedInstallProductHandmotion, new GUIContent(LanguageHelper.GetContextString("String_ProductHandmotion")));
+			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.Suyasuya, SerializedInstalledProductSuyasuya);
+			EditorGUILayout.PropertyField(SerializedInstallProductSuyasuya, new GUIContent(LanguageHelper.GetContextString("String_ProductSuyasuya")));
 
 			EditorGUI.indentLevel--;
 			GUI.enabled = true;

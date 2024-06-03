@@ -116,6 +116,7 @@ namespace com.vrsuya.avatarsettingupdater {
             if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Nyoronyoro))) ProductSetup_Nyoronyoro.RegisterProduct();
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_ModelWalking))) ProductSetup_ModelWalking.RegisterProduct();
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Handmotion))) ProductSetup_Handmotion.RegisterProduct();
+			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Suyasuya))) ProductSetup_Suyasuya.RegisterProduct();
 			return;
 		}
 
