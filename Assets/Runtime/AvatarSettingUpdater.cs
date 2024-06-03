@@ -236,6 +236,18 @@ namespace com.vrsuya.avatarsettingupdater {
 			return;
         }
 
+		/// <summary>디버그용 메소드를 실행합니다.</summary>
+		public void DebugMethod() {
+			SetStaticVariable();
+			if (VerifyVariable()) {
+				AssetDatabase.Refresh();
+				ProductSetup.RequestProductRegister();
+				ProductSetup.UpdateInstalledAvatarList();
+			}
+			SetEditorVariable();
+			return;
+		}
+
 		/// <summary>정적 변수를 초기화 합니다.</summary>
 		private void ClearVariable() {
 			AvatarType = Avatar.General;
