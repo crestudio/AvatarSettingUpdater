@@ -3,8 +3,11 @@ using System;
 using System.Linq;
 
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Animations;
+
+using VRC.SDK3.Avatars.Components;
 
 /*
  * VRSuya Avatar Setting Updater
@@ -38,6 +41,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				if (VRSuyaAFKGameObject) {
 					UpdateParentConstraints();
 					UpdatePrefabName();
+					if (AvatarType == Avatar.Sio || AvatarType == Avatar.Sugar) DisableExistAFKAnimatorLayer();
 				}
 			}
 			return;
@@ -92,6 +96,39 @@ namespace com.vrsuya.avatarsettingupdater {
 				EditorUtility.SetDirty(VRSuyaAFKGameObject);
 				Undo.CollapseUndoOperations(UndoGroupIndex);
 			}
+		}
+
+		/// <summary>시오 및 슈가의 AFK 애니메이터 레이어를 비활성화 합니다.</summary>
+		private static void DisableExistAFKAnimatorLayer() {
+			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
+			if (VRCFXLayer) {
+				if (Array.Exists(VRCFXLayer.layers, ExistLayer => ExistLayer.name == "AFK")) {
+					if (VRCFXLayer.layers.Where(ExistLayer => ExistLayer.defaultWeight != 0.0f).ToArray().Length > 0) {
+						AnimatorControllerLayer[] newAnimationLayers = new AnimatorControllerLayer[VRCFXLayer.layers.Length];
+						for (int Index = 0; Index < newAnimationLayers.Length; Index++) {
+							AnimatorControllerLayer newAnimationLayer = new AnimatorControllerLayer();
+							newAnimationLayer.avatarMask = VRCFXLayer.layers[Index].avatarMask;
+							newAnimationLayer.blendingMode = VRCFXLayer.layers[Index].blendingMode;
+							newAnimationLayer.iKPass = VRCFXLayer.layers[Index].iKPass;
+							newAnimationLayer.name = VRCFXLayer.layers[Index].name;
+							newAnimationLayer.stateMachine = VRCFXLayer.layers[Index].stateMachine;
+							newAnimationLayer.syncedLayerAffectsTiming = VRCFXLayer.layers[Index].syncedLayerAffectsTiming;
+							newAnimationLayer.syncedLayerIndex = VRCFXLayer.layers[Index].syncedLayerIndex;
+							if (VRCFXLayer.layers[Index].name == "AFK") {
+								newAnimationLayer.defaultWeight = 0.0f;
+							} else {
+								newAnimationLayer.defaultWeight = VRCFXLayer.layers[Index].defaultWeight;
+							}
+							newAnimationLayers[Index] = newAnimationLayer;
+						}
+						Undo.RecordObject(VRCFXLayer, "Disabled Animator Controller AFK Layer");
+						VRCFXLayer.layers = newAnimationLayers;
+						EditorUtility.SetDirty(VRCFXLayer);
+						Undo.CollapseUndoOperations(UndoGroupIndex);
+					}
+				}
+			}
+			return;
 		}
 	}
 }
