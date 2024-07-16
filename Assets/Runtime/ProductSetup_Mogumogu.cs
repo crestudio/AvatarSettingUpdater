@@ -39,27 +39,33 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <summary>외부의 세팅 요청을 처리하는 메인 메소드 입니다.</summary>
 		internal static void RequestSetting() {
 			if (InstallProductMogumogu) {
+				string SearchWord = "Cheek";
+				if (AvatarType == Avatar.Sio) SearchWord = "Hoppe";
 				VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
-				AvatarCheekBoneTransforms = Array.FindAll(AvatarAnimator.GetBoneTransform(HumanBodyBones.Head).GetComponentsInChildren<Transform>(true), transform => transform.name.Contains("Cheek"));
-				if (!VRSuyaMogumoguGameObject) SetupPrefab();
-				if (VRSuyaMogumoguGameObject) {
-					UpdatePhysBoneSetting();
-					DisableExistPhysBone();
-					if (AvatarType == Avatar.SELESTIA) DisableExistMoumoguAnimatorLayer();
+				AvatarCheekBoneTransforms = Array.FindAll(AvatarAnimator.GetBoneTransform(HumanBodyBones.Head).GetComponentsInChildren<Transform>(true), transform => transform.name.Contains(SearchWord));
+				if (AvatarType != Avatar.Sio) {
+					if (!VRSuyaMogumoguGameObject) {
+						SetupPhysbonePrefab();
+						SetupParticlePrefab();
+					}
+					if (VRSuyaMogumoguGameObject) {
+						if (AvatarType != Avatar.Sio) UpdatePhysBoneSetting();
+						DisableExistPhysBone();
+						if (AvatarType == Avatar.SELESTIA) DisableExistMoumoguAnimatorLayer();
+					}
+				} else {
+					SetupParticlePrefab();
+					EnablePhysBoneAnimated();
 				}
 			}
 			return;
 		}
 
-		/// <summary>아바타에 Prefab이 있는지 검사하고 없으면 설치하는 메소드 입니다.</summary>
-		private static void SetupPrefab() {
+		/// <summary>아바타에 Physbone Prefab이 있는지 검사하고 없으면 설치하는 메소드 입니다.</summary>
+		private static void SetupPhysbonePrefab() {
 			string[] ChildAvatarGameObjectNames = new string[0];
-			string[] HeadChildAvatarGameObjectNames = new string[0];
 			foreach (Transform ChildTransform in AvatarGameObject.transform) {
 				ChildAvatarGameObjectNames = ChildAvatarGameObjectNames.Concat(new string[] { ChildTransform.name }).ToArray();
-			}
-			foreach (Transform ChildTransform in AvatarAnimator.GetBoneTransform(HumanBodyBones.Head)) {
-				HeadChildAvatarGameObjectNames = HeadChildAvatarGameObjectNames.Concat(new string[] { ChildTransform.name }).ToArray();
 			}
 			if (!Array.Exists(ChildAvatarGameObjectNames, GameObjectName => GameObjectName.Contains("VRSuya_Mogumogu_PhysBone"))) {
 				string[] PrefabFilePaths = new string[0];
@@ -73,6 +79,17 @@ namespace com.vrsuya.avatarsettingupdater {
 					TransformPrefab(TargetInstance, AvatarGameObject, true);
 					Undo.CollapseUndoOperations(UndoGroupIndex);
 				}
+			}
+			GetVRSuyaGameObjects();
+			VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
+			return;
+		}
+
+		/// <summary>아바타에 Particle Prefab이 있는지 검사하고 없으면 설치하는 메소드 입니다.</summary>
+		private static void SetupParticlePrefab() {
+			string[] HeadChildAvatarGameObjectNames = new string[0];
+			foreach (Transform ChildTransform in AvatarAnimator.GetBoneTransform(HumanBodyBones.Head)) {
+				HeadChildAvatarGameObjectNames = HeadChildAvatarGameObjectNames.Concat(new string[] { ChildTransform.name }).ToArray();
 			}
 			if (!Array.Exists(HeadChildAvatarGameObjectNames, GameObjectName => GameObjectName.Contains("VRSuya_Mogumogu_Particle"))) {
 				string[] PrefabFilePaths = new string[0];
@@ -88,7 +105,6 @@ namespace com.vrsuya.avatarsettingupdater {
 				}
 			}
 			GetVRSuyaGameObjects();
-			VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
 			return;
 		}
 
@@ -141,6 +157,23 @@ namespace com.vrsuya.avatarsettingupdater {
 						TargetTransform.GetComponent<VRCPhysBone>().enabled = false;
 						EditorUtility.SetDirty(TargetTransform.GetComponent<VRCPhysBone>());
 						Undo.CollapseUndoOperations(UndoGroupIndex);
+					}
+				}
+			}
+			return;
+		}
+
+		/// <summary>기존 아바타에 존재하는 PhysBone 컴포넌트에서 Animated 속성을 활성화 합니다.</summary>
+		private static void EnablePhysBoneAnimated() {
+			if (AvatarCheekBoneTransforms.Length > 0) {
+				foreach (Transform TargetTransform in AvatarCheekBoneTransforms) {
+					if (TargetTransform.GetComponent<VRCPhysBone>()) {
+						if (!TargetTransform.GetComponent<VRCPhysBone>().isAnimated) {
+							Undo.RecordObject(TargetTransform.GetComponent<VRCPhysBone>(), "Enabled Animated PhysBone");
+							TargetTransform.GetComponent<VRCPhysBone>().isAnimated = true;
+							EditorUtility.SetDirty(TargetTransform.GetComponent<VRCPhysBone>());
+							Undo.CollapseUndoOperations(UndoGroupIndex);
+						}
 					}
 				}
 			}
