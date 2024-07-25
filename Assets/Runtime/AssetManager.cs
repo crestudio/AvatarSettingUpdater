@@ -31,6 +31,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Handmotion, "9f09dddbe7e80e54aa1e8565fb510b9d" },
 			{ ProductName.Suyasuya, "93e06b6d83f9f48f1b06cff09857ca25" },
 			{ ProductName.SoundPad, "3a1ae7adbb14c05499d750ca56efa6ba" }
+			// 검색용 업데이트 위치
 		};
 
 		private static readonly Dictionary<ProductName, string> dictProductPath = new Dictionary<ProductName, string>() {
@@ -43,6 +44,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Handmotion, "Assets/VRSuya/Handmotion" },
 			{ ProductName.Suyasuya, "Assets/VRSuya/Suyasuya" },
 			{ ProductName.SoundPad, "Assets/VRSuya/SoundPad" }
+			// 검색용 업데이트 위치
 		};
 
 		private static readonly Dictionary<ProductName, string> dictPresentMenuFileName = new Dictionary<ProductName, string>() {
@@ -54,6 +56,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Handmotion, "VRSuya_Handmotion_Menu.asset" },
 			{ ProductName.Suyasuya, "VRSuya_Suyasuya_Menu_EN.asset" },
 			{ ProductName.SoundPad, "VRSuya_SoundPad_Menu_EN.asset" }
+			// 검색용 업데이트 위치
 		};
 
 		private static Dictionary<VRCAssetType, string> dictVRCSDKAssetGUID = new Dictionary<VRCAssetType, string>() {
@@ -263,6 +266,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				TypeProduct == ProductName.Handmotion || 
 				TypeProduct == ProductName.Suyasuya ||
 				TypeProduct == ProductName.SoundPad) {
+				// 검색용 업데이트 위치
 				if (AssetsGUID.Length > 0) AvatarNames = (Avatar[])Enum.GetValues(typeof(Avatar));
             }
 			AvatarNames = AvatarNames.Distinct().ToArray();

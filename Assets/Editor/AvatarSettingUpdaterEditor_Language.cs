@@ -84,6 +84,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "String_ProductHandmotion", "Handmotion" },
 			{ "String_ProductSuyasuya", "Suyasuya" },
 			{ "String_ProductSoundPad", "SoundPad" },
+			// 검색용 업데이트 위치
 
 			// 에러 코드
 			{ "NO_AVATAR", "No Avatar is selected" },
@@ -126,6 +127,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "String_ProductHandmotion", "핸드모션" },
 			{ "String_ProductSuyasuya", "스야스야" },
 			{ "String_ProductSoundPad", "사운드패드" },
+			// 검색용 업데이트 위치
 
 			// 에러 코드
 			{ "NO_AVATAR", "아바타가 지정되지 않았습니다" },
@@ -168,6 +170,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "String_ProductHandmotion", "ハンドモーション" },
 			{ "String_ProductSuyasuya", "すやすや" },
 			{ "String_ProductSoundPad", "サウンドパッド" },
+			// 검색용 업데이트 위치
 
 			// 에러 코드
 			{ "NO_AVATAR", "アバターが指定されていません" },
