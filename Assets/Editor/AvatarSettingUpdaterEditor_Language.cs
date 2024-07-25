@@ -124,7 +124,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ "String_ProductNyoronyoro", "뇨로뇨로 로코모션" },
 			{ "String_ProductModelWalking", "모델 워킹" },
 			{ "String_ProductHandmotion", "핸드모션" },
-			{ "String_ProductSuyasuya", "코오코오" },
+			{ "String_ProductSuyasuya", "스야스야" },
 			{ "String_ProductSoundPad", "사운드패드" },
 
 			// 에러 코드
