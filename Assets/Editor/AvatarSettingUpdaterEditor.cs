@@ -34,6 +34,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		SerializedProperty SerializedInstalledProductModelWalking;
 		SerializedProperty SerializedInstalledProductHandmotion;
 		SerializedProperty SerializedInstalledProductSuyasuya;
+		SerializedProperty SerializedInstalledProductSoundPad;
 
 		SerializedProperty SerializedInstallProductAFK;
 		SerializedProperty SerializedInstallProductMogumogu;
@@ -43,6 +44,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		SerializedProperty SerializedInstallProductModelWalking;
 		SerializedProperty SerializedInstallProductHandmotion;
 		SerializedProperty SerializedInstallProductSuyasuya;
+		SerializedProperty SerializedInstallProductSoundPad;
 
 		public static int LanguageIndex = 0;
         public readonly string[] LanguageType = new[] { "English", "한국어", "日本語" };
@@ -76,6 +78,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			SerializedInstalledProductModelWalking = serializedObject.FindProperty("InstalledProductModelWalkingEditor");
 			SerializedInstalledProductHandmotion = serializedObject.FindProperty("InstalledProductHandmotionEditor");
 			SerializedInstalledProductSuyasuya = serializedObject.FindProperty("InstalledProductSuyasuyaEditor");
+			SerializedInstalledProductSoundPad = serializedObject.FindProperty("InstalledProductSoundPadEditor");
 
 			SerializedInstallProductAFK = serializedObject.FindProperty("InstallProductAFKEditor");
 			SerializedInstallProductMogumogu = serializedObject.FindProperty("InstallProductMogumoguEditor");
@@ -85,6 +88,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			SerializedInstallProductModelWalking = serializedObject.FindProperty("InstallProductModelWalkingEditor");
 			SerializedInstallProductHandmotion = serializedObject.FindProperty("InstallProductHandmotionEditor");
 			SerializedInstallProductSuyasuya = serializedObject.FindProperty("InstallProductSuyasuyaEditor");
+			SerializedInstallProductSoundPad = serializedObject.FindProperty("InstallProductSoundPadEditor");
 		}
 
         public override void OnInspectorGUI() {
@@ -143,6 +147,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			EditorGUILayout.PropertyField(SerializedInstallProductHandmotion, new GUIContent(LanguageHelper.GetContextString("String_ProductHandmotion")));
 			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.Suyasuya, SerializedInstalledProductSuyasuya);
 			EditorGUILayout.PropertyField(SerializedInstallProductSuyasuya, new GUIContent(LanguageHelper.GetContextString("String_ProductSuyasuya")));
+			GUI.enabled = ReturnInstalled(AvatarSettingUpdater.ProductName.SoundPad, SerializedInstalledProductSoundPad);
+			EditorGUILayout.PropertyField(SerializedInstallProductSoundPad, new GUIContent(LanguageHelper.GetContextString("String_ProductSoundPad")));
 
 			EditorGUI.indentLevel--;
 			GUI.enabled = true;

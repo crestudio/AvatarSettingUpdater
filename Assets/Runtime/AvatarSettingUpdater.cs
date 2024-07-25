@@ -41,6 +41,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		public bool InstalledProductModelWalkingEditor = false;
 		public bool InstalledProductHandmotionEditor = false;
 		public bool InstalledProductSuyasuyaEditor = false;
+		public bool InstalledProductSoundPadEditor = false;
 
 		public bool InstallProductAFKEditor = false;
 		public bool InstallProductMogumoguEditor = false;
@@ -50,6 +51,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		public bool InstallProductModelWalkingEditor = false;
 		public bool InstallProductHandmotionEditor = false;
 		public bool InstallProductSuyasuyaEditor = false;
+		public bool InstallProductSoundPadEditor = false;
 
 		public int StatusNeedMoreSpaceMenuEditor = 0;
 		public int StatusNeedMoreSpaceParameterEditor = 0;
@@ -103,8 +105,9 @@ namespace com.vrsuya.avatarsettingupdater {
             Nyoronyoro,
 			ModelWalking,
 			Handmotion,
-			Suyasuya
-        }
+			Suyasuya,
+			SoundPad
+		}
 
 		public enum Avatar {
 			General, None, Aldina, Angura, Anon, Anri, Ash, Chiffon, Cygnet, Emmelie, EYO, Firina, Fuzzy, Glaze, Grus, Hakka, IMERIS,
@@ -127,6 +130,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		protected static bool InstalledProductModelWalking = false;
 		protected static bool InstalledProductHandmotion = false;
 		protected static bool InstalledProductSuyasuya = false;
+		protected static bool InstalledProductSoundPad = false;
 
 		protected static bool InstallProductAFK = false;
 		protected static bool InstallProductMogumogu = false;
@@ -136,6 +140,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		protected static bool InstallProductModelWalking = false;
 		protected static bool InstallProductHandmotion = false;
 		protected static bool InstallProductSuyasuya = false;
+		protected static bool InstallProductSoundPad = false;
 
 		// 추가될 VRSuya 데이터
 		protected static VRSuyaProduct[] InstalledVRSuyaProducts;
@@ -170,6 +175,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstallProductModelWalking = InstallProductModelWalkingEditor;
 			InstallProductHandmotion = InstallProductHandmotionEditor;
 			InstallProductSuyasuya = InstallProductSuyasuyaEditor;
+			InstallProductSoundPad = InstallProductSoundPadEditor;
 			return;
         }
 
@@ -185,6 +191,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstalledProductModelWalkingEditor = InstalledProductModelWalking;
 			InstalledProductHandmotionEditor = InstalledProductHandmotion;
 			InstalledProductSuyasuyaEditor = InstalledProductSuyasuya;
+			InstalledProductSoundPadEditor = InstalledProductSoundPad;
 			InstalledVRSuyaProductAvatarsEditor = InstalledVRSuyaProductAvatars;
 			StatusCodeEditor = StatusCode;
 			return;
@@ -268,6 +275,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			InstalledProductModelWalking = false;
 			InstalledProductHandmotion = false;
 			InstalledProductSuyasuya = false;
+			InstalledProductSoundPad = false;
 			InstalledVRSuyaProducts = new VRSuyaProduct[0];
 			InstalledVRSuyaProductAvatars = new Avatar[0];
 			RequestSetupVRSuyaProductList = new VRSuyaProduct[0];
@@ -337,6 +345,10 @@ namespace com.vrsuya.avatarsettingupdater {
 			}
 			if (InstalledProductSuyasuya && InstallProductSuyasuya) {
 				VRSuyaProduct RequestProduct = Array.Find(InstalledVRSuyaProducts, Product => Product.ProductName == ProductName.Suyasuya);
+				RequestSetupVRSuyaProductList = RequestSetupVRSuyaProductList.Concat(new VRSuyaProduct[] { RequestProduct }).ToArray();
+			}
+			if (InstalledProductSoundPad && InstallProductSoundPad) {
+				VRSuyaProduct RequestProduct = Array.Find(InstalledVRSuyaProducts, Product => Product.ProductName == ProductName.SoundPad);
 				RequestSetupVRSuyaProductList = RequestSetupVRSuyaProductList.Concat(new VRSuyaProduct[] { RequestProduct }).ToArray();
 			}
 			return;
