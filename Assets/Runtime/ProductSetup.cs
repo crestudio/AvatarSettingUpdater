@@ -54,9 +54,6 @@ namespace com.vrsuya.avatarsettingupdater {
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_ModelWalking))) {
 				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.ModelWalking)) ProductSetup_ModelWalking.RequestSetting();
 			}
-			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_Suyasuya))) {
-				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.Suyasuya)) ProductSetup_Suyasuya.RequestSetting();
-			}
 			if (typeof(ProductSetup).IsAssignableFrom(typeof(ProductSetup_SoundPad))) {
 				if (Array.Exists(RequestSetupVRSuyaProductList, Product => Product.ProductName == ProductName.SoundPad)) ProductSetup_SoundPad.RequestSetting();
 			}
