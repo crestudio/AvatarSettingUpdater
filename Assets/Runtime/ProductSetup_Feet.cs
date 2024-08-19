@@ -96,7 +96,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <summary>Parent Constraint 컴포넌트와 아바타를 연결합니다.</summary>
 		private static void UpdateParentConstraints() {
 			if (VRSuyaHopedskyDFeetGameObject) {
-				ParentConstraint[] AnchorParentConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<ParentConstraint>();
+				ParentConstraint[] AnchorParentConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<ParentConstraint>(true);
 				if (AnchorParentConstraints != null) {
 					foreach (ParentConstraint TargetParentConstraint in AnchorParentConstraints) {
 						Transform TargetTransform = null;
@@ -127,8 +127,8 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <summary>하위 Constraint 컴포넌트와 아바타를 연결합니다.</summary>
 		private static void UpdateOtherConstraints() {
 			if (VRSuyaHopedskyDFeetGameObject) {
-				PositionConstraint[] PositionConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<PositionConstraint>();
-				RotationConstraint[] RotationConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<RotationConstraint>();
+				PositionConstraint[] PositionConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<PositionConstraint>(true);
+				RotationConstraint[] RotationConstraints = VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<RotationConstraint>(true);
 				if (PositionConstraints != null) {
 					foreach (PositionConstraint TargetPositionConstraint in PositionConstraints) {
 						Undo.RecordObject(TargetPositionConstraint, "Changed Position Constraint");

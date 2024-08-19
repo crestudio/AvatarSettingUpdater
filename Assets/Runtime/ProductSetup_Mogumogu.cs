@@ -110,7 +110,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		/// <summary>볼 PhysBone 컴포넌트와 아바타의 볼 본과 연결합니다.</summary>
 		private static void UpdatePhysBoneSetting() {
-			VRCPhysBone[] VRSuyaMogumoguPhysBones = VRSuyaMogumoguGameObject.GetComponentsInChildren<VRCPhysBone>();
+			VRCPhysBone[] VRSuyaMogumoguPhysBones = VRSuyaMogumoguGameObject.GetComponentsInChildren<VRCPhysBone>(true);
 			if (VRSuyaMogumoguPhysBones != null) {
 				Transform Cheek_L = null;
 				Transform Cheek_R = null;
