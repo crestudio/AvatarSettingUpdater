@@ -18,7 +18,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 namespace com.vrsuya.avatarsettingupdater {
 
     [ExecuteInEditMode]
-	[AddComponentMenu("VRSuya Avatar Setting Updater")]
+	[AddComponentMenu("VRSuya/VRSuya Avatar Setting Updater")]
 	public class AvatarSettingUpdater : MonoBehaviour {
 
         // 아바타 에디터용 변수
