@@ -157,12 +157,12 @@ namespace com.vrsuya.avatarsettingupdater {
 
 			EditorGUI.indentLevel--;
 			GUI.enabled = true;
-			EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 			if (!string.IsNullOrEmpty(SerializedStatusCode.stringValue)) {
 				EditorGUILayout.HelpBox(ReturnStatusString(SerializedStatusCode.stringValue), MessageType.Warning);
             }
 			serializedObject.ApplyModifiedProperties();
-            if (GUILayout.Button(LanguageHelper.GetContextString("String_UpdateAvatarData") + " (" + SelectedAvatarName + ")")) {
+			EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+			if (GUILayout.Button(LanguageHelper.GetContextString("String_UpdateAvatarData") + " (" + SelectedAvatarName + ")")) {
                 (target as AvatarSettingUpdater).UpdateAvatarSetting();
 				Repaint();
 			}
@@ -170,7 +170,10 @@ namespace com.vrsuya.avatarsettingupdater {
 				(target as AvatarSettingUpdater).UpdateAvatarSetting();
 				Repaint();
 			} */
-			EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_Undo"), MessageType.Info);
+			if (GUILayout.Button(LanguageHelper.GetContextString("String_Undo"))) {
+				Undo.PerformUndo();
+				Repaint();
+			}
 		}
 
 		/// <summary>요청한 VRSuya 제품의 아바타 파일이 설치 되어있는지 검사합니다.</summary>
