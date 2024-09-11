@@ -189,6 +189,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static readonly Dictionary<AvatarSettingUpdater.Avatar, string[]> dictAvatarNames = new Dictionary<AvatarSettingUpdater.Avatar, string[]>() {
 			{ AvatarSettingUpdater.Avatar.General, new string[] { "General", "일반", "一般" } },
 			{ AvatarSettingUpdater.Avatar.None, new string[] { "None", "없음", "無い" } },
+			{ AvatarSettingUpdater.Avatar.Airi, new string[] { "Airi", "아이리", "愛莉" } },
 			{ AvatarSettingUpdater.Avatar.Aldina, new string[] { "Aldina", "알디나", "アルディナ" } },
 			{ AvatarSettingUpdater.Avatar.Angura, new string[] { "Angura", "앙그라", "アングラ" } },
 			{ AvatarSettingUpdater.Avatar.Anon, new string[] { "Anon", "아논", "あのん" } },
@@ -238,7 +239,8 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ AvatarSettingUpdater.Avatar.Rusk, new string[] { "Rusk", "러스크", "ラスク" } },
 			{ AvatarSettingUpdater.Avatar.SELESTIA, new string[] { "SELESTIA", "셀레스티아", "セレスティア" } },
 			{ AvatarSettingUpdater.Avatar.Sephira, new string[] { "Sephira", "세피라", "セフィラ" } },
-            { AvatarSettingUpdater.Avatar.Shinra, new string[] { "Shinra", "신라", "森羅" } },
+			{ AvatarSettingUpdater.Avatar.Shinano, new string[] { "Shinano", "시나노", "しなの" } },
+			{ AvatarSettingUpdater.Avatar.Shinra, new string[] { "Shinra", "신라", "森羅" } },
 			{ AvatarSettingUpdater.Avatar.Sio, new string[] { "Sio", "시오", "しお" } },
 			{ AvatarSettingUpdater.Avatar.Sue, new string[] { "Sue", "스우", "透羽" } },
 			{ AvatarSettingUpdater.Avatar.Sugar, new string[] { "Sugar", "슈가", "シュガ" } },
