@@ -53,7 +53,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ ProductName.Wotagei, "VRSuya_Wotagei_Menu.asset" },
 			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu.asset" },
 			{ ProductName.ModelWalking, "VRSuya_ModelWalking_Menu.asset" },
-			{ ProductName.Handmotion, "VRSuya_Handmotion_Menu.asset" },
+			{ ProductName.Handmotion, "VRSuya_Handmotion_Menu_EN.asset" },
 			{ ProductName.Suyasuya, "VRSuya_Suyasuya_Menu_EN.asset" },
 			{ ProductName.SoundPad, "VRSuya_SoundPad_Menu_EN.asset" }
 			// 검색용 업데이트 위치
