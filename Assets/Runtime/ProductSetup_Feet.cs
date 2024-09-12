@@ -34,6 +34,18 @@ namespace com.vrsuya.avatarsettingupdater {
 			"LittleToe1_L", "LittleToe2_L", "LittleToe3_L",
 			"LittleToe1_R", "LittleToe2_R", "LittleToe3_R"
 		};
+		private static readonly string[] dictAiriToeName = {
+			"Toe_Thumb_Proximal_L", "Toe_Thumb_Intermediate_L", "Toe_Thumb_Distal_L",
+			"Toe_Thumb_Proximal_R", "Toe_Thumb_Intermediate_R", "Toe_Thumb_Distal_R",
+			"Toe_Index_Proximal_L", "Toe_Index_Intermediate_L", "Toe_Index_Distal_L",
+			"Toe_Index_Proximal_R", "Toe_Index_Intermediate_R", "Toe_Index_Distal_R",
+			"Toe_Middle_Proximal_L", "Toe_Middle_Intermediate_L", "Toe_Middle_Distal_L",
+			"Toe_Middle_Proximal_R", "Toe_Middle_Intermediate_R", "Toe_Middle_Distal_R",
+			"Toe_Ring_Proximal_L", "Toe_Ring_Intermediate_L", "Toe_Ring_Distal_L",
+			"Toe_Ring_Proximal_R", "Toe_Ring_Intermediate_R", "Toe_Ring_Distal_R",
+			"Toe_Little_Proximal_L", "Toe_Little_Intermediate_L", "Toe_Little_Distal_L",
+			"Toe_Little_Proximal_R", "LittleToe2_R", "Toe_Little_Distal_R"
+		};
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
 		internal static void RegisterProduct() {
@@ -156,7 +168,8 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static void UpdatePhysBones() {
 			GameObject FeetPhysBoneGameObject = Array.Find(VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<Transform>(true), transform => transform.gameObject.name == "PhysBone").gameObject;
 			foreach (Transform TargetTransform in FeetPhysBoneGameObject.GetComponentsInChildren<Transform>(true)) {
-				if (Array.Exists(dictToeName, ToeName => TargetTransform.name == ToeName)) {
+				string[] TargetToeName = (AvatarType == Avatar.Airi) ? dictAiriToeName : dictToeName;
+				if (Array.Exists(TargetToeName, ToeName => TargetTransform.name == ToeName)) {
 					VRCPhysBone ToePhysBone = TargetTransform.GetComponent<VRCPhysBone>();
 					if (ToePhysBone) {
 						Transform TargetToeTransform = Array.Find(FeetTransforms, FeetTransform => TargetTransform.name == FeetTransform.name);
