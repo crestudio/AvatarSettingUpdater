@@ -24,6 +24,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static GameObject VRSuyaMogumoguGameObject;
 		private static Transform[] AvatarCheekBoneTransforms;
 
+		private static readonly Avatar[] dictAlreadyHaveCheekBoneAvatar = new Avatar[] { Avatar.Airi, Avatar.Sio };
 		private static readonly string[] dictSELESTIAMogumoguLayerName = new string[] { "Cheek_L_Stretch", "Cheek_R_Stretch" };
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
@@ -43,7 +44,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				if (AvatarType == Avatar.Sio) SearchWord = "Hoppe";
 				VRSuyaMogumoguGameObject = Array.Find(VRSuyaGameObjects, gameObject => gameObject.name.Contains("VRSuya_Mogumogu_PhysBone"));
 				AvatarCheekBoneTransforms = Array.FindAll(AvatarAnimator.GetBoneTransform(HumanBodyBones.Head).GetComponentsInChildren<Transform>(true), transform => transform.name.Contains(SearchWord));
-				if (AvatarType != Avatar.Sio) {
+				if (!Array.Exists(dictAlreadyHaveCheekBoneAvatar, AlreadyHaveCheekAvatar => AvatarType == AlreadyHaveCheekAvatar)) {
 					if (!VRSuyaMogumoguGameObject) {
 						SetupPhysbonePrefab();
 						SetupParticlePrefab();
