@@ -41,7 +41,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				if (VRSuyaAFKGameObject) {
 					UpdateParentConstraints();
 					UpdatePrefabName();
-					if (AvatarType == Avatar.Sio || AvatarType == Avatar.Sugar) DisableExistAFKAnimatorLayer();
+					if (AvatarType == Avatar.Sio || AvatarType == Avatar.Sugar || AvatarType == Avatar.Shinano) DisableExistAFKAnimatorLayer();
 				}
 			}
 			return;
@@ -98,7 +98,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			}
 		}
 
-		/// <summary>시오 및 슈가의 AFK 애니메이터 레이어를 비활성화 합니다.</summary>
+		/// <summary>AFK 이름의 애니메이터 레이어를 비활성화 합니다.</summary>
 		private static void DisableExistAFKAnimatorLayer() {
 			AnimatorController VRCFXLayer = (AnimatorController)Array.Find(AvatarVRCAvatarLayers, VRCAnimator => VRCAnimator.type == VRCAvatarDescriptor.AnimLayerType.FX).animatorController;
 			if (VRCFXLayer) {
