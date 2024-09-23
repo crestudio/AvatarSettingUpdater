@@ -81,7 +81,10 @@ namespace com.vrsuya.avatarsettingupdater {
 		protected static bool KeepAnimatorController = false;
 		protected static bool KeepLinkAnimatorLayer = true;
 
-        // 제품 구조체
+		// 언어 세팅
+		protected static string TargetLanguage = "_EN";
+
+		// 제품 구조체
 		public struct VRSuyaProduct {
 			public ProductName ProductName;
 			public string LocomotionAnimatorGUID;
@@ -219,6 +222,22 @@ namespace com.vrsuya.avatarsettingupdater {
 			return;
 		}
 
+		/// <summary>언어 설정에 따른 String를 선택합니다</summary>
+		private void SetLanguageString(int LanguageIndex) {
+			switch (LanguageIndex) {
+				case 0:
+					TargetLanguage = "_EN";
+					break;
+				case 1:
+					TargetLanguage = "_KO";
+					break;
+				case 2:
+					TargetLanguage = "_JA";
+					break;
+			}
+			return;
+		}
+
 		/// <summary>현재 Unity 프로젝트와 아바타 변수를 초기화 한 후 다시 검사합니다.</summary>
 		public void UpdateUnityEditorStatus() {
             SetStaticVariable();
@@ -237,11 +256,12 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <summary>
 		/// 본 프로그램의 메인 세팅 로직입니다.
 		/// </summary>
-		public void UpdateAvatarSetting() {
+		public void UpdateAvatarSetting(int LanguageIndex) {
 			Undo.IncrementCurrentGroup();
 			Undo.SetCurrentGroupName("VRSuya Avatar Setting Updater");
 			UndoGroupIndex = Undo.GetCurrentGroup();
 			SetStaticVariable();
+			SetLanguageString(LanguageIndex);
 			if (VerifyVariable()) {
 				AssetDatabase.Refresh();
 				ProductSetup.RequestProductRegister();

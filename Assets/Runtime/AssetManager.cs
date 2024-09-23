@@ -48,14 +48,14 @@ namespace com.vrsuya.avatarsettingupdater {
 		};
 
 		private static readonly Dictionary<ProductName, string> dictPresentMenuFileName = new Dictionary<ProductName, string>() {
-			{ ProductName.AFK, "VRSuya_AFK_Menu.asset" },
-			{ ProductName.Mogumogu, "VRSuya_Mogumogu_Menu.asset" },
-			{ ProductName.Wotagei, "VRSuya_Wotagei_Menu.asset" },
-			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu.asset" },
-			{ ProductName.ModelWalking, "VRSuya_ModelWalking_Menu.asset" },
-			{ ProductName.Handmotion, "VRSuya_Handmotion_Menu_EN.asset" },
-			{ ProductName.Suyasuya, "VRSuya_Suyasuya_Menu_EN.asset" },
-			{ ProductName.SoundPad, "VRSuya_SoundPad_Menu_EN.asset" }
+			{ ProductName.AFK, "VRSuya_AFK_Menu{0}.asset" },
+			{ ProductName.Mogumogu, "VRSuya_Mogumogu_Menu{0}.asset" },
+			{ ProductName.Wotagei, "VRSuya_Wotagei_Menu{0}.asset" },
+			{ ProductName.Feet, "VRSuya_HopeskyD_Feet_Menu{0}.asset" },
+			{ ProductName.ModelWalking, "VRSuya_ModelWalking_Menu{0}.asset" },
+			{ ProductName.Handmotion, "VRSuya_Handmotion_Menu{0}.asset" },
+			{ ProductName.Suyasuya, "VRSuya_Suyasuya_Menu{0}.asset" },
+			{ ProductName.SoundPad, "VRSuya_SoundPad_Menu{0}.asset" }
 			// 검색용 업데이트 위치
 		};
 
@@ -203,7 +203,10 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static List<VRCExpressionsMenu.Control> ResolveMenu(string[] AssetsGUID, ProductName TypeProduct) {
 			List<VRCExpressionsMenu.Control> MenusInAssets = new List<VRCExpressionsMenu.Control>();
 			foreach (string AssetGUID in AssetsGUID) {
-				if (GUIDToAssetName(AssetGUID, false).Contains(dictPresentMenuFileName[TypeProduct])) {
+				if (GUIDToAssetName(AssetGUID, false).Contains(string.Format(dictPresentMenuFileName[TypeProduct], TargetLanguage))) {
+					VRCExpressionsMenu MenuFile = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
+					if (MenuFile) MenusInAssets.AddRange(MenuFile.controls);
+				} else if (GUIDToAssetName(AssetGUID, false).Contains(string.Format(dictPresentMenuFileName[TypeProduct], string.Empty))) {
 					VRCExpressionsMenu MenuFile = AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(AssetDatabase.GUIDToAssetPath(AssetGUID));
 					if (MenuFile) MenusInAssets.AddRange(MenuFile.controls);
 				}

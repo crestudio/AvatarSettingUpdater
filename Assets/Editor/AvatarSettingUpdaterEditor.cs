@@ -163,7 +163,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			serializedObject.ApplyModifiedProperties();
 			EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 			if (GUILayout.Button(LanguageHelper.GetContextString("String_UpdateAvatarData") + " (" + SelectedAvatarName + ")")) {
-                (target as AvatarSettingUpdater).UpdateAvatarSetting();
+                (target as AvatarSettingUpdater).UpdateAvatarSetting(LanguageIndex);
 				Repaint();
 			}
 			/* if (GUILayout.Button(LanguageHelper.GetContextString("String_Debug"))) {
