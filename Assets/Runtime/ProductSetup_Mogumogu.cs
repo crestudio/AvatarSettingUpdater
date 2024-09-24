@@ -50,7 +50,7 @@ namespace com.vrsuya.avatarsettingupdater {
 						SetupParticlePrefab();
 					}
 					if (VRSuyaMogumoguGameObject) {
-						if (AvatarType != Avatar.Sio) UpdatePhysBoneSetting();
+						UpdatePhysBoneSetting();
 						DisableExistPhysBone();
 						if (AvatarType == Avatar.SELESTIA) DisableExistMoumoguAnimatorLayer();
 					}
