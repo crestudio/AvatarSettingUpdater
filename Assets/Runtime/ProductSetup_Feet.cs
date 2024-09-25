@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using UnityEditor;
@@ -22,29 +23,30 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static VRSuyaProduct Feet;
 		private static GameObject VRSuyaHopedskyDFeetGameObject;
 		private static Transform[] FeetTransforms;
-		private static readonly string[] dictToeName = {
-			"ThumbToe1_L", "ThumbToe2_L", "ThumbToe3_L",
-			"ThumbToe1_R", "ThumbToe2_R", "ThumbToe3_R",
-			"IndexToe1_L", "IndexToe2_L", "IndexToe3_L",
-			"IndexToe1_R", "IndexToe2_R", "IndexToe3_R",
-			"MiddleToe1_L", "MiddleToe2_L", "MiddleToe3_L",
-			"MiddleToe1_R", "MiddleToe2_R", "MiddleToe3_R",
-			"RingToe1_L", "RingToe2_L", "RingToe3_L",
-			"RingToe1_R", "RingToe2_R", "RingToe3_R",
-			"LittleToe1_L", "LittleToe2_L", "LittleToe3_L",
-			"LittleToe1_R", "LittleToe2_R", "LittleToe3_R"
+		private static readonly Dictionary<string, string> dictToeName = new Dictionary<string, string>() {
+			{ "ThumbToe1_L", "ThumbToe1_L" },
+			{ "ThumbToe1_R", "ThumbToe1_R" },
+			{ "IndexToe1_L", "IndexToe1_L" },
+			{ "IndexToe1_R", "IndexToe1_R" },
+			{ "MiddleToe1_L", "MiddleToe1_L" },
+			{ "MiddleToe1_R", "MiddleToe1_R" },
+			{ "RingToe1_L", "RingToe1_L" },
+			{ "RingToe1_R", "RingToe1_R" },
+			{ "LittleToe1_L", "LittleToe1_L" },
+			{ "LittleToe1_R", "LittleToe1_R" }
 		};
-		private static readonly string[] dictAiriToeName = {
-			"Toe_Thumb_Proximal_L", "Toe_Thumb_Intermediate_L", "Toe_Thumb_Distal_L",
-			"Toe_Thumb_Proximal_R", "Toe_Thumb_Intermediate_R", "Toe_Thumb_Distal_R",
-			"Toe_Index_Proximal_L", "Toe_Index_Intermediate_L", "Toe_Index_Distal_L",
-			"Toe_Index_Proximal_R", "Toe_Index_Intermediate_R", "Toe_Index_Distal_R",
-			"Toe_Middle_Proximal_L", "Toe_Middle_Intermediate_L", "Toe_Middle_Distal_L",
-			"Toe_Middle_Proximal_R", "Toe_Middle_Intermediate_R", "Toe_Middle_Distal_R",
-			"Toe_Ring_Proximal_L", "Toe_Ring_Intermediate_L", "Toe_Ring_Distal_L",
-			"Toe_Ring_Proximal_R", "Toe_Ring_Intermediate_R", "Toe_Ring_Distal_R",
-			"Toe_Little_Proximal_L", "Toe_Little_Intermediate_L", "Toe_Little_Distal_L",
-			"Toe_Little_Proximal_R", "LittleToe2_R", "Toe_Little_Distal_R"
+
+		private static readonly Dictionary<string, string> dictAiriToeName = new Dictionary<string, string>() {
+			{ "ThumbToe1_L", "Toe_Thumb_Proximal_L" },
+			{ "ThumbToe1_R", "Toe_Thumb_Proximal_R" },
+			{ "IndexToe1_L", "Toe_Index_Proximal_L" },
+			{ "IndexToe1_R", "Toe_Index_Proximal_R" },
+			{ "MiddleToe1_L", "Toe_Middle_Proximal_L" },
+			{ "MiddleToe1_R", "Toe_Middle_Proximal_R" },
+			{ "RingToe1_L", "Toe_Ring_Proximal_L" },
+			{ "RingToe1_R", "Toe_Ring_Proximal_R" },
+			{ "LittleToe1_L", "Toe_Little_Proximal_L" },
+			{ "LittleToe1_R", "Toe_Little_Proximal_R" }
 		};
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
@@ -168,11 +170,12 @@ namespace com.vrsuya.avatarsettingupdater {
 		private static void UpdatePhysBones() {
 			GameObject FeetPhysBoneGameObject = Array.Find(VRSuyaHopedskyDFeetGameObject.GetComponentsInChildren<Transform>(true), transform => transform.gameObject.name == "PhysBone").gameObject;
 			foreach (Transform TargetTransform in FeetPhysBoneGameObject.GetComponentsInChildren<Transform>(true)) {
-				string[] TargetToeName = (AvatarType == Avatar.Airi) ? dictAiriToeName : dictToeName;
-				if (Array.Exists(TargetToeName, ToeName => TargetTransform.name == ToeName)) {
+				Dictionary<string, string> TargetToeName = dictToeName;
+				if (AvatarType == Avatar.Airi) TargetToeName = dictAiriToeName;
+				if (TargetToeName.TryGetValue(TargetTransform.name, out string TargetToeBoneName)) {
 					VRCPhysBone ToePhysBone = TargetTransform.GetComponent<VRCPhysBone>();
 					if (ToePhysBone) {
-						Transform TargetToeTransform = Array.Find(FeetTransforms, FeetTransform => TargetTransform.name == FeetTransform.name);
+						Transform TargetToeTransform = Array.Find(FeetTransforms, FeetTransform => TargetToeBoneName == FeetTransform.name);
 						if (TargetTransform) {
 							Undo.RecordObject(ToePhysBone, "Changed PhysBone Root Transform");
 							ToePhysBone.rootTransform = TargetToeTransform;
