@@ -9,6 +9,7 @@ using UnityEngine;
 
 using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Avatars.ScriptableObjects;
+using VRSuya.Core.Animation;
 
 /*
  * VRSuya Avatar Setting Updater
