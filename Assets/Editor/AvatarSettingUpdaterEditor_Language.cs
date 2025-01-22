@@ -196,6 +196,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ AvatarSettingUpdater.Avatar.Anri, new string[] { "Anri", "안리", "杏里" } },
 			{ AvatarSettingUpdater.Avatar.Ash, new string[] { "Ash", "애쉬", "アッシュ" } },
 			{ AvatarSettingUpdater.Avatar.Chiffon, new string[] { "Chiffon", "쉬폰", "シフォン" } },
+			{ AvatarSettingUpdater.Avatar.Chocolat, new string[] { "Chocolat", "쇼콜라", "ショコラ" } },
 			{ AvatarSettingUpdater.Avatar.Cygnet, new string[] { "Cygnet", "시그넷", "シグネット" } },
 			{ AvatarSettingUpdater.Avatar.Emmelie, new string[] { "Emmelie", "에밀리", "Emmelie" } },
 			{ AvatarSettingUpdater.Avatar.EYO, new string[] { "EYO", "이요", "イヨ" } },

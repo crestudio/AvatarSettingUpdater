@@ -118,7 +118,7 @@ namespace com.vrsuya.avatarsettingupdater {
 		public enum Avatar {
 			General, None, 
 			Airi, Aldina, Angura, Anon, Anri, Ash, 
-			Chiffon, Cygnet, 
+			Chiffon, Chocolat, Cygnet, 
 			Emmelie, EYO, 
 			Firina, Fuzzy, 
 			Glaze, Grus, 
