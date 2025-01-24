@@ -10,7 +10,7 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-using VRSuya.Core.Animation;
+using VRSuya.Core;
 
 /*
  * VRSuya Avatar Setting Updater
@@ -197,7 +197,7 @@ namespace com.vrsuya.avatarsettingupdater {
 					if (KeepLinkAnimatorLayer) {
 						TargetController.parameters = TargetController.parameters.Concat(new AnimatorControllerParameter[] { NewParameter }).ToArray();
 					} else {
-						AnimationControllerDuplicator.AddParameter(TargetController, NewParameter);
+						AnimationController.AddParameter(TargetController, NewParameter);
 					}
 					EditorUtility.SetDirty(TargetController);
 					Undo.CollapseUndoOperations(UndoGroupIndex);
@@ -216,7 +216,7 @@ namespace com.vrsuya.avatarsettingupdater {
 				AnimatorControllerLayer[] RequiredLayers = TargetLayers.Where(TargetLayer => !Array.Exists(TargetController.layers, ExistLayer => TargetLayer.name == ExistLayer.name)).ToArray();
 				if (RequiredLayers.Length > 0) {
 					Undo.RecordObject(TargetController, "Added Unity Animator Controller Layer");
-					AnimatorControllerLayer[] newAnimatorLayers = AnimationControllerDuplicator.DuplicateAnimatorLayers(TargetController, RequiredLayers);
+					AnimatorControllerLayer[] newAnimatorLayers = AnimationController.DuplicateAnimatorLayers(TargetController, RequiredLayers);
 					TargetController.layers = newAnimatorLayers;
 					EditorUtility.SetDirty(TargetController);
 					Undo.CollapseUndoOperations(UndoGroupIndex);
