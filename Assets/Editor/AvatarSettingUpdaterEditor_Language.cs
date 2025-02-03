@@ -224,6 +224,7 @@ namespace com.vrsuya.avatarsettingupdater {
 			{ AvatarSettingUpdater.Avatar.Maya, new string[] { "Maya", "마야", "舞夜" } },
 			{ AvatarSettingUpdater.Avatar.Merino, new string[] { "Merino", "메리노", "メリノ" } },
 			{ AvatarSettingUpdater.Avatar.Milk, new string[] { "Milk(New)", "밀크(신)", "ミルク（新）" } },
+			{ AvatarSettingUpdater.Avatar.Milltina, new string[] { "Milltina", "밀티나", "ミルティナ" } },
 			{ AvatarSettingUpdater.Avatar.Minahoshi, new string[] { "Minahoshi", "미나호시", "みなほし" } },
 			{ AvatarSettingUpdater.Avatar.Minase, new string[] { "Minase", "미나세", "水瀬" } },
 			{ AvatarSettingUpdater.Avatar.Mint, new string[] { "Mint", "민트", "ミント" } },
