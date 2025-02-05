@@ -26,6 +26,7 @@ namespace com.vrsuya.avatarsettingupdater {
 
 		private static readonly Avatar[] dictAlreadyHaveCheekBoneAvatar = new Avatar[] { Avatar.Airi, Avatar.Sio };
 		private static readonly string[] dictSELESTIAMogumoguLayerName = new string[] { "Cheek_L_Stretch", "Cheek_R_Stretch" };
+		private static readonly string[] dictChocolatHairPhysBoneName = new string[] { "Hair_side_L", "Hair_side_R" };
 
 		/// <summary>제품 정보를 AssetManager에게 요청하여 업데이트 한 후, 설치된 에셋 목록에 추가합니다.</summary>
 		internal static void RegisterProduct() {
@@ -53,6 +54,7 @@ namespace com.vrsuya.avatarsettingupdater {
 						UpdatePhysBoneSetting();
 						DisableExistPhysBone();
 						if (AvatarType == Avatar.SELESTIA) DisableExistMoumoguAnimatorLayer();
+						if (AvatarType == Avatar.Chocolat) EnableHairPhysBoneAnimated();
 					}
 				} else {
 					SetupParticlePrefab();
@@ -175,6 +177,25 @@ namespace com.vrsuya.avatarsettingupdater {
 							EditorUtility.SetDirty(TargetTransform.GetComponent<VRCPhysBone>());
 							Undo.CollapseUndoOperations(UndoGroupIndex);
 						}
+					}
+				}
+			}
+			return;
+		}
+
+		/// <summary>기존 아바타에 존재하는 헤어 PhysBone 컴포넌트에서 Animated 속성을 활성화 합니다.</summary>
+		private static void EnableHairPhysBoneAnimated() {
+			VRCPhysBone[] AvatarPhysBoneComponents = AvatarGameObject.GetComponentsInChildren<VRCPhysBone>();
+			VRCPhysBone[] SideHairPhysBoneComponents = Array
+				.FindAll(AvatarPhysBoneComponents, PhysBone => Array
+				.Exists(dictChocolatHairPhysBoneName, HairPhysBoneName => PhysBone.name == HairPhysBoneName));
+			if (SideHairPhysBoneComponents.Length > 0) {
+				foreach (VRCPhysBone TargetPhysBone in SideHairPhysBoneComponents) {
+					if (!TargetPhysBone.isAnimated) {
+						Undo.RecordObject(TargetPhysBone, "Enabled Animated PhysBone");
+						TargetPhysBone.isAnimated = true;
+						EditorUtility.SetDirty(TargetPhysBone);
+						Undo.CollapseUndoOperations(UndoGroupIndex);
 					}
 				}
 			}
