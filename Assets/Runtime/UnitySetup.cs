@@ -76,14 +76,18 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <summary>아바타의 렌더러 세팅을 Two-sided 그림자로 설정 합니다.</summary>
 		private static void UpdateTwosidedShadow() {
 			foreach (SkinnedMeshRenderer TargetSkinnedMeshRenderer in AvatarSkinnedMeshRenderers) {
-				Undo.RecordObject(TargetSkinnedMeshRenderer, "Changed Two-Sided Shadow Option");
-				TargetSkinnedMeshRenderer.shadowCastingMode = ShadowCastingMode.TwoSided;
-				Undo.CollapseUndoOperations(UndoGroupIndex);
+				if (TargetSkinnedMeshRenderer.shadowCastingMode != ShadowCastingMode.TwoSided) {
+					Undo.RecordObject(TargetSkinnedMeshRenderer, "Changed Two-Sided Shadow Option");
+					TargetSkinnedMeshRenderer.shadowCastingMode = ShadowCastingMode.TwoSided;
+					Undo.CollapseUndoOperations(UndoGroupIndex);
+				}
 			}
 			foreach (MeshRenderer TargetMeshRenderer in AvatarMeshRenderers) {
-				Undo.RecordObject(TargetMeshRenderer, "Changed Two-Sided Shadow Option");
-				TargetMeshRenderer.shadowCastingMode = ShadowCastingMode.TwoSided;
-				Undo.CollapseUndoOperations(UndoGroupIndex);
+				if (TargetMeshRenderer.shadowCastingMode != ShadowCastingMode.TwoSided) {
+					Undo.RecordObject(TargetMeshRenderer, "Changed Two-Sided Shadow Option");
+					TargetMeshRenderer.shadowCastingMode = ShadowCastingMode.TwoSided;
+					Undo.CollapseUndoOperations(UndoGroupIndex);
+				}
 			}
 			return;
 		}
@@ -91,14 +95,18 @@ namespace com.vrsuya.avatarsettingupdater {
 		/// <summary>아바타의 AnchorOverride 세팅을 설정 합니다.</summary>
 		private static void UpdateAnchorOverride() {
 			foreach (SkinnedMeshRenderer TargetSkinnedMeshRenderer in AvatarSkinnedMeshRenderers) {
-				Undo.RecordObject(TargetSkinnedMeshRenderer, "Changed Anchor Override");
-				TargetSkinnedMeshRenderer.probeAnchor = AvatarAnchorOverride;
-				Undo.CollapseUndoOperations(UndoGroupIndex);
+				if (TargetSkinnedMeshRenderer.probeAnchor != AvatarAnchorOverride) {
+					Undo.RecordObject(TargetSkinnedMeshRenderer, "Changed Anchor Override");
+					TargetSkinnedMeshRenderer.probeAnchor = AvatarAnchorOverride;
+					Undo.CollapseUndoOperations(UndoGroupIndex);
+				}
 			}
 			foreach (MeshRenderer TargetMeshRenderer in AvatarMeshRenderers) {
-				Undo.RecordObject(TargetMeshRenderer, "Changed Anchor Override");
-				TargetMeshRenderer.probeAnchor = AvatarAnchorOverride;
-				Undo.CollapseUndoOperations(UndoGroupIndex);
+				if (TargetMeshRenderer.probeAnchor != AvatarAnchorOverride) {
+					Undo.RecordObject(TargetMeshRenderer, "Changed Anchor Override");
+					TargetMeshRenderer.probeAnchor = AvatarAnchorOverride;
+					Undo.CollapseUndoOperations(UndoGroupIndex);
+				}
 			}
 			return;
 		}
