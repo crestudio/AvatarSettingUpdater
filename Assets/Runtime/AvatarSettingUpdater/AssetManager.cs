@@ -15,7 +15,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
  */
 
-namespace com.vrsuya.avatarsettingupdater {
+namespace com.vrsuya.installer {
 
 	[ExecuteInEditMode]
 	[AddComponentMenu("")]

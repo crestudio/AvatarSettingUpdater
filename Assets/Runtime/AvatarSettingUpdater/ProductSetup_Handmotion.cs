@@ -8,7 +8,7 @@ using UnityEngine;
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
  */
 
-namespace com.vrsuya.avatarsettingupdater {
+namespace com.vrsuya.installer {
 
 	[ExecuteInEditMode]
 	[AddComponentMenu("")]

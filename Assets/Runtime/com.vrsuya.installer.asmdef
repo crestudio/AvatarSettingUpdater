@@ -1,17 +1,15 @@
 {
-    "name": "com.vrsuya.avatarsettingupdater.Editor",
+    "name": "com.vrsuya.installer",
+    "rootNamespace": "",
     "references": [
-        "GUID:eb4da792d48120c40a88f603f1380414",
-        "GUID:5718fb738711cd34ea54e9553040911d"
+        "GUID:0bae3e2f09a0c454da701a2e8b59d048"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
